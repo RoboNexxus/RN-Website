@@ -1,3 +1,5 @@
+"use client";
+
 import FlipText from "@/components/ui/flip-text";
 import GlassDock from "@/components/ui/glass-dock";
 import {
@@ -6,8 +8,8 @@ import {
   Layout,
   Archive,
   History,
-  Twitter,
-  Github,
+  MessageCircle,
+  Code,
 } from "lucide-react";
 
 export default function Home() {
@@ -17,8 +19,8 @@ export default function Home() {
     { title: 'Components', icon: Layout, href: '#' },
     { title: 'Archive', icon: Archive, href: '#' },
     { title: 'Changelog', icon: History, href: '#' },
-    { title: 'Twitter', icon: Twitter, href: '#' },
-    { title: 'Github', icon: Github, href: '#' },
+    { title: 'Social', icon: MessageCircle, href: '#' },
+    { title: 'Code', icon: Code, href: '#' },
   ];
 
   return (

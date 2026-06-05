@@ -197,7 +197,7 @@ return (
           frontClassName={frontClassName}
           backClassName={backClassName}
         />
-      })};
+      ))}
     </div>
   </div>
 );
