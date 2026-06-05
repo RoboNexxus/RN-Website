@@ -123,7 +123,7 @@ export function SpotlightNavbar({
     };
 
     return (
-        <div className={cn("relative flex justify-center pt-10", className)}>
+        <div className={cn("relative flex justify-center pt-4", className)}>
             <nav
                 ref={navRef}
                 className={cn(
