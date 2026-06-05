@@ -1,5 +1,5 @@
 "use client";
-
+import { Meteors } from "@/components/ui/meteors"
 import FlipText from "@/components/ui/flip-text";
 import GlassDock from "@/components/ui/glass-dock";
 import {
@@ -25,6 +25,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center justify-center flex-1 px-4 py-20">
+        <Meteors />
       <FlipText className="text-6xl font-bold" duration={3.5}>Robo Nexus</FlipText>
       <GlassDock items={dockItems} />
     </main>
