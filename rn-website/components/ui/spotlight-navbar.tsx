@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { animate } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -16,21 +17,28 @@ export interface SpotlightNavbarProps {
     defaultActiveIndex?: number;
 }
 
+const defaultNavItems: NavItem[] = [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Team", href: "/team" },
+    { label: "Projects", href: "/projects" },
+    { label: "Events", href: "/events" },
+    { label: "Contact", href: "/contact" },
+];
+
 export function SpotlightNavbar({
-    items = [
-        { label: "Home", href: "#home" },
-        { label: "About", href: "#about" },
-        { label: "Events", href: "#events" },
-        { label: "Sponsors", href: "#sponsors" },
-        { label: "Pricing", href: "#pricing" },
-    ],
+    items = defaultNavItems,
     className,
     onItemClick,
     defaultActiveIndex = 0,
 }: SpotlightNavbarProps) {
+    const router = useRouter();
+    const pathname = usePathname();
     const navRef = useRef<HTMLDivElement>(null);
-    const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
     const [hoverX, setHoverX] = useState<number | null>(null);
+
+    // Derive active index from current pathname
+    const activeIndex = items.findIndex((item) => item.href === pathname) ?? defaultActiveIndex;
 
     // Refs for the "light" positions so we can animate them imperatively
     const spotlightX = useRef(0);
@@ -90,6 +98,13 @@ export function SpotlightNavbar({
             const itemRect = activeItem.getBoundingClientRect();
             const targetX = itemRect.left - navRect.left + itemRect.width / 2;
 
+            // On first mount, snap immediately so the underline is visible right away
+            if (ambienceX.current === 0) {
+                ambienceX.current = targetX;
+                nav.style.setProperty("--ambience-x", `${targetX}px`);
+                return;
+            }
+
             animate(ambienceX.current, targetX, {
                 type: "spring",
                 stiffness: 200,
@@ -103,8 +118,8 @@ export function SpotlightNavbar({
     }, [activeIndex]);
 
     const handleItemClick = (item: NavItem, index: number) => {
-        setActiveIndex(index);
         onItemClick?.(item, index);
+        router.push(item.href);
     };
 
     return (

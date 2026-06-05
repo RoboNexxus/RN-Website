@@ -1,0 +1,173 @@
+{
+  "_FORMAT_GUIDE": {
+    "id": "Unique number (1, 2, 3...)",
+    "title": "Project name",
+    "category": "robots / iot / ai / drones",
+    "image": "Image path (/src/assets/images/filename.jpg)",
+    "description": "Project description",
+    "tech": [
+      "Array of technologies used"
+    ],
+    "status": "Completed / In Progress",
+    "year": "Year (2024, 2025, etc.)",
+    "creator": "Full name of the student who made it",
+    "team": "Team name (optional — leave empty string if no team)",
+    "isWide": "Set to true for horizontal projects (optional)"
+  },
+  "tutorials": [
+    {
+      "id": 101,
+      "title": "The Legacy Collection",
+      "category": "drones",
+      "image": "/src/assets/images/legacy.webp",
+      "description": "A monumental showcase of our aeronautical history. This massive collection features everything from custom-built carbon fiber racing drones to high-end RC fixed-wing aircraft. Each piece represents a milestone in flight control, telemetry, and aerodynamic efficiency.",
+      "tech": [
+        "FPV Racing",
+        "Betaflight",
+        "ELRS",
+        "Carbon Fiber",
+        "Fixed-Wing Planes",
+        "Telemetry"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "Aryaman Yadav & Akshar Yadav",
+      "team": "AY Enterprise",
+      "isWide": true
+    },
+    {
+      "id": 103,
+      "title": "Twin Combat Interceptors",
+      "category": "robots",
+      "image": "/src/assets/images/yadavE0.webp",
+      "description": "A pair of agile combat robots used for tactical scrimmages. These units serve as primary testbeds for advanced radio protocols and flight controller stabilization algorithms.",
+      "tech": [
+        "FlySky FS-i6",
+        "Precision Machining",
+        "LiPo 4S",
+        "Carbon Fiber"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "Aryaman Yadav & Akshar Yadav",
+      "team": "AY Enterprise"
+    },
+    {
+      "id": 102,
+      "title": "Light Weight Bot",
+      "category": "robots",
+      "image": "/src/assets/images/yadavE.webp",
+      "description": "A professional-grade combat robot built for maximum destruction and durability. Features a custom-engraved steel chassis and high-torque drivetrain designed for heavy combat scenarios.",
+      "tech": [
+        "Steel Chassis",
+        "High-Torque Motors",
+        "Custom ESCs",
+        "Precision Machining"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "Aryaman Yadav",
+      "team": "AY Enterprise"
+    },
+    {
+      "id": 104,
+      "title": "Robo Nexus Fleet v2025",
+      "category": "robots",
+      "image": "/src/assets/images/yadavE07.webp",
+      "description": "The complete operational fleet of Robo Nexus for the 2025 season. Showcasing the full spectrum of our engineering from lightweight soccer bots to industrial-grade combat machines.",
+      "tech": [
+        "Full Arsenal",
+        "Robo Soccer",
+        "Combat",
+        "IoT Systems"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "Aryaman & Akshar Yadav",
+      "team": "AY Enterprise"
+    },
+    {
+      "id": 1,
+      "title": "Robo Soccer Car",
+      "category": "robots",
+      "image": "/src/assets/images/2f4u_v1.webp",
+      "description": "The first version of a Robo Soccer Car developed by the 2f4u team. It features an ESP32 controller, an L298N motor driver, and high-torque DC BO motors.",
+      "tech": [
+        "ESP32",
+        "L298N",
+        "DC BO Motors"
+      ],
+      "status": "Completed",
+      "year": "2024",
+      "creator": "2fast4u",
+      "team": "2fast4u"
+    },
+    {
+      "id": 2,
+      "title": "Robo Soccer Car (Unit 2)",
+      "category": "robots",
+      "image": "/src/assets/images/2f4u_v1.webp",
+      "description": "The second unit of the first-version Robo Soccer Car developed by the 2f4u team, identical in specs and performance to Unit 1.",
+      "tech": [
+        "ESP32",
+        "L298N",
+        "DC BO Motors"
+      ],
+      "status": "Completed",
+      "year": "2024",
+      "creator": "2fast4u",
+      "team": "2fast4u"
+    },
+    {
+      "id": 3,
+      "title": "Robo Soccer Car V2 (Attacker)",
+      "category": "robots",
+      "image": "/src/assets/images/2f4u_v2.webp",
+      "description": "The 2025 version of the 2f4u soccer car, optimized for offense with high-speed 500 RPM Johnson motors, dual BTS7960 drivers, and a durable metal chassis.",
+      "tech": [
+        "ESP32",
+        "BTS7960 x2",
+        "Johnson Motors (500 RPM)",
+        "Metal Chassis"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "2fast4u",
+      "team": "2fast4u"
+    },
+    {
+      "id": 4,
+      "title": "Robo Soccer Car V2 (Defender)",
+      "category": "robots",
+      "image": "/src/assets/images/2f4u_v2.webp",
+      "description": "The 2025 version of the 2f4u soccer car, optimized for defense with high-torque 300 RPM Johnson motors, dual BTS7960 drivers, and a durable metal chassis.",
+      "tech": [
+        "ESP32",
+        "BTS7960 x2",
+        "Johnson Motors (300 RPM)",
+        "Metal Chassis"
+      ],
+      "status": "Completed",
+      "year": "2025",
+      "creator": "2fast4u",
+      "team": "2fast4u"
+    },
+    {
+      "id": 5,
+      "title": "ExoForce v1",
+      "category": "robots",
+      "image": "/src/assets/images/2f4u_v1.webp",
+      "description": "The First Ever Model Made By ExoForce Team.",
+      "tech": [
+        "ESP32",
+        "BTS7960 x2",
+        "Bo Motor (200 RPM)",
+        "Metal Chassis"
+      ],
+      "status": "Completed",
+      "year": "2024",
+      "creator": "Divyanshu Aggarwal || Vibhoor Pandey",
+      "team": "ExoForce"
+    }
+  ]
+}
