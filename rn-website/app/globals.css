@@ -65,3 +65,13 @@
   --opacity: 1;
   }
 }
+
+@keyframes flip {
+  0%, 40%   { transform: rotateX(0deg); }
+  60%, 100% { transform: rotateX(90deg); }
+}
+
+@keyframes fade {
+  0%, 40%   { opacity: 1; }
+  60%, 100% { opacity: 0; }
+}
