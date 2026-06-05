@@ -67,11 +67,13 @@
 }
 
 @keyframes flip {
-  0%, 40%   { transform: rotateX(0deg); }
-  60%, 100% { transform: rotateX(90deg); }
+  0%        { transform: rotateX(0deg); }
+  20%, 80%  { transform: rotateX(-90deg); }
+  100%      { transform: rotateX(0deg); }
 }
 
 @keyframes fade {
-  0%, 40%   { opacity: 1; }
-  60%, 100% { opacity: 0; }
+  0%        { opacity: 1; }
+  15%, 85%  { opacity: 0; }
+  100%      { opacity: 1; }
 }
