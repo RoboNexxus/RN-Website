@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center justify-center flex-1 px-4 py-20">
       <Meteors />
-      <FlipText className="text-6xl font-bold" duration={3.5}>Robo Nexus</FlipText>
+      <FlipText className="text-6xl font-bold font-pixelify" duration={3.5}>Robo Nexus</FlipText>
       <GlassDock items={dockItems} />
     </main>
   );

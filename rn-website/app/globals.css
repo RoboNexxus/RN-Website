@@ -1,4 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 @import "tailwindcss";
+
+
+@layer utilities {
+  .font-pixelify {
+    font-family: 'Pixelify Sans', sans-serif;
+  }
+}
 
 @layer base {
   
