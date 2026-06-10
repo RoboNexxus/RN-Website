@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
+import StringTuneProvider from "@/components/string-tune-provider";
 
 
 const geistSans = Geist({
@@ -30,6 +31,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-black text-white">
+        <StringTuneProvider />
         <SpotlightNavbar />
         {children}
       </body>

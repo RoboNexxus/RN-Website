@@ -375,6 +375,41 @@
   transition-duration: 0.3s;
   }
       
+  /* ─── StringSplit hero title ──────────────────────────────────────────────
+     StringSplit wraps each character in a <span> and stamps:
+       --char-index   (0-based index of this char)
+       --char-total   (total chars in the element)
+     We use those to stagger a slide-up + fade-in entrance animation.
+  ─────────────────────────────────────────────────────────────────────── */
+  .hero-split -s-char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: charReveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    /* stagger = index × 60ms, capped so longer words don't feel sluggish */
+    animation-delay: calc(var(--char-index, 0) * 60ms + 100ms);
+  }
+
+  @keyframes charReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ─── StringProgress scroll-reveal headings ───────────────────────────────
+     StringProgress exposes --progress (0 → 1) as the element enters the
+     viewport.  We map that directly to opacity and a translateY lift.
+     The element starts hidden (opacity:0, shifted down) and reveals as
+     --progress climbs from 0 to 1 during scroll.
+  ─────────────────────────────────────────────────────────────────────── */
+  .reveal-heading {
+    opacity: calc(var(--progress, 0) * 1);
+    transform: translateY(calc((1 - var(--progress, 0)) * 2rem));
+    transition: none; /* let StringProgress drive it — no CSS transition needed */
+    will-change: opacity, transform;
+  }
+
   .glass-border {
     border: 1px solid rgba(0, 0, 0, 0.15);
   }
