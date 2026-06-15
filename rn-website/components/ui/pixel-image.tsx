@@ -132,7 +132,7 @@ export const PixelImage = ({
     <div 
       ref={containerRef}
       className={cn(
-        "relative select-none",
+        "relative select-none overflow-hidden",
         fill ? "w-full h-full" : "h-72 w-72 md:h-96 md:w-96",
         className,
       )}
@@ -154,7 +154,7 @@ export const PixelImage = ({
             src={src}
             alt={`Pixel image piece ${index + 1}`}
             className={cn(
-              "absolute inset-0 w-full h-full rounded-[2.5rem] object-cover",
+              "w-full h-full object-cover",
               grayscaleAnimation && (showColor ? "grayscale-0" : "grayscale")
             )}
             style={{

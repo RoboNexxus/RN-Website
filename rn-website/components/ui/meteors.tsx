@@ -8,19 +8,15 @@ interface MeteorsProps {
   className?: string
 }
 
-/**
- * Meteors background animation component
- * Renders 49 animated meteors with randomized positions and timing
- */
 export const Meteors = ({ className }: MeteorsProps) => {
   const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>([])
 
   useEffect(() => {
-    const number = 49
+    const number = 77
     const minDelay = 0.2
-    const maxDelay = 1.2
-    const minDuration = 2
-    const maxDuration = 12
+    const maxDelay = 2.2
+    const minDuration = 7
+    const maxDuration = 22
     const angle = 222
 
     const styles = [...new Array(number)].map(() => ({

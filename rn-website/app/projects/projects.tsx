@@ -25,7 +25,7 @@ function ProjectCard({ project }: { project: Project }) {
         project.isWide ? "sm:col-span-2" : ""
       }`}
     >
-      <div className={`w-full ${aspectRatio} overflow-hidden`}>
+      <div className={`relative w-full ${aspectRatio} overflow-hidden bg-neutral-900`}>
         <PixelImage
           src={imgSrc}
           grid="6x4"
@@ -33,6 +33,7 @@ function ProjectCard({ project }: { project: Project }) {
           pixelFadeInDuration={600}
           maxAnimationDelay={700}
           colorRevealDelay={800}
+          className="absolute inset-0"
         />
       </div>
       <div className="p-5 flex flex-col gap-2">
