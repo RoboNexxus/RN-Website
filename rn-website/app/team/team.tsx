@@ -17,10 +17,11 @@ function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveImage(member.image);
   return (
     <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center hover:bg-white/10 transition-colors duration-200 w-full">
-      <div className="w-28 h-28 overflow-hidden rounded-full ring-2 ring-white/10">
+      <div className="w-28 h-28 rounded-full ring-2 ring-white/10 overflow-hidden">
         <PixelImage
           src={imgSrc}
           grid="4x6"
+          fill
           pixelFadeInDuration={800}
           maxAnimationDelay={900}
           colorRevealDelay={1000}

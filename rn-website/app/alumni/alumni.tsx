@@ -17,10 +17,11 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
   const imgSrc = resolveImage(alumni.image);
   return (
     <div className="reveal-item flex flex-col items-center gap-5 rounded-2xl glass-border bg-white/5 p-8 text-center hover:bg-white/10 transition-colors duration-200">
-      <div className="w-32 h-32 overflow-hidden rounded-full ring-2 ring-white/10">
+      <div className="w-32 h-32 rounded-full ring-2 ring-white/10 overflow-hidden">
         <PixelImage
           src={imgSrc}
           grid="4x6"
+          fill
           pixelFadeInDuration={800}
           maxAnimationDelay={900}
           colorRevealDelay={1000}

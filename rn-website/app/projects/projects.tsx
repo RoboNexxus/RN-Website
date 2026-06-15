@@ -22,10 +22,11 @@ function ProjectCard({ project }: { project: Project }) {
         project.isWide ? "sm:col-span-2" : ""
       }`}
     >
-      <div className="w-full overflow-hidden">
+      <div className="w-full aspect-video overflow-hidden">
         <PixelImage
           src={imgSrc}
           grid="8x3"
+          fill
           pixelFadeInDuration={900}
           maxAnimationDelay={1000}
           colorRevealDelay={1100}
