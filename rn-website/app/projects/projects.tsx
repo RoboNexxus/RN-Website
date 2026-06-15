@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
+import { PixelImage } from "@/components/ui/pixel-image";
 import projectsData from "@/data/tutorials.json";
 
 function resolveImage(path: string) {
@@ -22,13 +22,13 @@ function ProjectCard({ project }: { project: Project }) {
         project.isWide ? "sm:col-span-2" : ""
       }`}
     >
-      <div className="relative w-full h-48">
-        <Image
+      <div className="w-full overflow-hidden">
+        <PixelImage
           src={imgSrc}
-          alt={project.title}
-          fill
-          className="object-cover"
-          sizes="(min-width: 640px) 50vw, 100vw"
+          grid="8x3"
+          pixelFadeInDuration={900}
+          maxAnimationDelay={1000}
+          colorRevealDelay={1100}
         />
       </div>
       <div className="p-5 flex flex-col gap-2">
