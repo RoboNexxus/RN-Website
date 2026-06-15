@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
+import { PixelImage } from "@/components/ui/pixel-image";
 import teamData from "@/data/team.json";
 
 type Member = (typeof teamData.members)[number];
@@ -17,8 +17,14 @@ function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveImage(member.image);
   return (
     <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center hover:bg-white/10 transition-colors duration-200 w-full">
-      <div className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-white/10">
-        <Image src={imgSrc} alt={member.name} fill className="object-cover" sizes="112px" />
+      <div className="w-28 h-28 overflow-hidden rounded-full ring-2 ring-white/10">
+        <PixelImage
+          src={imgSrc}
+          grid="4x6"
+          pixelFadeInDuration={800}
+          maxAnimationDelay={900}
+          colorRevealDelay={1000}
+        />
       </div>
       <div>
         <p className="font-semibold text-base">{member.name}</p>
