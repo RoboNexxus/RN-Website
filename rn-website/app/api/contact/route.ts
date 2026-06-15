@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "All fields are required." }, { status: 400 });
   }
 
-  const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK;
+  const webhookUrl = process.env.DISCORD_WEBHOOK;
   if (!webhookUrl) {
     return NextResponse.json({ error: "Webhook not configured." }, { status: 500 });
   }
