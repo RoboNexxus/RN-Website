@@ -1,0 +1,136 @@
+{
+  "_FORMAT_GUIDE": {
+    "id": "Unique number",
+    "title": "Event name",
+    "date": "ISO date string (YYYY-MM-DD)",
+    "time": "e.g. '10:00 AM – 4:00 PM'",
+    "location": "Venue or online",
+    "category": "competition / workshop / exhibition / meetup / other",
+    "description": "Short description of the event",
+    "highlights": ["Array of key highlights or outcomes"],
+    "status": "upcoming / completed",
+    "image": "Optional image path (leave empty string if none)"
+  },
+  "events": [
+    {
+      "id": 1,
+      "title": "Robo Nexus Founding Day",
+      "date": "2023-04-15",
+      "time": "11:00 AM – 1:00 PM",
+      "location": "Amity International School, Sector-46, Gurugram",
+      "category": "meetup",
+      "description": "The official founding of Robo Nexus. A gathering of founding members to charter the club's mission, vision, and goals for the year.",
+      "highlights": ["Club charter signed", "First 8 members inducted", "Mission & vision defined"],
+      "status": "completed",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "title": "Intro to Robotics Workshop",
+      "date": "2023-08-22",
+      "time": "2:00 PM – 5:00 PM",
+      "location": "Robotics Lab, Amity International School",
+      "category": "workshop",
+      "description": "An introductory hands-on session covering the fundamentals of robotics — circuit design, motor control, and basic programming with Arduino.",
+      "highlights": ["20+ students attended", "Built first Arduino bots", "Covered H-bridge motor control"],
+      "status": "completed",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "title": "Robo Soccer Tournament 2024",
+      "date": "2024-02-10",
+      "time": "9:00 AM – 5:00 PM",
+      "location": "Main Auditorium, Amity International School",
+      "category": "competition",
+      "description": "Our flagship in-house robotics competition. Teams built autonomous soccer bots and competed in a round-robin tournament on a custom-built arena.",
+      "highlights": ["6 teams competed", "2fast4u won the championship", "First use of ESP32 + BTS7960 platform"],
+      "status": "completed",
+      "image": "/images/2f4u_v1.webp"
+    },
+    {
+      "id": 4,
+      "title": "Combat Robotics Showcase",
+      "date": "2024-09-05",
+      "time": "10:00 AM – 3:00 PM",
+      "location": "School Ground, Amity International School",
+      "category": "exhibition",
+      "description": "A public showcase of combat robots built by club members. Students demonstrated their machines to peers, teachers, and parents.",
+      "highlights": ["ExoForce debuted their first bot", "AY Enterprise showcased twin interceptors", "Media coverage from school newsletter"],
+      "status": "completed",
+      "image": ""
+    },
+    {
+      "id": 5,
+      "title": "Drone Flying & FPV Demo",
+      "date": "2024-11-30",
+      "time": "3:00 PM – 6:00 PM",
+      "location": "School Grounds, Amity International School",
+      "category": "exhibition",
+      "description": "AY Enterprise demonstrated custom-built FPV racing drones and fixed-wing aircraft from the Legacy Collection for students and faculty.",
+      "highlights": ["Live FPV feed on display", "Legacy Collection unveiled", "ELRS long-range demo"],
+      "status": "completed",
+      "image": ""
+    },
+    {
+      "id": 6,
+      "title": "Season 2025 Kickoff",
+      "date": "2025-01-20",
+      "time": "12:00 PM – 2:00 PM",
+      "location": "Robotics Lab, Amity International School",
+      "category": "meetup",
+      "description": "Kickoff meeting for the 2025 season. New members were inducted, project teams were formed, and season goals were set.",
+      "highlights": ["12 members total", "3 new project teams formed", "2025 roadmap presented"],
+      "status": "completed",
+      "image": ""
+    },
+    {
+      "id": 7,
+      "title": "Robo Nexus Fleet Showcase 2025",
+      "date": "2025-03-08",
+      "time": "10:00 AM – 4:00 PM",
+      "location": "Main Auditorium, Amity International School",
+      "category": "exhibition",
+      "description": "A full-scale showcase of every robot and drone built during the 2025 season. The complete Robo Nexus Fleet v2025 was on display.",
+      "highlights": ["10+ bots on display", "Live combat demos", "Open to full school"],
+      "status": "completed",
+      "image": "/images/2f4u_v2.webp"
+    },
+    {
+      "id": 8,
+      "title": "Advanced IoT & Automation Workshop",
+      "date": "2025-08-14",
+      "time": "2:00 PM – 6:00 PM",
+      "location": "Robotics Lab, Amity International School",
+      "category": "workshop",
+      "description": "A deep-dive workshop on IoT systems, sensor integration, and automation pipelines. Members will build a smart environment monitor from scratch.",
+      "highlights": ["MQTT & Node-RED intro", "ESP32 IoT project", "Live sensor dashboard"],
+      "status": "upcoming",
+      "image": ""
+    },
+    {
+      "id": 9,
+      "title": "Robo Soccer Tournament 2025",
+      "date": "2025-10-18",
+      "time": "9:00 AM – 6:00 PM",
+      "location": "Main Auditorium, Amity International School",
+      "category": "competition",
+      "description": "The annual inter-team robo soccer championship returns. New V2 soccer bots will compete on an upgraded arena with live scoring.",
+      "highlights": ["New V2 bot platform", "5v5 format", "Trophy + prize pool"],
+      "status": "upcoming",
+      "image": ""
+    },
+    {
+      "id": 10,
+      "title": "Annual Robotics Exhibition 2025",
+      "date": "2025-12-06",
+      "time": "10:00 AM – 5:00 PM",
+      "location": "School Campus, Amity International School",
+      "category": "exhibition",
+      "description": "The biggest event of the year — an open exhibition for all students, parents, and faculty. Every team presents their year-long projects.",
+      "highlights": ["Open to public", "Year-end wrap-up", "Awards ceremony"],
+      "status": "upcoming",
+      "image": ""
+    }
+  ]
+}
