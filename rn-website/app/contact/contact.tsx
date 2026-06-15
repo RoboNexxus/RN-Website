@@ -54,8 +54,9 @@ function Field({
 // ── Contact form ──────────────────────────────────────────────────────────────
 function ContactForm() {
   const [form, setForm] = useState({ name: "", email: "", subject: "", message: "" });
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (!formRef.current) return;
@@ -74,7 +75,7 @@ function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("sending");
+    setSending(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -82,13 +83,15 @@ function ContactForm() {
         body: JSON.stringify(form),
       });
       if (res.ok) {
-        setStatus("sent");
+        toast.success("Message sent!", "We'll get back to you as soon as possible.");
         setForm({ name: "", email: "", subject: "", message: "" });
       } else {
-        setStatus("error");
+        toast.error("Failed to send", "Something went wrong. Please try again.");
       }
     } catch {
-      setStatus("error");
+      toast.error("Network error", "Could not reach the server. Check your connection.");
+    } finally {
+      setSending(false);
     }
   };
 
@@ -146,18 +149,11 @@ function ContactForm() {
       <div className="form-item flex items-center gap-4" style={{ opacity: 0 }}>
         <AnimatedButton
           type="submit"
-          disabled={status === "sending"}
+          disabled={sending}
           className="min-w-[140px]"
         >
-          {status === "sending" ? "Sending…" : "Send Message"}
+          {sending ? "Sending…" : "Send Message"}
         </AnimatedButton>
-
-        {status === "sent" && (
-          <p className="text-sm text-emerald-400">Message sent!</p>
-        )}
-        {status === "error" && (
-          <p className="text-sm text-red-400">Something went wrong. Try again.</p>
-        )}
       </div>
     </form>
   );
