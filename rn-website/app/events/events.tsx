@@ -23,14 +23,6 @@ type Event = {
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const CATEGORY_COLORS: Record<string, { dot: string; badge: string }> = {
-  competition: { dot: "bg-red-400",    badge: "bg-red-500/15 text-red-300 border-red-500/30" },
-  workshop:    { dot: "bg-blue-400",   badge: "bg-blue-500/15 text-blue-300 border-blue-500/30" },
-  exhibition:  { dot: "bg-amber-400",  badge: "bg-amber-500/15 text-amber-300 border-amber-500/30" },
-  meetup:      { dot: "bg-green-400",  badge: "bg-green-500/15 text-green-300 border-green-500/30" },
-  other:       { dot: "bg-purple-400", badge: "bg-purple-500/15 text-purple-300 border-purple-500/30" },
-};
-
 const MONTHS = [
   "January","February","March","April","May","June",
   "July","August","September","October","November","December",
@@ -40,24 +32,14 @@ const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function getCategoryStyle(cat: string) {
-  return CATEGORY_COLORS[cat] ?? CATEGORY_COLORS.other;
-}
-
 function formatDate(iso: string) {
   const d = new Date(iso + "T00:00:00");
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 }
 
-function formatShortDate(iso: string) {
-  const d = new Date(iso + "T00:00:00");
-  return { day: d.getDate() };
-}
-
 // ─── Event Modal ─────────────────────────────────────────────────────────────
 
 function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
-  const style = getCategoryStyle(event.category);
   const isPast = event.status === "completed";
 
   return (
@@ -88,18 +70,13 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
           </svg>
         </button>
 
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full border capitalize ${style.badge}`}>
-            {event.category}
-          </span>
-          <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${
-            isPast
-              ? "bg-neutral-800/60 text-neutral-400 border-white/10"
-              : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
-          }`}>
-            {isPast ? "Completed" : "Upcoming"}
-          </span>
-        </div>
+        <span className={`self-start text-xs font-medium px-2.5 py-1 rounded-full border ${
+          isPast
+            ? "bg-neutral-800/60 text-neutral-400 border-white/10"
+            : "bg-white/5 text-neutral-300 border-white/15"
+        }`}>
+          {isPast ? "Completed" : "Upcoming"}
+        </span>
 
         <h2 className="text-xl font-bold leading-snug font-pixelify">{event.title}</h2>
 
@@ -132,7 +109,7 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
             <ul className="flex flex-col gap-1.5">
               {event.highlights.map((h, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-neutral-300">
-                  <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${style.dot}`} />
+                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 bg-neutral-500" />
                   {h}
                 </li>
               ))}
@@ -153,7 +130,6 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
 
   const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
-  const [hoveredDay, setHoveredDay] = useState<number | null>(null);
 
   const eventMap = events.reduce<Record<string, Event[]>>((acc, e) => {
     if (!acc[e.date]) acc[e.date] = [];
@@ -244,26 +220,17 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
             const iso = isoDate(day);
             const dayEvents = eventMap[iso] ?? [];
             const hasEvent = dayEvents.length > 0;
-            const hasUpcoming = dayEvents.some((e) => e.status === "upcoming");
-            const hasPast = dayEvents.some((e) => e.status === "completed");
             const todayDay = isToday(day);
-            const isHovered = hoveredDay === day;
 
             return (
               <motion.button
                 key={day}
                 onClick={() => hasEvent && onSelect(dayEvents[0])}
-                onMouseEnter={() => setHoveredDay(day)}
-                onMouseLeave={() => setHoveredDay(null)}
                 whileTap={hasEvent ? { scale: 0.92 } : undefined}
                 className={`
                   relative aspect-square flex flex-col items-center justify-center rounded-lg text-sm transition-all duration-150
-                  ${hasEvent ? "cursor-pointer" : "cursor-default"}
+                  ${hasEvent ? "cursor-pointer bg-white/8 hover:bg-white/15" : "cursor-default hover:bg-white/5"}
                   ${todayDay ? "ring-1 ring-white/30" : ""}
-                  ${hasUpcoming && !hasPast ? "bg-emerald-500/10 hover:bg-emerald-500/20"
-                    : hasPast ? "bg-white/5 hover:bg-white/10"
-                    : "hover:bg-white/5"}
-                  ${isHovered && hasEvent ? "scale-105" : ""}
                 `}
                 aria-label={
                   hasEvent
@@ -276,12 +243,7 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
                 </span>
 
                 {hasEvent && (
-                  <div className="flex gap-0.5 mt-0.5">
-                    {dayEvents.slice(0, 3).map((e, idx) => {
-                      const s = getCategoryStyle(e.category);
-                      return <span key={idx} className={`w-1 h-1 rounded-full ${s.dot}`} />;
-                    })}
-                  </div>
+                  <span className="mt-0.5 w-1 h-1 rounded-full bg-white/60" />
                 )}
 
                 {todayDay && (
@@ -290,16 +252,6 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
               </motion.button>
             );
           })}
-        </div>
-
-        {/* Legend */}
-        <div className="flex flex-wrap gap-3 mt-1 pt-3 border-t border-white/10">
-          {Object.entries(CATEGORY_COLORS).map(([cat, s]) => (
-            <div key={cat} className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${s.dot}`} />
-              <span className="text-xs text-neutral-500 capitalize">{cat}</span>
-            </div>
-          ))}
         </div>
       </div>
 
@@ -320,8 +272,7 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
         ) : (
           <div className="flex flex-col gap-2">
             {monthEvents.map((event) => {
-              const style = getCategoryStyle(event.category);
-              const { day } = formatShortDate(event.date);
+              const d = new Date(event.date + "T00:00:00");
               return (
                 <motion.button
                   key={event.id}
@@ -331,11 +282,11 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
                   className="w-full text-left rounded-xl glass-border bg-white/5 hover:bg-white/10 p-3 flex items-start gap-3 transition-colors group cursor-pointer"
                 >
                   <div className="flex flex-col items-center shrink-0 w-8">
-                    <span className="font-pixelify text-base font-bold text-white leading-none">{day}</span>
-                    <span className={`w-1.5 h-1.5 rounded-full mt-1 ${style.dot}`} />
+                    <span className="font-pixelify text-base font-bold text-white leading-none">{d.getDate()}</span>
+                    <span className="w-1.5 h-1.5 rounded-full mt-1 bg-neutral-500" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-white leading-snug line-clamp-2 group-hover:text-white">
+                    <p className="text-xs font-medium text-white leading-snug line-clamp-2">
                       {event.title}
                     </p>
                     <p className="text-[10px] text-neutral-600 mt-0.5 capitalize">{event.category}</p>
