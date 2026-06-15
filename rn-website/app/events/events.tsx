@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import eventsData from "@/data/events.json";
 
@@ -339,8 +338,6 @@ export default function Events() {
   return (
     <>
       <main className="flex flex-col items-center flex-1 px-4 py-20 gap-10">
-        <Meteors />
-
         <AnimePageHero
           title="Events"
           subtitle="Every competition, workshop, and showcase — past and future."

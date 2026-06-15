@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { animate, stagger } from "animejs";
-import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import SocialFlipButton from "@/components/ui/social-flip-button";
 import AnimatedButton from "@/components/ui/animated-button";
@@ -226,8 +225,6 @@ function InfoPanel() {
 export default function Contact() {
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
-      <Meteors />
-
       <AnimePageHero
         title="Get in Touch"
         subtitle="Have a question, an idea, or just want to say hi? We'd love to hear from you."

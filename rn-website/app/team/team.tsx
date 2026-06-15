@@ -1,7 +1,6 @@
 "use client";
 
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
-import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { PixelImage } from "@/components/ui/pixel-image";
@@ -71,8 +70,6 @@ export default function Team() {
 
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <Meteors />
-
       <AnimePageHero
         title="Meet the Team"
         subtitle="The people building, innovating, and keeping the lights on at Robo Nexus."

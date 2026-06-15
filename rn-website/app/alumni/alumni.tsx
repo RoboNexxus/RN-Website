@@ -1,7 +1,6 @@
 "use client";
 
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
-import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { PixelImage } from "@/components/ui/pixel-image";
@@ -63,8 +62,6 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
 export default function Alumni() {
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <Meteors />
-
       <AnimePageHero
         title="Alumni"
         subtitle="The people who built the foundation. Robo Nexus wouldn't exist without them."

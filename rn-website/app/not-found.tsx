@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { animate, stagger } from "animejs";
-import { Meteors } from "@/components/ui/meteors";
 
 export default function NotFound() {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,7 +22,6 @@ export default function NotFound() {
 
   return (
     <main className="flex flex-col items-center justify-center flex-1 px-4 py-20 gap-6 text-center">
-      <Meteors />
       <div ref={ref} className="flex flex-col items-center gap-6">
         <p className="nf-item text-8xl font-bold font-pixelify text-white/10" style={{ opacity: 0 }}>
           404

@@ -4,6 +4,7 @@ import "./globals.css";
 import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
 import BackToTop from "@/components/back-to-top";
 import { ToastProvider } from "@/components/ui/toast";
+import { Meteors } from "@/components/ui/meteors";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -66,6 +67,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-black grid-bg text-white">
         <ToastProvider>
+          <Meteors />
           <SpotlightNavbar />
           {children}
           <BackToTop />
