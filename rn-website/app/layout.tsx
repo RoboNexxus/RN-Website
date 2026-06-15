@@ -68,9 +68,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-black grid-bg text-white">
         <StringTuneProvider />
-        <SpotlightNavbar />
-        <PageTransition>{children}</PageTransition>
-        <BackToTop />
+        <ToastProvider>
+          <SpotlightNavbar />
+          <PageTransition>{children}</PageTransition>
+          <BackToTop />
+        </ToastProvider>
       </body>
     </html>
   );
