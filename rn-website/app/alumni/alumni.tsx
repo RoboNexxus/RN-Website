@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
+import MemberModal, { type ModalMember } from "@/components/ui/member-modal";
 import alumniData from "@/data/alumni.json";
 
 type Alumni = (typeof alumniData.alumni)[number];
@@ -13,10 +15,19 @@ function resolveImage(path: string) {
   return path.replace(/^(\.\/)?assets\/images\//, "/images/");
 }
 
-function AlumniCard({ alumni }: { alumni: Alumni }) {
+function AlumniCard({
+  alumni,
+  onClick,
+}: {
+  alumni: Alumni;
+  onClick: () => void;
+}) {
   const imgSrc = resolveImage(alumni.image);
   return (
-    <div className="reveal-item flex flex-col items-center gap-5 rounded-2xl glass-border bg-white/5 p-8 text-center transition-transform hover:-translate-y-1 hover:bg-white/10 duration-200">
+    <div
+      onClick={onClick}
+      className="reveal-item flex flex-col items-center gap-5 rounded-2xl glass-border bg-white/5 p-8 text-center cursor-pointer transition-transform hover:-translate-y-1 hover:bg-white/10 duration-200"
+    >
       <div className="relative w-32 h-32 rounded-full overflow-hidden ring-2 ring-white/10">
         <Image src={imgSrc} alt={alumni.name} fill className="object-cover" sizes="128px" />
       </div>
@@ -24,7 +35,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
       <div>
         <p className="font-semibold text-lg">{alumni.name}</p>
         <p className="text-sm text-neutral-400 mt-1">{alumni.role}</p>
-        <span className="inline-block mt-2 text-xs px-3 py-1 rounded-full bg-white/8 border border-white/10 text-neutral-400">
+        <span className="inline-block mt-2 text-xs px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-400">
           Batch {alumni.batch}
         </span>
       </div>
@@ -35,7 +46,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
         </p>
       )}
 
-      <div className="flex gap-4 mt-auto">
+      <div className="flex gap-4 mt-auto" onClick={(e) => e.stopPropagation()}>
         {alumni.links.github && (
           <a href={alumni.links.github} target="_blank" rel="noopener noreferrer" aria-label={`${alumni.name} GitHub`} className="text-neutral-400 hover:text-white transition-colors">
             <FaGithub size={18} />
@@ -56,7 +67,20 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
   );
 }
 
+function toModalMember(a: Alumni): ModalMember {
+  return {
+    name: a.name,
+    role: a.role,
+    image: resolveImage(a.image),
+    batch: a.batch,
+    contribution: a.contribution,
+    links: a.links,
+  };
+}
+
 export default function Alumni() {
+  const [selected, setSelected] = useState<ModalMember | null>(null);
+
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <Meteors />
@@ -72,9 +96,13 @@ export default function Alumni() {
         fromY={1.5}
       >
         {alumniData.alumni.map((a) => (
-          <AlumniCard key={a.name} alumni={a} />
+          <AlumniCard key={a.name} alumni={a} onClick={() => setSelected(toModalMember(a))} />
         ))}
       </AnimeScrollReveal>
+
+      {selected && (
+        <MemberModal member={selected} onClose={() => setSelected(null)} />
+      )}
     </main>
   );
 }
