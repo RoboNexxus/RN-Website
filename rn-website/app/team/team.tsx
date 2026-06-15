@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
+import MemberModal, { type ModalMember } from "@/components/ui/member-modal";
 import teamData from "@/data/team.json";
 
 type Member = (typeof teamData.members)[number];
@@ -13,10 +15,19 @@ function resolveImage(path: string) {
   return path.replace(/^(\.\/)?assets\/images\//, "/images/");
 }
 
-function MemberCard({ member }: { member: Member }) {
+function MemberCard({
+  member,
+  onClick,
+}: {
+  member: Member;
+  onClick: () => void;
+}) {
   const imgSrc = resolveImage(member.image);
   return (
-    <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center transition-transform hover:-translate-y-1 hover:bg-white/10 duration-200 w-full">
+    <div
+      onClick={onClick}
+      className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center cursor-pointer transition-transform hover:-translate-y-1 hover:bg-white/10 duration-200 w-full"
+    >
       <div className="relative w-28 h-28 rounded-full overflow-hidden ring-2 ring-white/10">
         <Image src={imgSrc} alt={member.name} fill className="object-cover" sizes="112px" />
       </div>
@@ -27,7 +38,7 @@ function MemberCard({ member }: { member: Member }) {
           <p className="text-xs text-neutral-500 mt-0.5">Class {member.class}</p>
         )}
       </div>
-      <div className="flex gap-4 mt-1">
+      <div className="flex gap-4 mt-1" onClick={(e) => e.stopPropagation()}>
         {member.links.github && (
           <a href={member.links.github} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} GitHub`} className="text-neutral-400 hover:text-white transition-colors">
             <FaGithub size={16} />
@@ -48,23 +59,34 @@ function MemberCard({ member }: { member: Member }) {
   );
 }
 
-function SectionDivider({ title, subtitle }: { title: string; subtitle?: string }) {
+function SectionDivider({ title }: { title: string }) {
   return (
     <div className="w-full flex items-center gap-4 mb-8">
       <div className="flex-1 h-px bg-white/10" />
-      <div className="text-center shrink-0">
-        <p className="text-sm font-semibold text-neutral-300 uppercase tracking-widest">{title}</p>
-        {subtitle && <p className="text-xs text-neutral-600 mt-0.5">{subtitle}</p>}
-      </div>
+      <p className="text-sm font-semibold text-neutral-300 uppercase tracking-widest shrink-0">
+        {title}
+      </p>
       <div className="flex-1 h-px bg-white/10" />
     </div>
   );
+}
+
+function toModalMember(m: Member): ModalMember {
+  return {
+    name: m.name,
+    role: m.role,
+    image: resolveImage(m.image),
+    class: m.class,
+    links: m.links,
+  };
 }
 
 export default function Team() {
   const heads = teamData.members.filter((m) => m.role === "Head");
   const core = teamData.members.filter((m) => m.role === "Core Member");
   const members = teamData.members.filter((m) => m.role === "Member");
+
+  const [selected, setSelected] = useState<ModalMember | null>(null);
 
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
@@ -81,7 +103,6 @@ export default function Team() {
           <h2 className="text-2xl font-bold">Leadership</h2>
         </AnimeScrollReveal>
 
-        {/* Heads */}
         <div>
           <SectionDivider title="Heads" />
           <AnimeScrollReveal
@@ -90,12 +111,11 @@ export default function Team() {
             fromY={1.5}
           >
             {heads.map((m) => (
-              <MemberCard key={m.name} member={m} />
+              <MemberCard key={m.name} member={m} onClick={() => setSelected(toModalMember(m))} />
             ))}
           </AnimeScrollReveal>
         </div>
 
-        {/* Core */}
         {core.length > 0 && (
           <div>
             <SectionDivider title="Core" />
@@ -105,7 +125,7 @@ export default function Team() {
               fromY={1.5}
             >
               {core.map((m) => (
-                <MemberCard key={m.name} member={m} />
+                <MemberCard key={m.name} member={m} onClick={() => setSelected(toModalMember(m))} />
               ))}
             </AnimeScrollReveal>
           </div>
@@ -123,10 +143,14 @@ export default function Team() {
           fromY={1.5}
         >
           {members.map((m) => (
-            <MemberCard key={m.name} member={m} />
+            <MemberCard key={m.name} member={m} onClick={() => setSelected(toModalMember(m))} />
           ))}
         </AnimeScrollReveal>
       </section>
+
+      {selected && (
+        <MemberModal member={selected} onClose={() => setSelected(null)} />
+      )}
     </main>
   );
 }
