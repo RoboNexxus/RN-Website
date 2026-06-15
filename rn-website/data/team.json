@@ -1,15 +1,4 @@
 {
-  "_FORMAT_GUIDE": {
-    "name": "Member's full name",
-    "role": "President / Head / Vice President / Core Member / Member",
-    "image": "Image path in WebP format - use: 'assets/images/filename.webp' OR '/src/assets/images/filename.webp'",
-    "leavingSoon": "true (only for members leaving soon) or remove this field",
-    "links": {
-      "github": "GitHub profile URL (optional)",
-      "linkedin": "LinkedIn profile URL (optional)",
-      "website": "Personal website URL (optional)"
-    }
-  },
   "members": [
     {
       "name": "Atharv Mandlavdiya",

@@ -1,15 +1,3 @@
 {
-  "_FORMAT_GUIDE": {
-    "id": "Unique number",
-    "title": "Event name",
-    "date": "ISO date string (YYYY-MM-DD)",
-    "time": "e.g. '10:00 AM – 4:00 PM'",
-    "location": "Venue or online",
-    "category": "competition / workshop / exhibition / meetup / other",
-    "description": "Short description of the event",
-    "highlights": ["Array of key highlights or outcomes"],
-    "status": "upcoming / completed",
-    "image": "Optional image path (leave empty string if none)"
-  },
   "events": []
 }
