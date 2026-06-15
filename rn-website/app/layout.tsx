@@ -17,6 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://robonexus.in"),
   title: {
     default: "Robo Nexus",
     template: "%s | Robo Nexus",
