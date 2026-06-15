@@ -14,16 +14,21 @@ function ProjectCard({ project }: { project: Project }) {
   
   // Determine aspect ratio based on image orientation
   const aspectRatio = project.isVertical 
-    ? "aspect-[3/4]" 
+    ? "aspect-[4/5]" 
     : project.isWide 
     ? "aspect-video" 
-    : "aspect-[4/3]";
+    : "aspect-square";
+  
+  // Grid spanning classes
+  const gridClasses = project.isWide 
+    ? "sm:col-span-2" 
+    : project.isVertical 
+    ? "sm:row-span-2" 
+    : "";
   
   return (
     <div
-      className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${
-        project.isWide ? "sm:col-span-2" : ""
-      }`}
+      className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${gridClasses}`}
     >
       <div className={`relative w-full ${aspectRatio} overflow-hidden bg-neutral-900`}>
         <PixelImage
@@ -61,7 +66,7 @@ export default function Projects() {
       />
 
       <AnimeScrollReveal
-        className="grid grid-cols-1 sm:grid-cols-2 gap-5 w-full max-w-4xl"
+        className="grid grid-cols-1 sm:grid-cols-2 sm:grid-flow-dense gap-5 w-full max-w-4xl"
         staggerDelay={90}
         fromY={1.5}
       >
