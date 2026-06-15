@@ -8,7 +8,18 @@ import eventsData from "@/data/events.json";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type Event = (typeof eventsData.events)[number];
+type Event = {
+  id: number;
+  title: string;
+  date: string;
+  time?: string;
+  location: string;
+  category: string;
+  description: string;
+  highlights: string[];
+  status: string;
+  image?: string;
+};
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
@@ -384,7 +395,7 @@ export default function Events() {
           subtitle="Every competition, workshop, and showcase — past and future."
         />
 
-        <CalendarView events={eventsData.events} onSelect={setSelectedEvent} />
+        <CalendarView events={eventsData.events as Event[]} onSelect={setSelectedEvent} />
       </main>
 
       {selectedEvent && (
