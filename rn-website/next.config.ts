@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
       },
       // Next.js optimised image endpoint
       {
-        source: "/_next/image:path*",
+        source: "/_next/image/:path*",
         headers: [
           {
             key: "Cache-Control",
@@ -51,7 +51,7 @@ const nextConfig: NextConfig = {
       },
       // HTML pages — short cache, always revalidate in background
       {
-        source: "/:path*",
+        source: "/(.*)",
         headers: [
           {
             key: "Cache-Control",
