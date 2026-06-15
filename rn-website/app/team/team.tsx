@@ -48,9 +48,23 @@ function MemberCard({ member }: { member: Member }) {
   );
 }
 
+function SectionDivider({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="w-full flex items-center gap-4 mb-8">
+      <div className="flex-1 h-px bg-white/10" />
+      <div className="text-center shrink-0">
+        <p className="text-sm font-semibold text-neutral-300 uppercase tracking-widest">{title}</p>
+        {subtitle && <p className="text-xs text-neutral-600 mt-0.5">{subtitle}</p>}
+      </div>
+      <div className="flex-1 h-px bg-white/10" />
+    </div>
+  );
+}
+
 export default function Team() {
   const heads = teamData.members.filter((m) => m.role === "Head");
-  const members = teamData.members.filter((m) => m.role !== "Head");
+  const core = teamData.members.filter((m) => m.role === "Core Member");
+  const members = teamData.members.filter((m) => m.role === "Member");
 
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
@@ -61,37 +75,48 @@ export default function Team() {
         subtitle="The people building, innovating, and keeping the lights on at Robo Nexus."
       />
 
-      {/* ── Heads ── */}
-      <section className="w-full max-w-4xl">
-        <AnimeScrollReveal className="mb-2 text-center">
-          <h2 className="text-xl font-semibold tracking-wide text-neutral-300">Heads</h2>
-          <p className="text-xs text-neutral-500 mt-1">Club leadership</p>
+      {/* ── Leadership ── */}
+      <section className="w-full max-w-4xl flex flex-col gap-10">
+        <AnimeScrollReveal className="text-center">
+          <h2 className="text-2xl font-bold">Leadership</h2>
         </AnimeScrollReveal>
 
-        {/* divider */}
-        <div className="w-full h-px bg-white/10 mb-8" />
+        {/* Heads */}
+        <div>
+          <SectionDivider title="Heads" />
+          <AnimeScrollReveal
+            className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center"
+            staggerDelay={100}
+            fromY={1.5}
+          >
+            {heads.map((m) => (
+              <MemberCard key={m.name} member={m} />
+            ))}
+          </AnimeScrollReveal>
+        </div>
 
-        <AnimeScrollReveal
-          className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center"
-          staggerDelay={100}
-          fromY={1.5}
-        >
-          {heads.map((m) => (
-            <MemberCard key={m.name} member={m} />
-          ))}
-        </AnimeScrollReveal>
+        {/* Core */}
+        {core.length > 0 && (
+          <div>
+            <SectionDivider title="Core" />
+            <AnimeScrollReveal
+              className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center"
+              staggerDelay={100}
+              fromY={1.5}
+            >
+              {core.map((m) => (
+                <MemberCard key={m.name} member={m} />
+              ))}
+            </AnimeScrollReveal>
+          </div>
+        )}
       </section>
 
-      {/* ── Core Members ── */}
+      {/* ── Members ── */}
       <section className="w-full max-w-4xl">
-        <AnimeScrollReveal className="mb-2 text-center">
-          <h2 className="text-xl font-semibold tracking-wide text-neutral-300">Members</h2>
-          <p className="text-xs text-neutral-500 mt-1">The builders</p>
+        <AnimeScrollReveal className="text-center mb-10">
+          <h2 className="text-2xl font-bold">Members</h2>
         </AnimeScrollReveal>
-
-        {/* divider */}
-        <div className="w-full h-px bg-white/10 mb-8" />
-
         <AnimeScrollReveal
           className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center"
           staggerDelay={80}
