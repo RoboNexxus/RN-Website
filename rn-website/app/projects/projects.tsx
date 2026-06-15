@@ -12,21 +12,18 @@ type Project = (typeof projectsData.tutorials)[number];
 function ProjectCard({ project }: { project: Project }) {
   const imgSrc = resolveAssetPath(project.image);
   
-  // Determine aspect ratio based on image orientation - make them more uniform
+  // Determine aspect ratio based on image orientation
   const aspectRatio = project.isVertical 
-    ? "aspect-[3/4]" 
+    ? "aspect-[2/3]" 
     : project.isWide 
-    ? "aspect-[21/9]" 
+    ? "aspect-video" 
     : "aspect-[4/3]";
-  
-  // Grid spanning classes
-  const gridClasses = project.isWide 
-    ? "sm:col-span-2" 
-    : "";
   
   return (
     <div
-      className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${gridClasses}`}
+      className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${
+        project.isWide ? "col-span-full" : ""
+      }`}
     >
       <div className={`relative w-full ${aspectRatio} overflow-hidden bg-neutral-900`}>
         <PixelImage
@@ -39,7 +36,7 @@ function ProjectCard({ project }: { project: Project }) {
           className="absolute inset-0"
         />
       </div>
-      <div className="p-5 flex flex-col gap-2 flex-1">
+      <div className="p-5 flex flex-col gap-2">
         <h3 className="font-semibold text-base leading-snug">{project.title}</h3>
         <p className="text-xs text-neutral-500">
           {project.creator}
@@ -64,12 +61,14 @@ export default function Projects() {
       />
 
       <AnimeScrollReveal
-        className="grid grid-cols-1 sm:grid-cols-2 auto-rows-fr gap-5 w-full max-w-4xl"
+        className="columns-1 sm:columns-2 gap-5 w-full max-w-4xl"
         staggerDelay={90}
         fromY={1.5}
       >
         {projectsData.tutorials.map((p) => (
-          <ProjectCard key={p.id} project={p} />
+          <div key={p.id} className="break-inside-avoid mb-5">
+            <ProjectCard project={p} />
+          </div>
         ))}
       </AnimeScrollReveal>
     </main>
