@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useTheme } from '@/lib/use-theme';
 
 export interface DockItem {
   title: string;
@@ -31,17 +32,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
   ) => {
       const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
       const [direction, setDirection] = useState(0);
-      const [isDark, setIsDark] = useState(false);
-
-      React.useEffect(() => {
-          const checkTheme = () => {
-              setIsDark(document.documentElement.classList.contains('dark'));
-          };
-          checkTheme();
-          const observer = new MutationObserver(checkTheme);
-          observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-          return () => observer.disconnect();
-      }, []);
+      const isDark = useTheme();
 
       const handleMouseEnter = (index: number) => {
           if (hoveredIndex !== null && index !== hoveredIndex) {

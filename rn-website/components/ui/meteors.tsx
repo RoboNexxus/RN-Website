@@ -5,29 +5,24 @@ import React, { useEffect, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface MeteorsProps {
-  number?: number
-  minDelay?: number
-  maxDelay?: number
-  minDuration?: number
-  maxDuration?: number
-  angle?: number
   className?: string
 }
 
-export const Meteors = ({
-  number = 49,
-  minDelay = 0.2,
-  maxDelay = 1.2,
-  minDuration = 2,
-  maxDuration = 12,
-  angle = 222,
-  className,
-}: MeteorsProps) => {
-  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>(
-    []
-  )
+/**
+ * Meteors background animation component
+ * Renders 49 animated meteors with randomized positions and timing
+ */
+export const Meteors = ({ className }: MeteorsProps) => {
+  const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>([])
 
   useEffect(() => {
+    const number = 49
+    const minDelay = 0.2
+    const maxDelay = 1.2
+    const minDuration = 2
+    const maxDuration = 12
+    const angle = 222
+
     const styles = [...new Array(number)].map(() => ({
       "--angle": -angle + "deg",
       top: "-5%",
@@ -38,7 +33,7 @@ export const Meteors = ({
         "s",
     }))
     setMeteorStyles(styles)
-  }, [number, minDelay, maxDelay, minDuration, maxDuration, angle])
+  }, [])
 
   return (
     <>

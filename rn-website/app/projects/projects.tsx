@@ -4,18 +4,13 @@ import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { resolveAssetPath } from "@/lib/utils";
 import projectsData from "@/data/tutorials.json";
-
-function resolveImage(path: string) {
-  return path
-    .replace(/^\/src\/assets\/images\//, "/images/")
-    .replace(/^assets\/images\//, "/images/");
-}
 
 type Project = (typeof projectsData.tutorials)[number];
 
 function ProjectCard({ project }: { project: Project }) {
-  const imgSrc = resolveImage(project.image);
+  const imgSrc = resolveAssetPath(project.image);
   return (
     <div
       className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${

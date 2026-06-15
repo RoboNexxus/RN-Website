@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/lib/use-theme";
 import {
 FaGithub,
 FaTwitter,
@@ -138,17 +139,7 @@ backClassName,
 }: SocialFlipButtonProps) {
 const [isHovered, setIsHovered] = useState(false);
 const [tooltipIndex, setTooltipIndex] = useState<number | null>(null);
-const [isDark, setIsDark] = useState(false);
-
-React.useEffect(() => {
-  const checkTheme = () => {
-    setIsDark(document.documentElement.classList.contains('dark'));
-  };
-  checkTheme();
-  const observer = new MutationObserver(checkTheme);
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-  return () => observer.disconnect();
-}, []);
+const isDark = useTheme();
 
 return (
   <div className={cn("flex items-center justify-center gap-4 p-4", className)}>

@@ -5,16 +5,13 @@ import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { resolveAssetPath } from "@/lib/utils";
 import teamData from "@/data/team.json";
 
 type Member = (typeof teamData.members)[number];
 
-function resolveImage(path: string) {
-  return path.replace(/^(\.\/)?assets\/images\//, "/images/");
-}
-
 function MemberCard({ member }: { member: Member }) {
-  const imgSrc = resolveImage(member.image);
+  const imgSrc = resolveAssetPath(member.image);
   return (
     <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center hover:bg-white/10 transition-colors duration-200 w-full">
       <div className="w-28 h-28 rounded-full ring-2 ring-white/10 overflow-hidden">

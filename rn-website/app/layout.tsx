@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
-import StringTuneProvider from "@/components/string-tune-provider";
-import PageTransition from "@/components/page-transition";
 import BackToTop from "@/components/back-to-top";
 import { ToastProvider } from "@/components/ui/toast";
 
@@ -67,10 +65,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-black grid-bg text-white">
-        <StringTuneProvider />
         <ToastProvider>
           <SpotlightNavbar />
-          <PageTransition>{children}</PageTransition>
+          {children}
           <BackToTop />
         </ToastProvider>
       </body>

@@ -5,16 +5,13 @@ import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { PixelImage } from "@/components/ui/pixel-image";
+import { resolveAssetPath } from "@/lib/utils";
 import alumniData from "@/data/alumni.json";
 
 type Alumni = (typeof alumniData.alumni)[number];
 
-function resolveImage(path: string) {
-  return path.replace(/^(\.\/)?assets\/images\//, "/images/");
-}
-
 function AlumniCard({ alumni }: { alumni: Alumni }) {
-  const imgSrc = resolveImage(alumni.image);
+  const imgSrc = resolveAssetPath(alumni.image);
   return (
     <div className="reveal-item flex flex-col items-center gap-5 rounded-2xl glass-border bg-white/5 p-8 text-center hover:bg-white/10 transition-colors duration-200">
       <div className="w-32 h-32 rounded-full ring-2 ring-white/10 overflow-hidden">
