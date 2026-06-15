@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
 import StringTuneProvider from "@/components/string-tune-provider";
-import PageTransition from "@/components/page-transition";
-import NavProgress from "@/components/nav-progress";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,18 +30,11 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-black text-white">
-        {/* Top progress bar — fires on every navigation */}
-        <NavProgress />
-
-        <StringTuneProvider />
-        <SpotlightNavbar />
-
-        {/* Page enter/exit transition wrapper */}
-        <PageTransition>
-          {children}
-        </PageTransition>
-      </body>
+<body className="min-h-full flex flex-col bg-black grid-bg text-white">
+  <StringTuneProvider />
+  <SpotlightNavbar />
+  {children}
+</body>
     </html>
   );
 }
