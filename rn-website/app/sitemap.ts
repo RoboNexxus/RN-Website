@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE = "https://robonexus.in";
+const BASE = "https://robonexus46.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes = ["/", "/about", "/team", "/alumni", "/projects", "/events", "/contact"];
