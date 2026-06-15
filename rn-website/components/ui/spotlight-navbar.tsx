@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 export interface NavItem {
     label: string;
     href: string;
+    dropdown?: { label: string; href: string }[];
 }
 
 export interface SpotlightNavbarProps {
@@ -20,8 +21,12 @@ export interface SpotlightNavbarProps {
 const defaultNavItems: NavItem[] = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Team", href: "/team" },
-    { label: "Alumni", href: "/alumni" },
+    {
+        label: "Team", href: "/team",
+        dropdown: [
+            { label: "Alumni", href: "/alumni" },
+        ],
+    },
     { label: "Projects", href: "/projects" },
     { label: "Events", href: "/events" },
     { label: "Contact", href: "/contact" },
@@ -37,11 +42,16 @@ export function SpotlightNavbar({
     const pathname = usePathname();
     const navRef = useRef<HTMLDivElement>(null);
     const [hoverX, setHoverX] = useState<number | null>(null);
+    const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+    const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    // Derive active index from current pathname
-    const activeIndex = items.findIndex((item) => item.href === pathname) ?? defaultActiveIndex;
+    // Treat /alumni as active on Team item
+    const activeIndex = items.findIndex(
+        (item) =>
+            item.href === pathname ||
+            item.dropdown?.some((d) => d.href === pathname)
+    ) ?? defaultActiveIndex;
 
-    // Refs for the "light" positions so we can animate them imperatively
     const spotlightX = useRef(0);
     const ambienceX = useRef(0);
 
@@ -53,14 +63,12 @@ export function SpotlightNavbar({
             const rect = nav.getBoundingClientRect();
             const x = e.clientX - rect.left;
             setHoverX(x);
-            // Direct update for immediate feedback (no spring for the mouse itself, feels snappier)
             spotlightX.current = x;
             nav.style.setProperty("--spotlight-x", `${x}px`);
         };
 
         const handleMouseLeave = () => {
             setHoverX(null);
-            // When mouse leaves, spring the spotlight back to the active item
             const activeItem = nav.querySelector(`[data-index="${activeIndex}"]`);
             if (activeItem) {
                 const navRect = nav.getBoundingClientRect();
@@ -74,7 +82,7 @@ export function SpotlightNavbar({
                     onUpdate: (v) => {
                         spotlightX.current = v;
                         nav.style.setProperty("--spotlight-x", `${v}px`);
-                    }
+                    },
                 });
             }
         };
@@ -88,7 +96,6 @@ export function SpotlightNavbar({
         };
     }, [activeIndex]);
 
-    // Handle the "Ambience" (Active Item) Movement
     useEffect(() => {
         if (!navRef.current) return;
         const nav = navRef.current;
@@ -99,7 +106,6 @@ export function SpotlightNavbar({
             const itemRect = activeItem.getBoundingClientRect();
             const targetX = itemRect.left - navRect.left + itemRect.width / 2;
 
-            // On first mount, snap immediately so the underline is visible right away
             if (ambienceX.current === 0) {
                 ambienceX.current = targetX;
                 nav.style.setProperty("--ambience-x", `${targetX}px`);
@@ -123,19 +129,37 @@ export function SpotlightNavbar({
         router.push(item.href);
     };
 
+    const scheduleClose = () => {
+        closeTimer.current = setTimeout(() => setOpenDropdown(null), 120);
+    };
+
+    const cancelClose = () => {
+        if (closeTimer.current) clearTimeout(closeTimer.current);
+    };
+
     return (
         <div className={cn("relative flex justify-center pt-4", className)}>
             <nav
                 ref={navRef}
                 className={cn(
                     "spotlight-nav spotlight-nav-bg glass-border spotlight-nav-shadow",
-                    "relative h-11 rounded-full transition-all duration-300 overflow-hidden"
+                    "relative h-11 rounded-full transition-all duration-300 overflow-visible"
                 )}
             >
                 {/* Content */}
                 <ul className="relative flex items-center h-full px-2 gap-0 z-[10]">
                     {items.map((item, idx) => (
-                        <li key={idx} className="relative h-full flex items-center justify-center">
+                        <li
+                            key={idx}
+                            className="relative h-full flex items-center justify-center"
+                            onMouseEnter={() => {
+                                cancelClose();
+                                if (item.dropdown) setOpenDropdown(idx);
+                            }}
+                            onMouseLeave={() => {
+                                if (item.dropdown) scheduleClose();
+                            }}
+                        >
                             <a
                                 href={item.href}
                                 data-index={idx}
@@ -146,7 +170,6 @@ export function SpotlightNavbar({
                                 className={cn(
                                     "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
                                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-white/30",
-                                    // Active vs Inactive Text
                                     activeIndex === idx
                                         ? "text-black dark:text-white"
                                         : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
@@ -154,63 +177,69 @@ export function SpotlightNavbar({
                             >
                                 {item.label}
                             </a>
+
+                            {/* Dropdown */}
+                            {item.dropdown && openDropdown === idx && (
+                                <div
+                                    className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50"
+                                    onMouseEnter={cancelClose}
+                                    onMouseLeave={scheduleClose}
+                                >
+                                    <div className="spotlight-nav-bg glass-border spotlight-nav-shadow rounded-xl overflow-hidden py-1 min-w-[110px]">
+                                        {item.dropdown.map((child) => (
+                                            <a
+                                                key={child.href}
+                                                href={child.href}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    setOpenDropdown(null);
+                                                    router.push(child.href);
+                                                }}
+                                                className={cn(
+                                                    "block px-4 py-2 text-sm font-medium text-center transition-colors duration-150",
+                                                    pathname === child.href
+                                                        ? "text-white"
+                                                        : "text-neutral-400 hover:text-white"
+                                                )}
+                                            >
+                                                {child.label}
+                                            </a>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </li>
                     ))}
                 </ul>
 
-                {/* LIGHTING LAYERS 
-         We use CSS variables --spotlight-x and --ambience-x updated by JS
-      */}
-
-                {/* 1. The Moving Spotlight (Follows Mouse) */}
+                {/* 1. Moving Spotlight */}
                 <div
-                    className="pointer-events-none absolute bottom-0 left-0 w-full h-full z-[1] opacity-0 transition-opacity duration-300"
+                    className="pointer-events-none absolute bottom-0 left-0 w-full h-full z-[1] transition-opacity duration-300"
                     style={{
                         opacity: hoverX !== null ? 1 : 0,
-                        background: `
-            radial-gradient(
-              120px circle at var(--spotlight-x) 100%, 
-              var(--spotlight-color, rgba(0,0,0,0.1)) 0%, 
-              transparent 50%
-            )
-          `
+                        background: `radial-gradient(120px circle at var(--spotlight-x) 100%, var(--spotlight-color, rgba(0,0,0,0.1)) 0%, transparent 50%)`,
                     }}
                 />
 
-                {/* 2. The Active State Ambience (Stays on Active) */}
+                {/* 2. Active Ambience */}
                 <div
                     className="pointer-events-none absolute bottom-0 left-0 w-full h-[2px] z-[2]"
                     style={{
-                        background: `
-                radial-gradient(
-                  60px circle at var(--ambience-x) 0%, 
-                  var(--ambience-color, rgba(0,0,0,1)) 0%, 
-                  transparent 100%
-                )
-              `
+                        background: `radial-gradient(60px circle at var(--ambience-x) 0%, var(--ambience-color, rgba(0,0,0,1)) 0%, transparent 100%)`,
                     }}
                 />
-
-
-
             </nav>
 
-            {/* STYLE BLOCK for Dynamic Colors 
-      This allows us to switch the gradient colors cleanly using Tailwind classes 
-      without messy inline conditionals.
-    */}
             <style jsx>{`
-      nav {
-        /* Light Mode Colors: Dark Gray/Black lights */
-        --spotlight-color: rgba(0,0,0,0.08);
-        --ambience-color: rgba(0,0,0,0.8);
-      }
-      :global(.dark) nav {
-        /* Dark Mode Colors: White lights */
-        --spotlight-color: rgba(255,255,255,0.15);
-        --ambience-color: rgba(255,255,255,1);
-      }
-    `}</style>
+        nav {
+          --spotlight-color: rgba(0,0,0,0.08);
+          --ambience-color: rgba(0,0,0,0.8);
+        }
+        :global(.dark) nav {
+          --spotlight-color: rgba(255,255,255,0.15);
+          --ambience-color: rgba(255,255,255,1);
+        }
+      `}</style>
         </div>
     );
 }
