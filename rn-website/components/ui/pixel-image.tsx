@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -44,8 +44,10 @@ export const PixelImage = ({
   fill = false,
   className,
 }: PixelImageProps) => {
+  const [isInView, setIsInView] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [showColor, setShowColor] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const MIN_GRID = 1
   const MAX_GRID = 16
@@ -67,13 +69,43 @@ export const PixelImage = ({
     return isValidGrid(customGrid) ? customGrid! : DEFAULT_GRIDS[grid]
   }, [customGrid, grid])
 
+  // Intersection Observer to detect when element is in viewport
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isInView) {
+            setIsInView(true)
+          }
+        })
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: "50px", // Start animation slightly before element enters viewport
+      }
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
+      }
+    }
+  }, [isInView])
+
+  // Start animation only when element is in view
+  useEffect(() => {
+    if (!isInView) return
+
     setIsVisible(true)
     const colorTimeout = setTimeout(() => {
       setShowColor(true)
     }, colorRevealDelay)
     return () => clearTimeout(colorTimeout)
-  }, [colorRevealDelay])
+  }, [isInView, colorRevealDelay])
 
   const pieces = useMemo(() => {
     const total = rows * cols
@@ -97,11 +129,14 @@ export const PixelImage = ({
   }, [rows, cols, maxAnimationDelay])
 
   return (
-    <div className={cn(
-      "relative select-none",
-      fill ? "w-full h-full" : "h-72 w-72 md:h-96 md:w-96",
-      className,
-    )}>
+    <div 
+      ref={containerRef}
+      className={cn(
+        "relative select-none",
+        fill ? "w-full h-full" : "h-72 w-72 md:h-96 md:w-96",
+        className,
+      )}
+    >
       {pieces.map((piece, index) => (
         <div
           key={index}

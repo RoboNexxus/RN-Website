@@ -115,13 +115,13 @@
   }
 
   @keyframes flip {
-    0%, 80% {
+    0%, 85% {
       transform: rotateX(360deg);
     }
   }
 
   @keyframes fade {
-    0%, 80% {
+    0%, 85% {
       opacity: var(--opacity, 1);
     }
   }

@@ -12,7 +12,8 @@
     "year": "Year (2024, 2025, etc.)",
     "creator": "Full name of the student who made it",
     "team": "Team name (optional — leave empty string if no team)",
-    "isWide": "Set to true for horizontal projects (optional)"
+    "isWide": "Set to true for horizontal projects that span 2 columns (optional)",
+    "isVertical": "Set to true for vertical/portrait images (optional)"
   },
   "tutorials": [
     {
@@ -84,7 +85,8 @@
       "status": "Completed",
       "year": "2025",
       "creator": "Aryaman & Akshar Yadav",
-      "team": "AY Enterprise"
+      "team": "AY Enterprise",
+      "isVertical": true
     },
     {
       "id": 1,

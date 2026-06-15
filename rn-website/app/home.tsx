@@ -29,7 +29,7 @@ export default function Home() {
 
       <FlipText
         className="text-6xl font-bold font-pixelify"
-        duration={2.2}
+        duration={3.5}
         delay={0}
         loop={true}
       >

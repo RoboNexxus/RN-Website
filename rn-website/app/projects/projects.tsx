@@ -11,20 +11,28 @@ type Project = (typeof projectsData.tutorials)[number];
 
 function ProjectCard({ project }: { project: Project }) {
   const imgSrc = resolveAssetPath(project.image);
+  
+  // Determine aspect ratio based on image orientation
+  const aspectRatio = project.isVertical 
+    ? "aspect-[3/4]" 
+    : project.isWide 
+    ? "aspect-video" 
+    : "aspect-[4/3]";
+  
   return (
     <div
       className={`reveal-item rounded-2xl glass-border bg-white/5 overflow-hidden flex flex-col hover:bg-white/10 transition-colors duration-200 ${
         project.isWide ? "sm:col-span-2" : ""
       }`}
     >
-      <div className="w-full aspect-video overflow-hidden">
+      <div className={`w-full ${aspectRatio} overflow-hidden`}>
         <PixelImage
           src={imgSrc}
-          grid="8x3"
+          grid="6x4"
           fill
-          pixelFadeInDuration={900}
-          maxAnimationDelay={1000}
-          colorRevealDelay={1100}
+          pixelFadeInDuration={600}
+          maxAnimationDelay={700}
+          colorRevealDelay={800}
         />
       </div>
       <div className="p-5 flex flex-col gap-2">
