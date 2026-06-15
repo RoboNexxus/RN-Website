@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { animate } from "framer-motion";
+import { animate as animeAnimate } from "animejs";
 import { cn } from "@/lib/utils";
 
 export interface NavItem {
@@ -31,6 +32,67 @@ const defaultNavItems: NavItem[] = [
     { label: "Events", href: "/events" },
     { label: "Contact", href: "/contact" },
 ];
+
+/** Small animated dropdown panel */
+function DropdownMenu({
+    items,
+    pathname,
+    onNavigate,
+    onMouseEnter,
+    onMouseLeave,
+}: {
+    items: { label: string; href: string }[];
+    pathname: string;
+    onNavigate: (href: string) => void;
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+}) {
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!ref.current) return;
+        animeAnimate(ref.current, {
+            opacity: [0, 1],
+            translateY: ["-6px", "0px"],
+            scale: [0.92, 1],
+            duration: 200,
+            ease: "outExpo",
+        });
+    }, []);
+
+    return (
+        <div
+            className="absolute top-[calc(100%+6px)] left-1/2 -translate-x-1/2 z-50"
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+        >
+            <div
+                ref={ref}
+                style={{ opacity: 0, transformOrigin: "top center" }}
+                className="spotlight-nav-bg glass-border spotlight-nav-shadow rounded-lg overflow-hidden py-0.5 min-w-[90px]"
+            >
+                {items.map((child) => (
+                    <a
+                        key={child.href}
+                        href={child.href}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onNavigate(child.href);
+                        }}
+                        className={cn(
+                            "block px-3 py-1.5 text-xs font-medium text-center transition-colors duration-150",
+                            pathname === child.href
+                                ? "text-white"
+                                : "text-neutral-400 hover:text-white"
+                        )}
+                    >
+                        {child.label}
+                    </a>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 export function SpotlightNavbar({
     items = defaultNavItems,
@@ -180,33 +242,16 @@ export function SpotlightNavbar({
 
                             {/* Dropdown */}
                             {item.dropdown && openDropdown === idx && (
-                                <div
-                                    className="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-50"
+                                <DropdownMenu
+                                    items={item.dropdown}
+                                    pathname={pathname}
+                                    onNavigate={(href) => {
+                                        setOpenDropdown(null);
+                                        router.push(href);
+                                    }}
                                     onMouseEnter={cancelClose}
                                     onMouseLeave={scheduleClose}
-                                >
-                                    <div className="spotlight-nav-bg glass-border spotlight-nav-shadow rounded-xl overflow-hidden py-1 min-w-[110px]">
-                                        {item.dropdown.map((child) => (
-                                            <a
-                                                key={child.href}
-                                                href={child.href}
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setOpenDropdown(null);
-                                                    router.push(child.href);
-                                                }}
-                                                className={cn(
-                                                    "block px-4 py-2 text-sm font-medium text-center transition-colors duration-150",
-                                                    pathname === child.href
-                                                        ? "text-white"
-                                                        : "text-neutral-400 hover:text-white"
-                                                )}
-                                            >
-                                                {child.label}
-                                            </a>
-                                        ))}
-                                    </div>
-                                </div>
+                                />
                             )}
                         </li>
                     ))}
