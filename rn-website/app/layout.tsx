@@ -5,6 +5,7 @@ import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
 import StringTuneProvider from "@/components/string-tune-provider";
 import PageTransition from "@/components/page-transition";
 import BackToTop from "@/components/back-to-top";
+import { ToastProvider } from "@/components/ui/toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
