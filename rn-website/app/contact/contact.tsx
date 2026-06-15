@@ -6,6 +6,7 @@ import { Meteors } from "@/components/ui/meteors";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import SocialFlipButton from "@/components/ui/social-flip-button";
 import AnimatedButton from "@/components/ui/animated-button";
+import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 
 // ── Input / Textarea field ────────────────────────────────────────────────────
