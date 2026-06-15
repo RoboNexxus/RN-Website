@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "All fields are required." }, { status: 400 });
   }
 
-  const webhookUrl = process.env.DISCORD_WEBHOOK;
+  const webhookUrl = process.env.NEXT_PUBLIC_DISCORD_WEBHOOK;
   if (!webhookUrl) {
     return NextResponse.json({ error: "Webhook not configured." }, { status: 500 });
   }
@@ -19,18 +19,18 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       embeds: [
         {
-          title: "📧 New Contact Form Submission",
+          title: "New Contact Form Submission",
           color: 0x47a0b8,
           description: `**From:** ${name} (${email})`,
           fields: [
-            { name: "📝 Subject", value: subject, inline: false },
+            { name: "Subject", value: subject, inline: false },
             {
-              name: "💬 Message",
+              name: "Message",
               value: message.length > 1024 ? message.substring(0, 1021) + "..." : message,
               inline: false,
             },
           ],
-          footer: { text: "Robo Nexus Contact Form • robonexus.ais46@gmail.com" },
+          footer: { text: "• Robo Nexus Contact Form •" },
           timestamp: new Date().toISOString(),
         },
       ],
