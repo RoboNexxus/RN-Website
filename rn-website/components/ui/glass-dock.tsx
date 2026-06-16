@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/lib/use-theme';
 
@@ -33,6 +34,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
       const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
       const [direction, setDirection] = useState(0);
       const isDark = useTheme();
+      const router = useRouter();
 
       const handleMouseEnter = (index: number) => {
           if (hoveredIndex !== null && index !== hoveredIndex) {
@@ -127,7 +129,11 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
             if (el.onClick) {
               el.onClick();
             } else if (el.href) {
-              window.location.href = el.href;
+              if (el.href.startsWith('http') || el.href.startsWith('mailto:')) {
+                window.open(el.href, '_blank');
+              } else {
+                router.push(el.href);
+              }
             }
           };
 

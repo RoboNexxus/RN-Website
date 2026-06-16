@@ -10,7 +10,7 @@ export default function Home() {
     { title: "GitHub", icon: FaGithub, href: "https://github.com/RoboNexxus" },
     { title: "Instagram", icon: FaInstagram, href: "https://www.instagram.com/robonexus.ais46/" },
     { title: "Mail", icon: Mail, href: "mailto:robonexus.ais46@gmail.com" },
-    { title: "Social", icon: MessageCircle, href: "#contact" },
+    { title: "Social", icon: MessageCircle, href: "/contact" },
   ];
 
   return (
