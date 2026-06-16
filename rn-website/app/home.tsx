@@ -16,34 +16,30 @@ export default function Home() {
   ];
 
   return (
-<main className="flex items-center justify-between flex-1 px-12 py-20">
+<main className="flex items-center justify-center flex-1 px-12 py-20 gap-24">
   {/* Left Content */}
-  <div>
+  <div className="flex flex-col">
     <FlipText
       className="text-6xl font-bold font-pixelify"
-      duration={3.5}
+      duration={3.7}
       delay={0.1}
       loop={true}
     >
       Robo Nexus
     </FlipText>
 
-    {/* Dock */}
     <GlassDock items={dockItems as any} />
   </div>
 
   {/* Right Side */}
-  <div className="flex items-center gap-8">
-    {/* Large Logo */}
-    <Image
-      src="/images/robonexus.png"
-      alt="Robo Nexus Logo"
-      width={400}
-      height={400}
-      priority
-      className="object-contain"
-    />
-  </div>
+  <Image
+    src="/images/robonexus.png"
+    alt="Robo Nexus Logo"
+    width={400}
+    height={400}
+    priority
+    className="object-contain"
+  />
 </main>
   );
 }
