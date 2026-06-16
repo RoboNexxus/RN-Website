@@ -120,7 +120,10 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
       current.setDate(current.getDate() + 1); // Start from day after start date
       
       while (current <= end) {
-        const isoDate = current.toISOString().split('T')[0];
+        const y = current.getFullYear();
+        const m = String(current.getMonth() + 1).padStart(2, "0");
+        const d = String(current.getDate()).padStart(2, "0");
+        const isoDate = `${y}-${m}-${d}`;
         if (!acc[isoDate]) acc[isoDate] = [];
         acc[isoDate].push(e);
         current.setDate(current.getDate() + 1);
@@ -272,7 +275,11 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
         ) : (
           <div className="flex flex-col gap-2">
             {monthEvents.map((event) => {
-              const d = new Date(event.date + "T00:00:00");
+              const start = new Date(event.date + "T00:00:00");
+              const end = event.endDate ? new Date(event.endDate + "T00:00:00") : null;
+              const dateLabel = end
+                ? `${start.getDate()}-${end.getDate()}`
+                : `${start.getDate()}`;
               return (
                 <motion.button
                   key={event.id}
@@ -281,8 +288,8 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
                   whileTap={{ scale: 0.97 }}
                   className="w-full text-left rounded-xl glass-border bg-white/5 hover:bg-white/10 p-3 flex items-start gap-3 transition-colors group cursor-pointer"
                 >
-                  <div className="flex flex-col items-center shrink-0 w-8">
-                    <span className="font-pixelify text-base font-bold text-white leading-none">{d.getDate()}</span>
+                  <div className="flex flex-col items-center shrink-0 w-auto min-w-8">
+                    <span className="font-pixelify text-base font-bold text-white leading-none">{dateLabel}</span>
                     <span className="w-1.5 h-1.5 rounded-full mt-1 bg-neutral-500" />
                   </div>
                   <div className="flex-1 min-w-0">
