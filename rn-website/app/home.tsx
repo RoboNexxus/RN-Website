@@ -18,13 +18,13 @@ export default function Home() {
       <FlipText
         className="text-6xl font-bold font-pixelify"
         duration={3.5}
-        delay={0}
+        delay={0.1}
         loop={true}
       >
         Robo Nexus
       </FlipText>
 
-      <GlassDock items={dockItems} />
+      <GlassDock items={dockItems as any} />
     </main>
   );
 }
