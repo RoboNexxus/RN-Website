@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "@/lib/use-theme";
 import {
 FaGithub,
-FaTwitter,
-FaFacebook,
 FaInstagram,
 FaLinkedin,
 FaEnvelope,
@@ -31,13 +29,15 @@ backClassName?: string;
 }
 
 const defaultItems: SocialItem[] = [
-{ letter: "C", icon: <FaGithub />, label: "Github", href: "#" },
-{ letter: "O", icon: <FaTwitter />, label: "Twitter", href: "#" },
-{ letter: "N", icon: <FaLinkedin />, label: "LinkedIn", href: "#" },
-{ letter: "T", icon: <FaInstagram />, label: "Instagram", href: "#" },
-{ letter: "A", icon: <FaFacebook />, label: "Facebook", href: "#" },
-{ letter: "C", icon: <FaEnvelope />, label: "Email", href: "#" },
-{ letter: "T", icon: <FaDiscord />, label: "Discord", href: "#" },
+  { letter: "C", icon: <FaGithub />, label: "Github", href: "https://github.com/RoboNexxus" },
+  { letter: "O", icon: <FaGithub />, label: "Github", href: "https://github.com/RoboNexxus" },
+  { letter: "N", icon: <FaGithub />, label: "Github", href: "https://github.com/RoboNexxus" },
+  { letter: "T", icon: <FaEnvelope />, label: "Email", href: "mailto:robonexus.ais46@gmail.com" },
+  { letter: "A", icon: <FaInstagram />, label: "Instagram", href: "https://www.instagram.com/robonexus.ais46/" },
+  { letter: "C", icon: <FaInstagram />, label: "Instagram", href: "https://www.instagram.com/robonexus.ais46/" },
+  { letter: "T", icon: <FaInstagram />, label: "Instagram", href: "https://www.instagram.com/robonexus.ais46/" },
+
+
 ];
 
 const SocialFlipNode = ({
