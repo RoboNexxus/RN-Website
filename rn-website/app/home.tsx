@@ -27,6 +27,9 @@ export default function Home() {
     >
       Robo Nexus
     </FlipText>
+
+    {/* Dock */}
+    <GlassDock items={dockItems as any} />
   </div>
 
   {/* Right Side */}
@@ -40,9 +43,6 @@ export default function Home() {
       priority
       className="object-contain"
     />
-
-    {/* Dock */}
-    <GlassDock items={dockItems as any} />
   </div>
 </main>
   );
