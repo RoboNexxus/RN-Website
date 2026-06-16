@@ -11,12 +11,7 @@ type Event = {
   id: number;
   title: string;
   date: string;
-  time?: string;
-  location: string;
-  category: string;
-  description: string;
-  highlights: string[];
-  status: string;
+  endDate?: string; // Optional end date for multi-day events
   image?: string;
 };
 
@@ -34,6 +29,29 @@ const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 function formatDate(iso: string) {
   const d = new Date(iso + "T00:00:00");
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function formatDateRange(startIso: string, endIso?: string) {
+  const start = new Date(startIso + "T00:00:00");
+  
+  if (!endIso) {
+    return start.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+  }
+  
+  const end = new Date(endIso + "T00:00:00");
+  
+  // Same month and year
+  if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+    return `${start.getDate()} - ${end.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`;
+  }
+  
+  // Same year, different month
+  if (start.getFullYear() === end.getFullYear()) {
+    return `${start.toLocaleDateString("en-IN", { day: "numeric", month: "long" })} - ${end.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`;
+  }
+  
+  // Different years
+  return `${start.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })} - ${end.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}`;
 }
 
 // ─── Event Modal ─────────────────────────────────────────────────────────────
@@ -82,39 +100,9 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
           <div className="flex items-center gap-2">
             <CalendarIcon />
-            <span>{formatDate(event.date)}</span>
-          </div>
-          {event.time && (
-            <div className="flex items-center gap-2">
-              <ClockIcon />
-              <span>{event.time}</span>
-            </div>
-          )}
-          <div className="flex items-center gap-2">
-            <LocationIcon />
-            <span>{event.location}</span>
+            <span>{formatDateRange(event.date, event.endDate)}</span>
           </div>
         </div>
-
-        <div className="h-px bg-white/10 w-full" />
-
-        <p className="text-sm text-neutral-300 leading-relaxed">{event.description}</p>
-
-        {event.highlights.length > 0 && (
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold text-neutral-500 uppercase tracking-widest">
-              {isPast ? "Highlights" : "What to expect"}
-            </p>
-            <ul className="flex flex-col gap-1.5">
-              {event.highlights.map((h, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-neutral-300">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 bg-neutral-500" />
-                  {h}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </motion.div>
     </motion.div>
   );
@@ -131,8 +119,25 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
 
   const eventMap = events.reduce<Record<string, Event[]>>((acc, e) => {
+    // Add event to start date
     if (!acc[e.date]) acc[e.date] = [];
     acc[e.date].push(e);
+    
+    // If event has end date, add to all dates in range
+    if (e.endDate) {
+      const start = new Date(e.date + "T00:00:00");
+      const end = new Date(e.endDate + "T00:00:00");
+      const current = new Date(start);
+      current.setDate(current.getDate() + 1); // Start from day after start date
+      
+      while (current <= end) {
+        const isoDate = current.toISOString().split('T')[0];
+        if (!acc[isoDate]) acc[isoDate] = [];
+        acc[isoDate].push(e);
+        current.setDate(current.getDate() + 1);
+      }
+    }
+    
     return acc;
   }, {});
 
@@ -162,8 +167,15 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
 
   const monthEvents = events
     .filter((e) => {
-      const d = new Date(e.date + "T00:00:00");
-      return d.getFullYear() === currentYear && d.getMonth() === currentMonth;
+      const start = new Date(e.date + "T00:00:00");
+      const end = e.endDate ? new Date(e.endDate + "T00:00:00") : start;
+      
+      // Check if event starts or spans through current month
+      return (
+        (start.getFullYear() === currentYear && start.getMonth() === currentMonth) ||
+        (end.getFullYear() === currentYear && end.getMonth() === currentMonth) ||
+        (start < new Date(currentYear, currentMonth, 1) && end > new Date(currentYear, currentMonth + 1, 0))
+      );
     })
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -288,7 +300,6 @@ function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Eve
                     <p className="text-xs font-medium text-white leading-snug line-clamp-2">
                       {event.title}
                     </p>
-                    <p className="text-[10px] text-neutral-600 mt-0.5 capitalize">{event.category}</p>
                   </div>
                 </motion.button>
               );
