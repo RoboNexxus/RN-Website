@@ -57,8 +57,6 @@ function formatDateRange(startIso: string, endIso?: string) {
 // ─── Event Modal ─────────────────────────────────────────────────────────────
 
 function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
-  const isPast = event.status === "completed";
-
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -87,14 +85,6 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
           </svg>
         </button>
 
-        <span className={`self-start text-xs font-medium px-2.5 py-1 rounded-full border ${
-          isPast
-            ? "bg-neutral-800/60 text-neutral-400 border-white/10"
-            : "bg-white/5 text-neutral-300 border-white/15"
-        }`}>
-          {isPast ? "Completed" : "Upcoming"}
-        </span>
-
         <h2 className="text-xl font-bold leading-snug font-pixelify">{event.title}</h2>
 
         <div className="flex flex-col gap-2 text-sm text-neutral-400">
@@ -112,8 +102,7 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
 
 function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Event) => void }) {
   const today = new Date();
-  const firstUpcoming = events.find((e) => e.status === "upcoming");
-  const initialDate = firstUpcoming ? new Date(firstUpcoming.date + "T00:00:00") : today;
+  const initialDate = events.length > 0 ? new Date(events[0].date + "T00:00:00") : today;
 
   const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
