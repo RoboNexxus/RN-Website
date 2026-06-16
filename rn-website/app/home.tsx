@@ -1,4 +1,6 @@
 "use client";
+
+import Image from "next/image";
 import GlassDock from "@/components/ui/glass-dock";
 import FlipText from "@/components/ui/flip-text";
 import { Home as HomeIcon, Mail, MessageCircle } from "lucide-react";
@@ -14,7 +16,17 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex flex-col items-center justify-center flex-1 px-4 py-20">
+    <main className="flex flex-col items-center justify-center flex-1 px-4 py-20 gap-8">
+      {/* Logo */}
+      <Image
+        src="/images/robonexus.png"
+        alt="Robo Nexus Logo"
+        width={160}
+        height={160}
+        priority
+      />
+
+      {/* Title */}
       <FlipText
         className="text-6xl font-bold font-pixelify"
         duration={3.5}
@@ -24,6 +36,7 @@ export default function Home() {
         Robo Nexus
       </FlipText>
 
+      {/* Dock */}
       <GlassDock items={dockItems as any} />
     </main>
   );
