@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
 @import "tailwindcss";
 
 
@@ -22,6 +23,13 @@
 }
 
 @layer base {
+  body {
+    font-family: 'Doto', sans-serif;
+  }
+
+  .spotlight-nav {
+    font-family: var(--font-geist-sans), sans-serif !important;
+  }
   
   @theme inline {
   --animate-meteor: meteor 5s linear infinite;
