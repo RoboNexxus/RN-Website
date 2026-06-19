@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import HeroModel from "@/components/ui/hero-model";
 import GlassDock from "@/components/ui/glass-dock";
 import FlipText from "@/components/ui/flip-text";
 import { Home as HomeIcon, Mail, MessageCircle } from "lucide-react";
@@ -32,14 +32,7 @@ export default function Home() {
   </div>
 
   {/* Right Side */}
-  <Image
-    src="/images/robonexus.png"
-    alt="Robo Nexus Logo"
-    width={400}
-    height={400}
-    priority
-    className="object-contain"
-  />
+  <HeroModel />
 </main>
   );
 }
