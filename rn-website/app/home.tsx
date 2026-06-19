@@ -16,23 +16,28 @@ export default function Home() {
   ];
 
   return (
-<main className="flex items-center justify-center flex-1 px-12 py-20 gap-24">
-  {/* Left Content */}
-  <div className="flex flex-col">
+<main className="relative flex flex-col items-center justify-center min-h-screen w-full overflow-hidden px-4 md:px-12 py-20">
+  {/* Background Text */}
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
     <FlipText
-      className="text-6xl font-bold font-pixelify"
+      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-200 dark:text-neutral-800/50 whitespace-nowrap opacity-50"
       duration={3.7}
       delay={0.1}
       loop={true}
     >
-      Robo Nexus
+      ROBO NEXUS
     </FlipText>
-
-    <GlassDock items={dockItems as any} />
   </div>
 
-  {/* Right Side */}
-  <HeroModel />
+  {/* 3D Model in the center */}
+  <div className="z-10 w-full max-w-[800px] h-[600px] md:h-[800px] flex items-center justify-center">
+    <HeroModel />
+  </div>
+
+  {/* Dock below */}
+  <div className="z-20 absolute bottom-8 md:bottom-12">
+    <GlassDock items={dockItems as any} />
+  </div>
 </main>
   );
 }
