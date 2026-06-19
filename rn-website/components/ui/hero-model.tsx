@@ -20,13 +20,13 @@ function Model({ url }: { url: string }) {
     <group ref={ref} dispose={null}>
       {/* 
         Adjusting rotation to achieve "front view nose down". 
-        Scale might need tweaking depending on the model's original size.
+        Increased scale to make it much larger.
       */}
       <primitive
         object={scene}
-        rotation={[Math.PI / 6, 0, 0]} // Tilt nose down
-        scale={2.5}
-        position={[0, -1, 0]}
+        rotation={[0.4, 0, 0]} // Tilt nose down
+        scale={6}
+        position={[0, 0, 0]}
       />
     </group>
   );
@@ -34,8 +34,8 @@ function Model({ url }: { url: string }) {
 
 export default function HeroModel() {
   return (
-    <div className="w-[400px] h-[400px] relative cursor-grab active:cursor-grabbing">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+    <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
+      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
         <ambientLight intensity={0.5} />
         <spotLight
           position={[10, 10, 10]}
@@ -49,9 +49,9 @@ export default function HeroModel() {
         <React.Suspense fallback={null}>
           <Model url="/model/model2.glb" />
           <ContactShadows
-            position={[0, -1.5, 0]}
+            position={[0, -2.5, 0]}
             opacity={0.5}
-            scale={10}
+            scale={15}
             blur={2}
             far={4}
           />
