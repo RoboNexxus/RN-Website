@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, Environment, ContactShadows, OrbitControls } from "@react-three/drei";
+import { useGLTF, Environment, ContactShadows, OrbitControls, Html } from "@react-three/drei";
 import * as THREE from "three";
 
 function Model({ url }: { url: string }) {
@@ -32,6 +32,16 @@ function Model({ url }: { url: string }) {
   );
 }
 
+function Loader() {
+  return (
+    <Html center>
+      <div className="text-foreground text-sm tracking-widest uppercase opacity-50">
+        Loading 3D...
+      </div>
+    </Html>
+  );
+}
+
 export default function HeroModel() {
   return (
     <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
@@ -46,7 +56,7 @@ export default function HeroModel() {
         />
         <Environment preset="city" />
 
-        <React.Suspense fallback={null}>
+        <React.Suspense fallback={<Loader />}>
           <Model url="/model/model2.glb" />
           <ContactShadows
             position={[0, -2.5, 0]}
