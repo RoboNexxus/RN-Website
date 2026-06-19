@@ -16,9 +16,9 @@ export default function Home() {
   ];
 
   return (
-<main className="relative flex flex-col items-center justify-center min-h-screen w-full overflow-hidden px-4 md:px-12 py-20">
+<main className="relative flex flex-col items-center justify-center h-[100dvh] w-full overflow-hidden px-4 md:px-12">
   {/* Background Text */}
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 mt-[-5vh]">
     <FlipText
       className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-200 dark:text-neutral-800/50 whitespace-nowrap opacity-50"
       duration={3.7}
@@ -30,12 +30,12 @@ export default function Home() {
   </div>
 
   {/* 3D Model in the center */}
-  <div className="z-10 w-full max-w-[800px] h-[600px] md:h-[800px] flex items-center justify-center">
+  <div className="z-10 w-full max-w-[800px] flex-1 max-h-[60vh] md:max-h-[75vh] flex items-center justify-center mt-[-5vh]">
     <HeroModel />
   </div>
 
   {/* Dock below */}
-  <div className="z-20 absolute bottom-8 md:bottom-12">
+  <div className="z-20 absolute bottom-6 md:bottom-10">
     <GlassDock items={dockItems as any} />
   </div>
 </main>
