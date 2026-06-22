@@ -18,9 +18,9 @@ export default function Home() {
   return (
 <main className="relative flex flex-col items-center justify-center h-[100dvh] w-full overflow-hidden px-4 md:px-12">
   {/* Background Text */}
-  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0 mt-[-5vh]">
+  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0 mt-[-5vh] overflow-hidden">
     <FlipText
-      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap"
+      className="text-[24vw] leading-none font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap uppercase tracking-tight"
       duration={3.7}
       delay={0.1}
       loop={true}
@@ -28,7 +28,7 @@ export default function Home() {
       ROBO
     </FlipText>
     <FlipText
-      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap -mt-2 md:-mt-4 lg:-mt-6"
+      className="text-[24vw] leading-none font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap uppercase tracking-tight -mt-[0.2em]"
       duration={3.7}
       delay={0.5}
       loop={true}
