@@ -2,11 +2,17 @@
 
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
+import AboutModel from "@/components/ui/about-model";
 
 export default function About() {
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <AnimePageHero title="About Us" />
+
+      {/* 3D Model */}
+      <AnimeScrollReveal className="w-full max-w-4xl" fromY={1.5}>
+        <AboutModel />
+      </AnimeScrollReveal>
 
       {/* Origin */}
       <AnimeScrollReveal className="max-w-2xl text-center" fromY={1.5}>
