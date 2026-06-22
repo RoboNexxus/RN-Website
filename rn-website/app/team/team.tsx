@@ -11,70 +11,107 @@ type Member = (typeof teamData.members)[number];
 
 function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
-  const hasLinks = member.links.github || member.links.linkedin || member.links.website;
   
+  const getRoleBadgeColor = (role: string) => {
+    if (role === "Head") return "bg-gradient-to-r from-purple-500/20 to-blue-500/20 border-purple-500/30";
+    if (role === "Core Member") return "bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border-blue-500/30";
+    return "bg-gradient-to-r from-neutral-700/20 to-neutral-600/20 border-neutral-600/30";
+  };
+
   return (
-    <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-6 text-center hover:bg-white/8 transition-colors duration-200 w-full">
-      {/* Profile Image */}
-      <div className="w-24 h-24 overflow-hidden">
-        <PixelImage
-          src={imgSrc}
-          grid="4x6"
-          fill
-          pixelFadeInDuration={800}
-          maxAnimationDelay={900}
-          colorRevealDelay={1000}
-        />
-      </div>
-      
-      {/* Member Info */}
-      <div>
-        <h3 className="font-semibold text-base text-white">
-          {member.name}
-        </h3>
-        <p className="text-sm text-neutral-400 mt-1">
-          {member.role}
-        </p>
-      </div>
-      
-      {/* Social Links */}
-      {hasLinks && (
-        <div className="flex gap-4">
-          {member.links.github && (
-            <a 
-              href={member.links.github} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label={`${member.name} GitHub`} 
-              className="text-neutral-400 hover:text-white transition-colors"
+    <div className="reveal-item group relative w-full">
+      {/* Card container with hover effects */}
+      <div className="relative rounded-2xl bg-gradient-to-br from-white/[0.07] to-white/[0.02] backdrop-blur-sm border border-white/10 overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10 hover:border-white/20">
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/0 via-blue-500/0 to-cyan-500/0 group-hover:from-purple-500/5 group-hover:via-blue-500/5 group-hover:to-cyan-500/5 transition-all duration-500" />
+        
+        {/* Content */}
+        <div className="relative p-6 flex flex-col items-center gap-4 text-center">
+          {/* Hexagonal image container */}
+          <div className="relative w-32 h-32">
+            {/* Hexagonal clip path wrapper */}
+            <div 
+              className="w-full h-full relative overflow-hidden transition-transform duration-300 group-hover:scale-110"
+              style={{
+                clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+              }}
             >
-              <FaGithub size={16} />
-            </a>
-          )}
-          {member.links.linkedin && (
-            <a 
-              href={member.links.linkedin} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label={`${member.name} LinkedIn`} 
-              className="text-neutral-400 hover:text-white transition-colors"
-            >
-              <FaLinkedin size={16} />
-            </a>
-          )}
-          {member.links.website && (
-            <a 
-              href={member.links.website} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              aria-label={`${member.name} website`} 
-              className="text-neutral-400 hover:text-white transition-colors"
-            >
-              <FaGlobe size={16} />
-            </a>
+              {/* Gradient border effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 opacity-20 group-hover:opacity-40 transition-opacity duration-300" />
+              <div 
+                className="absolute inset-[2px] overflow-hidden bg-neutral-900"
+                style={{
+                  clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)"
+                }}
+              >
+                <PixelImage
+                  src={imgSrc}
+                  grid="4x6"
+                  fill
+                  pixelFadeInDuration={800}
+                  maxAnimationDelay={900}
+                  colorRevealDelay={1000}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Name */}
+          <div className="space-y-2">
+            <h3 className="font-bold text-lg text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-cyan-400 transition-all duration-300">
+              {member.name}
+            </h3>
+            
+            {/* Role badge */}
+            <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium border ${getRoleBadgeColor(member.role)}`}>
+              {member.role}
+            </div>
+            
+            {member.class && (
+              <p className="text-xs text-neutral-500 font-medium">Class {member.class}</p>
+            )}
+          </div>
+
+          {/* Social links */}
+          {(member.links.github || member.links.linkedin || member.links.website) && (
+            <div className="flex gap-3 mt-2">
+              {member.links.github && (
+                <a 
+                  href={member.links.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label={`${member.name} GitHub`} 
+                  className="p-2 rounded-lg bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-white hover:scale-110 transition-all duration-200"
+                >
+                  <FaGithub size={18} />
+                </a>
+              )}
+              {member.links.linkedin && (
+                <a 
+                  href={member.links.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label={`${member.name} LinkedIn`} 
+                  className="p-2 rounded-lg bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-blue-400 hover:scale-110 transition-all duration-200"
+                >
+                  <FaLinkedin size={18} />
+                </a>
+              )}
+              {member.links.website && (
+                <a 
+                  href={member.links.website} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  aria-label={`${member.name} website`} 
+                  className="p-2 rounded-lg bg-white/5 text-neutral-400 hover:bg-white/10 hover:text-purple-400 hover:scale-110 transition-all duration-200"
+                >
+                  <FaGlobe size={18} />
+                </a>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }
