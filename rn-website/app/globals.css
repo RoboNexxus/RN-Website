@@ -37,14 +37,14 @@
 
   @keyframes meteor {
     0% {
-      transform: rotate(var(--angle)) translateX(0);
+      transform: rotate(var(--angle)) translateX(0) translateZ(0);
       opacity: 1;
     }
     70% {
       opacity: 1;
     }
     100% {
-      transform: rotate(var(--angle)) translateX(-500px);
+      transform: rotate(var(--angle)) translateX(-500px) translateZ(0);
       opacity: 0;
     }
   }
@@ -92,7 +92,7 @@
     height: 1.2em;
     line-height: 1.2em;
     vertical-align: middle;
-    animation: flip var(--flip-duration, 2.2s) var(--flip-delay, 0s) var(--flip-iteration, infinite) ease;
+    animation: flip var(--flip-duration, 2.2s) var(--flip-delay, 0s) var(--flip-iteration, infinite) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .flip-char::before,
@@ -109,7 +109,7 @@
     align-items: center;
     justify-content: center;
     backface-visibility: hidden;
-    animation: fade var(--flip-duration, 2.2s) var(--flip-delay, 0s) var(--flip-iteration, infinite) ease;
+    animation: fade var(--flip-duration, 2.2s) var(--flip-delay, 0s) var(--flip-iteration, infinite) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   /* Front Face (Initial) */
@@ -125,7 +125,7 @@
 
   @keyframes flip {
     0%, 85% {
-      transform: rotateX(360deg);
+      transform: rotateX(360deg) translateZ(0);
     }
   }
 
@@ -135,4 +135,14 @@
     }
   }
 
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-meteor {
+    animation-duration: 10s !important;
+  }
+  
+  .flip-char, .flip-char::before, .flip-char::after {
+    animation-duration: calc(var(--flip-duration, 2.2s) * 2) !important;
+  }
 }
