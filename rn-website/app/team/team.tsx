@@ -14,12 +14,9 @@ function MemberCard({ member }: { member: Member }) {
   const hasLinks = member.links.github || member.links.linkedin || member.links.website;
   
   return (
-    <div className="reveal-item group relative flex flex-col items-center gap-4 rounded-3xl glass-border bg-gradient-to-br from-white/10 to-white/5 p-8 text-center hover:from-white/15 hover:to-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/10 w-full backdrop-blur-sm">
-      {/* Decorative corner accent */}
-      <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors duration-300" />
-      
-      {/* Profile Image with enhanced styling */}
-      <div className="relative w-32 h-32 rounded-full ring-4 ring-white/20 group-hover:ring-white/40 overflow-hidden transition-all duration-300 shadow-lg">
+    <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-6 text-center hover:bg-white/8 transition-colors duration-200 w-full">
+      {/* Profile Image */}
+      <div className="w-24 h-24 overflow-hidden">
         <PixelImage
           src={imgSrc}
           grid="4x6"
@@ -31,27 +28,27 @@ function MemberCard({ member }: { member: Member }) {
       </div>
       
       {/* Member Info */}
-      <div className="space-y-2">
-        <h3 className="font-bold text-lg text-white group-hover:text-white/90 transition-colors">
+      <div>
+        <h3 className="font-semibold text-base text-white">
           {member.name}
         </h3>
-        <p className="text-sm font-medium text-neutral-300 tracking-wide">
+        <p className="text-sm text-neutral-400 mt-1">
           {member.role}
         </p>
       </div>
       
       {/* Social Links */}
       {hasLinks && (
-        <div className="flex gap-4 mt-2 pt-3 border-t border-white/10">
+        <div className="flex gap-4">
           {member.links.github && (
             <a 
               href={member.links.github} 
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label={`${member.name} GitHub`} 
-              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+              className="text-neutral-400 hover:text-white transition-colors"
             >
-              <FaGithub size={18} />
+              <FaGithub size={16} />
             </a>
           )}
           {member.links.linkedin && (
@@ -60,9 +57,9 @@ function MemberCard({ member }: { member: Member }) {
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label={`${member.name} LinkedIn`} 
-              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+              className="text-neutral-400 hover:text-white transition-colors"
             >
-              <FaLinkedin size={18} />
+              <FaLinkedin size={16} />
             </a>
           )}
           {member.links.website && (
@@ -71,9 +68,9 @@ function MemberCard({ member }: { member: Member }) {
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label={`${member.name} website`} 
-              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+              className="text-neutral-400 hover:text-white transition-colors"
             >
-              <FaGlobe size={18} />
+              <FaGlobe size={16} />
             </a>
           )}
         </div>
