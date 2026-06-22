@@ -6,12 +6,14 @@ import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
 import teamData from "@/data/team.json";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
-const PixelImage = dynamic(() => import("@/components/ui/pixel-image").then(mod => ({ default: mod.PixelImage })), {
-  ssr: false,
-  loading: () => <div className="w-full h-full bg-gradient-to-br from-[#f5e6d3] to-[#d4c4a8] animate-pulse" />
-});
+const PixelImage = dynamic(
+  () => import("@/components/ui/pixel-image").then(mod => ({ default: mod.PixelImage })), 
+  { 
+    ssr: false,
+    loading: () => <div className="w-full h-full bg-gradient-to-br from-[#f5e6d3] to-[#d4c4a8] animate-pulse" />
+  }
+);
 
 type Member = (typeof teamData.members)[number];
 
@@ -36,7 +38,7 @@ function MemberCard({ member }: { member: Member }) {
             <div className="relative w-full aspect-[3/4] overflow-hidden bg-gradient-to-br from-[#f5e6d3] to-[#d4c4a8]">
               <PixelImage
                 src={imgSrc}
-                grid="6x8"
+                customGrid={{ rows: 8, cols: 6 }}
                 fill
                 pixelFadeInDuration={800}
                 maxAnimationDelay={900}
