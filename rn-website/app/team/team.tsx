@@ -6,12 +6,12 @@ import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
 import teamData from "@/data/team.json";
 import dynamic from "next/dynamic";
+import { useState } from "react";
 
 const PixelImage = dynamic(
   () => import("@/components/ui/pixel-image").then(mod => ({ default: mod.PixelImage })), 
   { 
     ssr: false,
-    loading: () => <div className="w-full h-full bg-gradient-to-br from-[#f5e6d3] to-[#d4c4a8] animate-pulse" />
   }
 );
 
@@ -19,23 +19,27 @@ type Member = (typeof teamData.members)[number];
 
 function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
+  const [imageLoaded, setImageLoaded] = useState(false);
   
-  // Dark theme color palette based on role - using neutral grays for better visibility
+  // Vintage warm color palette - cream and brown tones
   const colorTheme = member.role === "Head" 
-    ? { bg: "bg-neutral-800", text: "text-white" }
+    ? { bg: "bg-[#8B4513]", text: "text-[#F5DEB3]" } // Saddle brown with wheat text
     : member.role === "Core Member"
-    ? { bg: "bg-neutral-700", text: "text-white" }
-    : { bg: "bg-neutral-600", text: "text-white" };
+    ? { bg: "bg-[#A0522D]", text: "text-[#FAEBD7]" } // Sienna with antique white
+    : { bg: "bg-[#CD853F]", text: "text-[#FFF8DC]" }; // Peru with cornsilk
 
   return (
     <div className="reveal-item flex flex-col w-full max-w-sm mx-auto hover:scale-[1.02] transition-transform duration-300">
-      {/* Vintage Card Container */}
-      <div className="bg-[#e8dcc4] border-8 border-black shadow-2xl rounded-sm overflow-hidden">
+      {/* Vintage Card Container - warm cream tones */}
+      <div className="bg-[#FFF8DC] border-8 border-[#8B4513] shadow-2xl rounded-sm overflow-hidden">
         
         {/* Image Section with vintage frame */}
-        <div className="border-b-4 border-black bg-[#d4c4a8] p-4">
-          <div className="border-4 border-black bg-[#f5e6d3] p-2">
-            <div className="relative w-full aspect-[3/4] overflow-hidden bg-gradient-to-br from-[#f5e6d3] to-[#d4c4a8]">
+        <div className="border-b-4 border-[#8B4513] bg-[#DEB887] p-4">
+          <div className="border-4 border-[#8B4513] bg-[#F5DEB3] p-2">
+            <div className="relative w-full aspect-[3/4] overflow-hidden bg-gradient-to-br from-[#F5DEB3] to-[#DEB887]">
+              {!imageLoaded && (
+                <div className="w-full h-full bg-gradient-to-br from-[#F5DEB3] to-[#DEB887] animate-pulse" />
+              )}
               <PixelImage
                 src={imgSrc}
                 customGrid={{ rows: 8, cols: 6 }}
@@ -49,15 +53,15 @@ function MemberCard({ member }: { member: Member }) {
           </div>
         </div>
 
-        {/* Bio Section */}
-        <div className="bg-[#e8dcc4] px-6 py-6 space-y-3 border-b-4 border-black">
+        {/* Bio Section - warm cream background */}
+        <div className="bg-[#FFF8DC] px-6 py-6 space-y-3 border-b-4 border-[#8B4513]">
           <div>
-            <p className="text-xl font-bold text-black leading-tight font-serif">
+            <p className="text-xl font-bold text-[#654321] leading-tight font-serif">
               I&apos;m {member.name}, {member.role.toLowerCase()} at Robo Nexus dedicated to building innovative robotics solutions.
             </p>
           </div>
           
-          <div className="text-sm text-neutral-800 space-y-1">
+          <div className="text-sm text-[#654321] space-y-1">
             <p>
               Explore my{" "}
               {member.links.website ? (
@@ -65,12 +69,12 @@ function MemberCard({ member }: { member: Member }) {
                   href={member.links.website} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="font-bold text-black hover:text-neutral-700 underline decoration-2 underline-offset-2"
+                  className="font-bold text-[#8B4513] hover:text-[#654321] underline decoration-2 underline-offset-2"
                 >
                   work
                 </a>
               ) : (
-                <span className="font-bold text-neutral-700">work</span>
+                <span className="font-bold text-[#8B4513]">work</span>
               )}
               {" "}to see how I blend creativity with technology, and feel free to{" "}
               {member.links.linkedin || member.links.github ? (
@@ -78,19 +82,19 @@ function MemberCard({ member }: { member: Member }) {
                   href={member.links.linkedin || member.links.github || "#"} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="font-bold text-black hover:text-neutral-700 underline decoration-2 underline-offset-2"
+                  className="font-bold text-[#8B4513] hover:text-[#654321] underline decoration-2 underline-offset-2"
                 >
                   reach out
                 </a>
               ) : (
-                <span className="font-bold text-neutral-700">reach out</span>
+                <span className="font-bold text-[#8B4513]">reach out</span>
               )}
               {" "}and collaborate on something great!
             </p>
           </div>
         </div>
 
-        {/* Footer Section with social links */}
+        {/* Footer Section with social links - warm brown tones */}
         <div className={`${colorTheme.bg} px-6 py-4 flex items-center justify-center`}>
           <div className="flex gap-4">
             {member.links.github && (
