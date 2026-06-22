@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useTheme } from '@/lib/use-theme';
+import { ANIMATION_CONFIG } from '@/lib/animation-config';
+import { useWillChange } from '@/lib/animation-utils';
 
 export interface DockItem {
   title: string;
@@ -35,6 +37,8 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
       const [direction, setDirection] = useState(0);
       const isDark = useTheme();
       const router = useRouter();
+      const dockContainerRef = useRef<HTMLDivElement>(null);
+      useWillChange(dockContainerRef, ['transform', 'opacity']);
 
       const handleMouseEnter = (index: number) => {
           if (hoveredIndex !== null && index !== hoveredIndex) {
@@ -52,6 +56,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
               {...props}
           >
               <div
+                  ref={dockContainerRef}
                   className={cn(
                       "relative flex gap-4 items-center px-6 py-4 rounded-2xl",
                       "glass-border bg-white/80 dark:bg-black/80",
@@ -75,7 +80,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
                 x: getTooltipPosition(hoveredIndex),
               }}
               exit={{ opacity: 0, scale: 0.92, y: 12 }}
-              transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+              transition={{ type: 'spring', ...ANIMATION_CONFIG.spring.smooth }}
               className="absolute top-0 left-0 pointer-events-none z-30"
             >
               <div
@@ -108,7 +113,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
                         filter: 'blur(6px)',
                       }}
                       transition={{
-                        duration: 0.3,
+                        duration: ANIMATION_CONFIG.duration.fast / 1000,
                         ease: 'easeOut',
                       }}
                       className="text-[13px] font-medium tracking-wide whitespace-nowrap"
@@ -157,7 +162,7 @@ export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
                   scale: isHovered ? 1.1 : 1,
                   y: isHovered ? -3 : 0,
                 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+                transition={{ type: 'spring', ...ANIMATION_CONFIG.spring.responsive }}
               >
                 <Icon
                   size={22}

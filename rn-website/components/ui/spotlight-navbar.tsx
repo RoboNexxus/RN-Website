@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { animate } from "framer-motion";
 import { animate as animeAnimate } from "animejs";
 import { cn } from "@/lib/utils";
+import { ANIMATION_CONFIG, getAnimationConfig } from "@/lib/animation-config";
 
 export interface NavItem {
     label: string;
@@ -51,12 +52,13 @@ function DropdownMenu({
 
     useEffect(() => {
         if (!ref.current) return;
+        const config = getAnimationConfig({ respectMotionPreference: true });
         animeAnimate(ref.current, {
             opacity: [0, 1],
             translateY: ["-6px", "0px"],
             scale: [0.92, 1],
-            duration: 200,
-            ease: "outExpo",
+            duration: config.duration.fast,
+            ease: ANIMATION_CONFIG.easing.default,
         });
     }, []);
 
@@ -139,8 +141,7 @@ export function SpotlightNavbar({
 
                 animate(spotlightX.current, targetX, {
                     type: "spring",
-                    stiffness: 200,
-                    damping: 20,
+                    ...ANIMATION_CONFIG.spring.smooth,
                     onUpdate: (v) => {
                         spotlightX.current = v;
                         nav.style.setProperty("--spotlight-x", `${v}px`);
@@ -176,8 +177,7 @@ export function SpotlightNavbar({
 
             animate(ambienceX.current, targetX, {
                 type: "spring",
-                stiffness: 200,
-                damping: 20,
+                ...ANIMATION_CONFIG.spring.smooth,
                 onUpdate: (v) => {
                     ambienceX.current = v;
                     nav.style.setProperty("--ambience-x", `${v}px`);

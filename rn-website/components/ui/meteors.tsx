@@ -27,6 +27,7 @@ export const Meteors = ({ className }: MeteorsProps) => {
       animationDuration:
         Math.floor(Math.random() * (maxDuration - minDuration) + minDuration) +
         "s",
+      willChange: "transform, opacity",
     }))
     setMeteorStyles(styles)
   }, [])

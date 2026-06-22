@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import { cn } from "@/lib/utils";
+import { ANIMATION_CONFIG } from "@/lib/animation-config";
 
 interface FlipTextProps {
   /**
@@ -42,7 +43,7 @@ interface FlipTextProps {
 export function FlipText({
   className,
   children,
-  duration = 2.2,
+  duration = ANIMATION_CONFIG.duration.flipText / 1000,
   delay = 0,
   loop = true,
   separator = " ",

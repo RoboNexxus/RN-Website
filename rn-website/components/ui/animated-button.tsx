@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion, MotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { ANIMATION_CONFIG, getAnimationConfig } from "@/lib/animation-config";
+import { useWillChange } from "@/lib/animation-utils";
 
 type AnimatedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   MotionProps & {
@@ -14,6 +16,9 @@ type AnimatedButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
  * AnimatedButton
  * - theme-aware: uses Tailwind `dark:` classes so it works in both light and dark mode
  * - accepts all native button props (onClick, className, type, etc.)
+ * - uses centralized animation configuration for consistent timing and easing
+ * - respects prefers-reduced-motion accessibility setting
+ * - optimized with useWillChange hint for transform property
  */
 const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   children = "Browse Components",
@@ -22,17 +27,23 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
   ...rest
 }) => {
   const Component = (motion as any)[as] || motion.button;
+  const buttonRef = useRef<HTMLElement>(null);
+  
+  // Get animation configuration with accessibility support
+  const config = getAnimationConfig({ respectMotionPreference: true });
+  
+  // Apply will-change hint for transform property to enable GPU acceleration
+  useWillChange(buttonRef, ['transform']);
 
   return (
     <Component
+      ref={buttonRef}
       {...rest}
       whileHover={{ scale: 1.01 }}
       whileTap={{ scale: 0.97 }}
       transition={{
         type: "spring",
-        stiffness: 500,
-        damping: 30,
-        mass: 0.5,
+        ...ANIMATION_CONFIG.spring.bouncy,
       }}
       // Set a CSS variable `--shine` that we override for dark mode via Tailwind.
       className={cn(
@@ -55,9 +66,9 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         animate={{ ["--mask-x" as any]: "-100%" } as any}
         transition={{
           repeat: Infinity,
-          duration: 1,
+          duration: config.duration.fast / 200, // Convert 200ms to seconds (1s)
           ease: "linear",
-          repeatDelay: 1,
+          repeatDelay: config.duration.fast / 200, // Use consistent timing
         }}
       >
         {children}
@@ -79,10 +90,10 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
         initial={{ backgroundPosition: "100% 0", opacity: 0 }}
         animate={{ backgroundPosition: ["100% 0", "0% 0"], opacity: [0, 1, 0] }}
         transition={{
-          duration: 1,
+          duration: config.duration.fast / 200, // Convert 200ms to seconds (1s)
           repeat: Infinity,
           ease: "linear",
-          repeatDelay: 1,
+          repeatDelay: config.duration.fast / 200, // Use consistent timing
         }}
       />
     </Component>

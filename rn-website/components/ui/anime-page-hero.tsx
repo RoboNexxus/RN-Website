@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { animate, stagger } from "animejs";
 import { cn } from "@/lib/utils";
+import { ANIMATION_CONFIG } from "@/lib/animation-config";
 
 interface AnimePageHeroProps {
   title: string;
@@ -25,28 +26,34 @@ export default function AnimePageHero({
   useEffect(() => {
     if (!wrapperRef.current) return;
 
-    // Animate each letter span
-    const chars = wrapperRef.current.querySelectorAll<HTMLSpanElement>(".anime-char");
-    if (chars.length === 0) return;
+    try {
+      // Animate each letter span
+      const chars = wrapperRef.current.querySelectorAll<HTMLSpanElement>(".anime-char");
+      if (chars.length === 0) return;
 
-    animate(chars, {
-      opacity: [0, 1],
-      translateY: ["0.6em", "0em"],
-      duration: 700,
-      ease: "outExpo",
-      delay: stagger(45, { start: 80 }),
-    });
-
-    // Animate the subtitle if present
-    const sub = wrapperRef.current.querySelector<HTMLParagraphElement>(".anime-subtitle");
-    if (sub) {
-      animate(sub, {
+      animate(chars, {
         opacity: [0, 1],
-        translateY: ["1rem", "0rem"],
-        duration: 600,
-        ease: "outCubic",
-        delay: chars.length * 45 + 100,
+        translateY: ["0.6em", "0em"],
+        duration: ANIMATION_CONFIG.duration.scrollReveal,
+        ease: ANIMATION_CONFIG.easing.default,
+        delay: stagger(ANIMATION_CONFIG.stagger.tight, { 
+          start: ANIMATION_CONFIG.stagger.normal 
+        }),
       });
+
+      // Animate the subtitle if present
+      const sub = wrapperRef.current.querySelector<HTMLParagraphElement>(".anime-subtitle");
+      if (sub) {
+        animate(sub, {
+          opacity: [0, 1],
+          translateY: ["1rem", "0rem"],
+          duration: ANIMATION_CONFIG.duration.slow,
+          ease: ANIMATION_CONFIG.easing.smooth,
+          delay: chars.length * ANIMATION_CONFIG.stagger.tight + ANIMATION_CONFIG.stagger.loose,
+        });
+      }
+    } catch (error) {
+      console.error("Animation error in AnimePageHero:", error);
     }
   }, [title]);
 
