@@ -1,6 +1,6 @@
 "use client";
 
-import { FaGithub, FaLinkedin, FaGlobe, FaMapMarkerAlt } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
@@ -20,12 +20,12 @@ type Member = (typeof teamData.members)[number];
 function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
   
-  // Vintage color palette based on role
+  // Dark theme color palette based on role - using neutral grays for better visibility
   const colorTheme = member.role === "Head" 
-    ? { bg: "bg-amber-500/90", text: "text-amber-900" }
+    ? { bg: "bg-neutral-800", text: "text-white" }
     : member.role === "Core Member"
-    ? { bg: "bg-orange-500/90", text: "text-orange-900" }
-    : { bg: "bg-yellow-600/90", text: "text-yellow-900" };
+    ? { bg: "bg-neutral-700", text: "text-white" }
+    : { bg: "bg-neutral-600", text: "text-white" };
 
   return (
     <div className="reveal-item flex flex-col w-full max-w-sm mx-auto hover:scale-[1.02] transition-transform duration-300">
@@ -49,15 +49,8 @@ function MemberCard({ member }: { member: Member }) {
           </div>
         </div>
 
-        {/* Quote Section */}
-        <div className="bg-[#f5e6d3] border-b-4 border-black px-6 py-4">
-          <p className="text-center text-sm italic text-neutral-800 font-serif">
-            &ldquo;Innovation meets dedication&rdquo;
-          </p>
-        </div>
-
         {/* Bio Section */}
-        <div className="bg-[#e8dcc4] px-6 py-5 space-y-3">
+        <div className="bg-[#e8dcc4] px-6 py-6 space-y-3 border-b-4 border-black">
           <div>
             <p className="text-xl font-bold text-black leading-tight font-serif">
               I&apos;m {member.name}, {member.role.toLowerCase()} at Robo Nexus dedicated to building innovative robotics solutions.
@@ -72,12 +65,12 @@ function MemberCard({ member }: { member: Member }) {
                   href={member.links.website} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="font-bold text-orange-700 hover:text-orange-900 underline decoration-2"
+                  className="font-bold text-black hover:text-neutral-700 underline decoration-2 underline-offset-2"
                 >
                   work
                 </a>
               ) : (
-                <span className="font-bold text-orange-700">work</span>
+                <span className="font-bold text-neutral-700">work</span>
               )}
               {" "}to see how I blend creativity with technology, and feel free to{" "}
               {member.links.linkedin || member.links.github ? (
@@ -85,28 +78,21 @@ function MemberCard({ member }: { member: Member }) {
                   href={member.links.linkedin || member.links.github || "#"} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="font-bold text-orange-700 hover:text-orange-900 underline decoration-2"
+                  className="font-bold text-black hover:text-neutral-700 underline decoration-2 underline-offset-2"
                 >
                   reach out
                 </a>
               ) : (
-                <span className="font-bold text-orange-700">reach out</span>
+                <span className="font-bold text-neutral-700">reach out</span>
               )}
               {" "}and collaborate on something great!
             </p>
           </div>
         </div>
 
-        {/* Footer Section */}
-        <div className={`${colorTheme.bg} border-t-4 border-black px-6 py-4 flex items-center justify-between`}>
-          <div className="flex items-center gap-2">
-            <FaMapMarkerAlt className={`${colorTheme.text} text-sm`} />
-            <span className={`${colorTheme.text} text-xs font-bold`}>
-              Class {member.class || "—"}
-            </span>
-          </div>
-          
-          <div className="flex gap-3">
+        {/* Footer Section with social links */}
+        <div className={`${colorTheme.bg} px-6 py-4 flex items-center justify-center`}>
+          <div className="flex gap-4">
             {member.links.github && (
               <a 
                 href={member.links.github} 
@@ -115,7 +101,7 @@ function MemberCard({ member }: { member: Member }) {
                 aria-label={`${member.name} GitHub`}
                 className={`${colorTheme.text} hover:scale-110 transition-transform`}
               >
-                <FaGithub size={18} />
+                <FaGithub size={20} />
               </a>
             )}
             {member.links.linkedin && (
@@ -126,7 +112,7 @@ function MemberCard({ member }: { member: Member }) {
                 aria-label={`${member.name} LinkedIn`}
                 className={`${colorTheme.text} hover:scale-110 transition-transform`}
               >
-                <FaLinkedin size={18} />
+                <FaLinkedin size={20} />
               </a>
             )}
             {member.links.website && (
@@ -137,7 +123,7 @@ function MemberCard({ member }: { member: Member }) {
                 aria-label={`${member.name} website`}
                 className={`${colorTheme.text} hover:scale-110 transition-transform`}
               >
-                <FaGlobe size={18} />
+                <FaGlobe size={20} />
               </a>
             )}
           </div>
