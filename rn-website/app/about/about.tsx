@@ -9,24 +9,33 @@ export default function About() {
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <AnimePageHero title="About Us" />
 
-      {/* 3D Model */}
-      <AnimeScrollReveal className="w-full max-w-4xl" fromY={1.5}>
-        <AboutModel />
-      </AnimeScrollReveal>
+      {/* Two-column layout for Model and Origin */}
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl gap-12 mt-8">
+        
+        {/* Left Side: 3D Model */}
+        <div className="w-full md:w-1/2 flex justify-start">
+          <AnimeScrollReveal className="w-full" fromY={1.5}>
+            <AboutModel />
+          </AnimeScrollReveal>
+        </div>
 
-      {/* Origin */}
-      <AnimeScrollReveal className="max-w-2xl text-center" fromY={1.5}>
-        <p className="text-neutral-300 leading-relaxed text-base">
-          Established in 2024,{" "}
-          <span className="text-white font-semibold">Robo Nexus</span> is the
-          official robotics club of{" "}
-          <span className="text-white font-semibold">
-            Amity International School, Sector-46, Gurugram
-          </span>
-          . We are a passionate community of students dedicated to exploring the
-          fascinating world of robotics, automation, and emerging technologies.
-        </p>
-      </AnimeScrollReveal>
+        {/* Right Side: Text */}
+        <div className="w-full md:w-1/2 flex flex-col justify-center">
+          <AnimeScrollReveal className="max-w-xl text-left" fromY={1.5}>
+            <p className="text-neutral-300 leading-relaxed text-lg">
+              Established in 2024,{" "}
+              <span className="text-white font-semibold">Robo Nexus</span> is the
+              official robotics club of{" "}
+              <span className="text-white font-semibold">
+                Amity International School, Sector-46, Gurugram
+              </span>
+              . We are a passionate community of students dedicated to exploring the
+              fascinating world of robotics, automation, and emerging technologies.
+            </p>
+          </AnimeScrollReveal>
+        </div>
+
+      </div>
 
       {/* Divider */}
       <div className="w-full max-w-2xl h-px bg-white/10" />

@@ -44,7 +44,7 @@ function Loader() {
 
 export default function AboutModel() {
   return (
-    <div className="w-full h-[40vh] md:h-[50vh] relative cursor-grab active:cursor-grabbing">
+    <div className="w-full h-[50vh] md:h-[70vh] relative cursor-grab active:cursor-grabbing">
       <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
         <ambientLight intensity={0.25} />
         <spotLight
