@@ -11,9 +11,15 @@ type Member = (typeof teamData.members)[number];
 
 function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
+  const hasLinks = member.links.github || member.links.linkedin || member.links.website;
+  
   return (
-    <div className="reveal-item flex flex-col items-center gap-4 rounded-2xl glass-border bg-white/5 p-7 text-center hover:bg-white/10 transition-colors duration-200 w-full">
-      <div className="w-28 h-28 rounded-full ring-2 ring-white/10 overflow-hidden">
+    <div className="reveal-item group relative flex flex-col items-center gap-4 rounded-3xl glass-border bg-gradient-to-br from-white/10 to-white/5 p-8 text-center hover:from-white/15 hover:to-white/10 transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-white/10 w-full backdrop-blur-sm">
+      {/* Decorative corner accent */}
+      <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-white/20 group-hover:bg-white/40 transition-colors duration-300" />
+      
+      {/* Profile Image with enhanced styling */}
+      <div className="relative w-32 h-32 rounded-full ring-4 ring-white/20 group-hover:ring-white/40 overflow-hidden transition-all duration-300 shadow-lg">
         <PixelImage
           src={imgSrc}
           grid="4x6"
@@ -23,30 +29,55 @@ function MemberCard({ member }: { member: Member }) {
           colorRevealDelay={1000}
         />
       </div>
-      <div>
-        <p className="font-semibold text-base">{member.name}</p>
-        <p className="text-sm text-neutral-400 mt-1">{member.role}</p>
-        {member.class && (
-          <p className="text-xs text-neutral-500 mt-0.5">Class {member.class}</p>
-        )}
+      
+      {/* Member Info */}
+      <div className="space-y-2">
+        <h3 className="font-bold text-lg text-white group-hover:text-white/90 transition-colors">
+          {member.name}
+        </h3>
+        <p className="text-sm font-medium text-neutral-300 tracking-wide">
+          {member.role}
+        </p>
       </div>
-      <div className="flex gap-4 mt-1">
-        {member.links.github && (
-          <a href={member.links.github} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} GitHub`} className="text-neutral-400 hover:text-white transition-colors">
-            <FaGithub size={16} />
-          </a>
-        )}
-        {member.links.linkedin && (
-          <a href={member.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} LinkedIn`} className="text-neutral-400 hover:text-white transition-colors">
-            <FaLinkedin size={16} />
-          </a>
-        )}
-        {member.links.website && (
-          <a href={member.links.website} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} website`} className="text-neutral-400 hover:text-white transition-colors">
-            <FaGlobe size={16} />
-          </a>
-        )}
-      </div>
+      
+      {/* Social Links */}
+      {hasLinks && (
+        <div className="flex gap-4 mt-2 pt-3 border-t border-white/10">
+          {member.links.github && (
+            <a 
+              href={member.links.github} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label={`${member.name} GitHub`} 
+              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+            >
+              <FaGithub size={18} />
+            </a>
+          )}
+          {member.links.linkedin && (
+            <a 
+              href={member.links.linkedin} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label={`${member.name} LinkedIn`} 
+              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+            >
+              <FaLinkedin size={18} />
+            </a>
+          )}
+          {member.links.website && (
+            <a 
+              href={member.links.website} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label={`${member.name} website`} 
+              className="text-neutral-400 hover:text-white hover:scale-125 transition-all duration-200"
+            >
+              <FaGlobe size={18} />
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 }
