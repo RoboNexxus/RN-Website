@@ -25,6 +25,7 @@
 @layer base {
   body {
     font-family: 'Doto', sans-serif;
+    font-weight: bolder;
   }
 
   .spotlight-nav {
