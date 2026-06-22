@@ -18,14 +18,22 @@ export default function Home() {
   return (
 <main className="relative flex flex-col items-center justify-center h-[100dvh] w-full overflow-hidden px-4 md:px-12">
   {/* Background Text */}
-  <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 mt-[-5vh]">
+  <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0 mt-[-5vh]">
     <FlipText
-      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-200 dark:text-neutral-800/50 whitespace-nowrap opacity-50"
+      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap"
       duration={3.7}
       delay={0.1}
       loop={true}
     >
-      ROBO NEXUS
+      ROBO
+    </FlipText>
+    <FlipText
+      className="text-[4rem] sm:text-[6rem] md:text-[10rem] lg:text-[14rem] font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap -mt-2 md:-mt-4 lg:-mt-6"
+      duration={3.7}
+      delay={0.5}
+      loop={true}
+    >
+      NEXUS
     </FlipText>
   </div>
 
