@@ -42,44 +42,13 @@ function MemberCard({ member }: { member: Member }) {
         </div>
 
         {/* Bio Section - dark background with white text */}
-        <div className="bg-neutral-900 px-6 py-6 space-y-3 border-b-2 border-white/20">
-          <div>
-            <p className="text-xl font-bold text-white leading-tight">
-              I&apos;m {member.name}, {member.role.toLowerCase()} at Robo Nexus dedicated to building innovative robotics solutions.
-            </p>
-          </div>
-          
-          <div className="text-sm text-neutral-300 space-y-1">
-            <p>
-              Explore my{" "}
-              {member.links.website ? (
-                <a 
-                  href={member.links.website} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="font-bold text-white hover:text-neutral-400 underline decoration-2 underline-offset-2"
-                >
-                  work
-                </a>
-              ) : (
-                <span className="font-bold text-white">work</span>
-              )}
-              {" "}to see how I blend creativity with technology, and feel free to{" "}
-              {member.links.linkedin || member.links.github ? (
-                <a 
-                  href={member.links.linkedin || member.links.github || "#"} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="font-bold text-white hover:text-neutral-400 underline decoration-2 underline-offset-2"
-                >
-                  reach out
-                </a>
-              ) : (
-                <span className="font-bold text-white">reach out</span>
-              )}
-              {" "}and collaborate on something great!
-            </p>
-          </div>
+        <div className="bg-neutral-900 px-6 py-6 border-b-2 border-white/20">
+          <p className="text-xl font-bold text-white leading-tight">
+            {member.name}
+          </p>
+          <p className="text-sm text-neutral-400 mt-1">
+            {member.role}
+          </p>
         </div>
 
         {/* Footer Section with social links - black background */}
