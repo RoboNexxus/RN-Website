@@ -158,31 +158,38 @@ function MobileMenu({
                             <div key={idx}>
                                 <div
                                     className={cn(
-                                        "flex items-center justify-between mx-3 px-4 py-3 rounded-xl cursor-pointer transition-colors duration-150",
+                                        "flex items-center mx-3 rounded-xl overflow-hidden transition-colors duration-150",
                                         isActive
                                             ? "bg-white/10 text-white"
-                                            : "text-neutral-400 hover:text-white hover:bg-white/5"
+                                            : "text-neutral-400"
                                     )}
                                     style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}
-                                    onClick={() => {
-                                        if (hasDropdown) {
-                                            setExpandedIdx(isExpanded ? null : idx);
-                                        } else {
-                                            onNavigate(item.href);
-                                        }
-                                    }}
                                 >
-                                    <span className="text-sm font-medium">{item.label}</span>
+                                    {/* Label — always navigates to the page */}
+                                    <button
+                                        className="flex-1 text-left px-4 py-3 text-sm font-medium hover:text-white transition-colors duration-150"
+                                        onClick={() => onNavigate(item.href)}
+                                    >
+                                        {item.label}
+                                    </button>
+
+                                    {/* Chevron — only toggles dropdown, separate tap target */}
                                     {hasDropdown && (
-                                        <svg
-                                            width="14"
-                                            height="14"
-                                            viewBox="0 0 14 14"
-                                            fill="none"
-                                            className={cn("transition-transform duration-200", isExpanded ? "rotate-180" : "")}
+                                        <button
+                                            aria-label={`Expand ${item.label} submenu`}
+                                            className="px-3 py-3 hover:text-white transition-colors duration-150 border-l border-white/10"
+                                            onClick={() => setExpandedIdx(isExpanded ? null : idx)}
                                         >
-                                            <path d="M2 5L7 10L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg>
+                                            <svg
+                                                width="14"
+                                                height="14"
+                                                viewBox="0 0 14 14"
+                                                fill="none"
+                                                className={cn("transition-transform duration-200", isExpanded ? "rotate-180" : "")}
+                                            >
+                                                <path d="M2 5L7 10L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                        </button>
                                     )}
                                 </div>
 
