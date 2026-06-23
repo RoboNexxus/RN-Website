@@ -16,7 +16,7 @@ export default function Home() {
   ];
 
   return (
-<main className="relative flex flex-col items-center justify-center h-[100dvh] w-full overflow-hidden px-4 md:px-12">
+<main className="relative flex flex-col items-center justify-center h-[calc(100dvh-56px)] md:h-[100dvh] w-full overflow-hidden px-4 md:px-12">
   {/* Background Text */}
   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0 mt-[-5vh] overflow-hidden">
     <div className="text-[16vw] leading-none font-bold font-pixelify text-neutral-900 dark:text-white whitespace-nowrap uppercase tracking-tight">
