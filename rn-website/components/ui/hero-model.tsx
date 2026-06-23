@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   useGLTF,
@@ -13,7 +13,8 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { ANIMATION_CONFIG } from "@/lib/animation-config";
-import { useIsMobile } from "@/lib/animation-utils";
+
+// ─── Error Boundary ──────────────────────────────────────────────────────────
 
 class ModelErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback: React.ReactNode },
@@ -40,13 +41,30 @@ class ModelErrorBoundary extends React.Component<
   }
 }
 
+// ─── WebGL Support Check ─────────────────────────────────────────────────────
+
+function supportsWebGL(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const canvas = document.createElement("canvas");
+    const ctx =
+      canvas.getContext("webgl2") ||
+      canvas.getContext("webgl") ||
+      canvas.getContext("experimental-webgl");
+    return !!ctx;
+  } catch {
+    return false;
+  }
+}
+
+// ─── 3D Model Component ───────────────────────────────────────────────────────
+
 function Model({ url }: { url: string }) {
   const { scene } = useGLTF(url);
   const ref = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
     if (ref.current) {
-      // Clamp delta to avoid huge jumps when tab loses/regains focus
       const safeDelta = Math.min(delta, 0.05);
       ref.current.rotation.y += safeDelta * ANIMATION_CONFIG.model.rotationSpeed;
     }
@@ -64,72 +82,123 @@ function Model({ url }: { url: string }) {
 function Loader() {
   return (
     <Html center>
-      <div className="text-foreground text-sm tracking-widest uppercase opacity-50">
+      <div className="text-white text-sm tracking-widest uppercase opacity-50">
         Loading 3D...
       </div>
     </Html>
   );
 }
 
-export default function HeroModel() {
-  const isMobile = useIsMobile();
+// ─── Fallback UI (shown when WebGL unavailable) ───────────────────────────────
 
-  // Stabilize DPR so it never changes after mount and never causes a re-render
-  const dpr = useMemo<[number, number]>(() => {
-    if (typeof window === "undefined") return [1, 1];
-    const ratio = Math.min(window.devicePixelRatio, 2);
-    return [isMobile ? 1 : ratio, isMobile ? 1 : ratio];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMobile]);
+function ModelFallback() {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center gap-3 opacity-40 select-none">
+      {/* Simple robot SVG as visual placeholder */}
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="text-cyan-400"
+      >
+        <rect x="20" y="28" width="40" height="32" rx="6" stroke="currentColor" strokeWidth="2" />
+        <rect x="30" y="18" width="20" height="12" rx="4" stroke="currentColor" strokeWidth="2" />
+        <line x1="40" y1="18" x2="40" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <circle cx="40" cy="12" r="2" fill="currentColor" />
+        <circle cx="31" cy="42" r="4" fill="currentColor" opacity="0.6" />
+        <circle cx="49" cy="42" r="4" fill="currentColor" opacity="0.6" />
+        <rect x="28" y="52" width="24" height="4" rx="2" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="20" y1="38" x2="10" y2="44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="60" y1="38" x2="70" y2="44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="30" y1="60" x2="28" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        <line x1="50" y1="60" x2="52" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+      <span className="text-white text-xs tracking-wider font-light" style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}>
+        3D model unavailable
+      </span>
+    </div>
+  );
+}
+
+// ─── Main Export ──────────────────────────────────────────────────────────────
+
+export default function HeroModel() {
+  // Detect WebGL support and mobile *after* mount to avoid SSR mismatch
+  const [ready, setReady] = useState(false);
+  const [canRender, setCanRender] = useState(false);
+  const [dpr, setDpr] = useState<[number, number]>([1, 1]);
+
+  useEffect(() => {
+    const isMobile = window.innerWidth < 768;
+    const webglOk = supportsWebGL();
+
+    if (webglOk) {
+      const ratio = Math.min(window.devicePixelRatio ?? 1, isMobile ? 1.5 : 2);
+      setDpr([ratio, ratio]);
+      setCanRender(true);
+    }
+
+    setReady(true);
+  }, []);
+
+  // Don't render anything until we've checked on the client
+  if (!ready) {
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="text-white text-sm tracking-widest uppercase opacity-30">
+          Loading 3D...
+        </div>
+      </div>
+    );
+  }
+
+  if (!canRender) {
+    return <ModelFallback />;
+  }
 
   return (
     <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
-      <ModelErrorBoundary
-        fallback={
-          <div className="w-full h-full flex items-center justify-center opacity-50">
-            3D Model Unavailable
-          </div>
-        }
-      >
+      <ModelErrorBoundary fallback={<ModelFallback />}>
         <Canvas
           camera={{ position: [0, 0, 10], fov: 50 }}
           dpr={dpr}
           frameloop="always"
+          gl={{
+            // Prefer WebGL2 but fall back gracefully
+            powerPreference: "default",
+            antialias: true,
+            alpha: true,
+            // Prevent context-loss issues on mobile
+            preserveDrawingBuffer: false,
+          }}
         >
-          {/* Dim ambient — let the rim lights do the work */}
+          {/* Lighting */}
           <ambientLight intensity={0.25} />
-
-          {/* Cool white key light, just for shape definition */}
           <spotLight
             position={[6, 8, 6]}
             angle={0.25}
             penumbra={1}
-            intensity={isMobile ? 0.3 : 0.6}
-            castShadow={!isMobile}
+            intensity={0.6}
+            castShadow={false}
           />
-
-          {/* Brand cyan rim lights */}
           <pointLight
             position={[-4, -2, -4]}
             color="#47a0b8"
-            intensity={isMobile ? 4 : 8}
+            intensity={8}
             distance={12}
           />
           <pointLight
             position={[0, 3, -5]}
             color="#02cadc"
-            intensity={isMobile ? 3 : 6}
+            intensity={6}
             distance={10}
           />
 
           <Environment preset="night" />
 
           <React.Suspense fallback={<Loader />}>
-            {/*
-              Removed `observe` — it re-fits the camera whenever the parent
-              element resizes (e.g. on scroll), causing size jumps.
-              `fit` + `clip` on mount is enough.
-            */}
             <Bounds fit clip margin={1.3}>
               <Model url="/model/model2.glb" />
             </Bounds>
