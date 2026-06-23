@@ -96,6 +96,125 @@ function DropdownMenu({
     );
 }
 
+/** Mobile menu overlay */
+function MobileMenu({
+    items,
+    pathname,
+    onNavigate,
+    onClose,
+}: {
+    items: NavItem[];
+    pathname: string;
+    onNavigate: (href: string) => void;
+    onClose: () => void;
+}) {
+    const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+
+    // Close on backdrop click
+    return (
+        <>
+            {/* Backdrop */}
+            <div
+                className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm"
+                onClick={onClose}
+            />
+            {/* Drawer */}
+            <div
+                className="fixed top-0 right-0 z-[70] h-full w-[75vw] max-w-xs flex flex-col"
+                style={{
+                    background: "rgb(8, 8, 8)",
+                    borderLeft: "1px solid rgba(255,255,255,0.12)",
+                }}
+            >
+                {/* Header */}
+                <div className="flex items-center justify-between px-5 pt-5 pb-4 border-b border-white/10">
+                    <span
+                        className="text-white text-base font-semibold tracking-wide"
+                        style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}
+                    >
+                        Menu
+                    </span>
+                    <button
+                        onClick={onClose}
+                        aria-label="Close menu"
+                        className="w-8 h-8 flex items-center justify-center rounded-full text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M2 2L14 14M14 2L2 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Nav links */}
+                <nav className="flex-1 overflow-y-auto py-3">
+                    {items.map((item, idx) => {
+                        const isActive =
+                            pathname === item.href ||
+                            item.dropdown?.some((d) => d.href === pathname);
+                        const hasDropdown = !!item.dropdown?.length;
+                        const isExpanded = expandedIdx === idx;
+
+                        return (
+                            <div key={idx}>
+                                <div
+                                    className={cn(
+                                        "flex items-center justify-between mx-3 px-4 py-3 rounded-xl cursor-pointer transition-colors duration-150",
+                                        isActive
+                                            ? "bg-white/10 text-white"
+                                            : "text-neutral-400 hover:text-white hover:bg-white/5"
+                                    )}
+                                    style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}
+                                    onClick={() => {
+                                        if (hasDropdown) {
+                                            setExpandedIdx(isExpanded ? null : idx);
+                                        } else {
+                                            onNavigate(item.href);
+                                        }
+                                    }}
+                                >
+                                    <span className="text-sm font-medium">{item.label}</span>
+                                    {hasDropdown && (
+                                        <svg
+                                            width="14"
+                                            height="14"
+                                            viewBox="0 0 14 14"
+                                            fill="none"
+                                            className={cn("transition-transform duration-200", isExpanded ? "rotate-180" : "")}
+                                        >
+                                            <path d="M2 5L7 10L12 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    )}
+                                </div>
+
+                                {/* Dropdown children */}
+                                {hasDropdown && isExpanded && (
+                                    <div className="mx-3 mb-1 ml-8 space-y-0.5">
+                                        {item.dropdown!.map((child) => (
+                                            <div
+                                                key={child.href}
+                                                className={cn(
+                                                    "px-4 py-2.5 rounded-lg cursor-pointer text-sm transition-colors duration-150",
+                                                    pathname === child.href
+                                                        ? "text-white bg-white/10"
+                                                        : "text-neutral-400 hover:text-white hover:bg-white/5"
+                                                )}
+                                                style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}
+                                                onClick={() => onNavigate(child.href)}
+                                            >
+                                                {child.label}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </nav>
+            </div>
+        </>
+    );
+}
+
 export function SpotlightNavbar({
     items = defaultNavItems,
     className,
@@ -108,6 +227,7 @@ export function SpotlightNavbar({
     const [hoverX, setHoverX] = useState<number | null>(null);
     const [openDropdown, setOpenDropdown] = useState<number | null>(null);
     const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     // Treat /alumni as active on Team item
     const activeIndex = items.findIndex(
@@ -118,6 +238,21 @@ export function SpotlightNavbar({
 
     const spotlightX = useRef(0);
     const ambienceX = useRef(0);
+
+    // Close mobile menu on route change
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [pathname]);
+
+    // Prevent body scroll when mobile menu is open
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => { document.body.style.overflow = ""; };
+    }, [mobileMenuOpen]);
 
     useEffect(() => {
         if (!navRef.current) return;
@@ -200,82 +335,84 @@ export function SpotlightNavbar({
     };
 
     return (
-        <div className={cn("relative flex justify-center pt-4", className)}>
-            <nav
-                ref={navRef}
-                className={cn(
-                    "spotlight-nav spotlight-nav-bg glass-border spotlight-nav-shadow",
-                    "relative h-11 rounded-full transition-all duration-300 overflow-visible"
-                )}
-            >
-                {/* Content */}
-                <ul className="relative flex items-center h-full px-2 gap-0 z-[10]">
-                    {items.map((item, idx) => (
-                        <li
-                            key={idx}
-                            className="relative h-full flex items-center justify-center"
-                            onMouseEnter={() => {
-                                cancelClose();
-                                if (item.dropdown) setOpenDropdown(idx);
-                            }}
-                            onMouseLeave={() => {
-                                if (item.dropdown) scheduleClose();
-                            }}
-                        >
-                            <a
-                                href={item.href}
-                                data-index={idx}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    handleItemClick(item, idx);
+        <>
+            {/* ── Desktop Navbar ── */}
+            <div className={cn("relative hidden md:flex justify-center pt-4", className)}>
+                <nav
+                    ref={navRef}
+                    className={cn(
+                        "spotlight-nav spotlight-nav-bg glass-border spotlight-nav-shadow",
+                        "relative h-11 rounded-full transition-all duration-300 overflow-visible"
+                    )}
+                >
+                    {/* Content */}
+                    <ul className="relative flex items-center h-full px-2 gap-0 z-[10]">
+                        {items.map((item, idx) => (
+                            <li
+                                key={idx}
+                                className="relative h-full flex items-center justify-center"
+                                onMouseEnter={() => {
+                                    cancelClose();
+                                    if (item.dropdown) setOpenDropdown(idx);
                                 }}
-                                className={cn(
-                                    "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
-                                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-white/30",
-                                    activeIndex === idx
-                                        ? "text-black dark:text-white"
-                                        : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
-                                )}
+                                onMouseLeave={() => {
+                                    if (item.dropdown) scheduleClose();
+                                }}
                             >
-                                {item.label}
-                            </a>
-
-                            {/* Dropdown */}
-                            {item.dropdown && openDropdown === idx && (
-                                <DropdownMenu
-                                    items={item.dropdown}
-                                    pathname={pathname}
-                                    onNavigate={(href) => {
-                                        setOpenDropdown(null);
-                                        router.push(href);
+                                <a
+                                    href={item.href}
+                                    data-index={idx}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleItemClick(item, idx);
                                     }}
-                                    onMouseEnter={cancelClose}
-                                    onMouseLeave={scheduleClose}
-                                />
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                                    className={cn(
+                                        "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
+                                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-white/30",
+                                        activeIndex === idx
+                                            ? "text-black dark:text-white"
+                                            : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
+                                    )}
+                                >
+                                    {item.label}
+                                </a>
 
-                {/* 1. Moving Spotlight */}
-                <div
-                    className="pointer-events-none absolute bottom-0 left-0 w-full h-full z-[1] transition-opacity duration-300"
-                    style={{
-                        opacity: hoverX !== null ? 1 : 0,
-                        background: `radial-gradient(120px circle at var(--spotlight-x) 100%, var(--spotlight-color, rgba(0,0,0,0.1)) 0%, transparent 50%)`,
-                    }}
-                />
+                                {/* Dropdown */}
+                                {item.dropdown && openDropdown === idx && (
+                                    <DropdownMenu
+                                        items={item.dropdown}
+                                        pathname={pathname}
+                                        onNavigate={(href) => {
+                                            setOpenDropdown(null);
+                                            router.push(href);
+                                        }}
+                                        onMouseEnter={cancelClose}
+                                        onMouseLeave={scheduleClose}
+                                    />
+                                )}
+                            </li>
+                        ))}
+                    </ul>
 
-                {/* 2. Active Ambience */}
-                <div
-                    className="pointer-events-none absolute bottom-0 left-0 w-full h-[2px] z-[2]"
-                    style={{
-                        background: `radial-gradient(60px circle at var(--ambience-x) 0%, var(--ambience-color, rgba(0,0,0,1)) 0%, transparent 100%)`,
-                    }}
-                />
-            </nav>
+                    {/* 1. Moving Spotlight */}
+                    <div
+                        className="pointer-events-none absolute bottom-0 left-0 w-full h-full z-[1] transition-opacity duration-300"
+                        style={{
+                            opacity: hoverX !== null ? 1 : 0,
+                            background: `radial-gradient(120px circle at var(--spotlight-x) 100%, var(--spotlight-color, rgba(0,0,0,0.1)) 0%, transparent 50%)`,
+                        }}
+                    />
 
-            <style jsx>{`
+                    {/* 2. Active Ambience */}
+                    <div
+                        className="pointer-events-none absolute bottom-0 left-0 w-full h-[2px] z-[2]"
+                        style={{
+                            background: `radial-gradient(60px circle at var(--ambience-x) 0%, var(--ambience-color, rgba(0,0,0,1)) 0%, transparent 100%)`,
+                        }}
+                    />
+                </nav>
+
+                <style jsx>{`
         nav {
           --spotlight-color: rgba(0,0,0,0.08);
           --ambience-color: rgba(0,0,0,0.8);
@@ -285,6 +422,61 @@ export function SpotlightNavbar({
           --ambience-color: rgba(255,255,255,1);
         }
       `}</style>
-        </div>
+            </div>
+
+            {/* ── Mobile Topbar ── */}
+            <div
+                className={cn(
+                    "md:hidden fixed top-0 left-0 right-0 z-50",
+                    "flex items-center justify-between px-4 h-14",
+                    "spotlight-nav-bg glass-border spotlight-nav-shadow",
+                    className
+                )}
+                style={{ borderLeft: "none", borderRight: "none", borderTop: "none", borderRadius: 0 }}
+            >
+                {/* Logo / brand */}
+                <a
+                    href="/"
+                    onClick={(e) => { e.preventDefault(); router.push("/"); }}
+                    className="text-white font-bold text-base tracking-widest uppercase"
+                    style={{ fontFamily: "var(--font-geist-sans), sans-serif", letterSpacing: "0.15em" }}
+                >
+                    Robo Nexus
+                </a>
+
+                {/* Hamburger button */}
+                <button
+                    onClick={() => setMobileMenuOpen((prev) => !prev)}
+                    aria-label="Open navigation menu"
+                    aria-expanded={mobileMenuOpen}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg text-neutral-300 hover:text-white hover:bg-white/10 transition-colors"
+                >
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                        <path
+                            d="M3 6H19M3 11H19M3 16H19"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                        />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Mobile page offset so content isn't hidden under the topbar */}
+            <div className="md:hidden h-14" aria-hidden="true" />
+
+            {/* Mobile Menu Drawer */}
+            {mobileMenuOpen && (
+                <MobileMenu
+                    items={items}
+                    pathname={pathname}
+                    onNavigate={(href) => {
+                        setMobileMenuOpen(false);
+                        router.push(href);
+                    }}
+                    onClose={() => setMobileMenuOpen(false)}
+                />
+            )}
+        </>
     );
 }
