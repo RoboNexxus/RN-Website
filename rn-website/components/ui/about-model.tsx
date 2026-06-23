@@ -6,7 +6,6 @@ import {
   useGLTF,
   Environment,
   ContactShadows,
-  OrbitControls,
   Html,
   Center,
   Bounds,
@@ -137,15 +136,6 @@ export default function AboutModel() {
               color="#000000"
             />
           </React.Suspense>
-
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            enableDamping={true}
-            dampingFactor={ANIMATION_CONFIG.model.dampingFactor}
-            minPolarAngle={Math.PI / 3}
-            maxPolarAngle={Math.PI / 1.8}
-          />
         </Canvas>
       </ModelErrorBoundary>
     </div>
