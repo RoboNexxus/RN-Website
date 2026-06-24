@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/Robo_Nexus_Logo.webp",
+        url: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/hh4pb5zrmventaz8mkfl?_a=BAMAPqfk0",
         width: 512,
         height: 512,
         alt: "Robo Nexus Logo",
@@ -47,11 +47,11 @@ export const metadata: Metadata = {
     title: "Robo Nexus",
     description:
       "The official robotics club of Amity International School, Sector-46, Gurugram.",
-    images: ["/images/Robo_Nexus_Logo.webp"],
+    images: ["https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/hh4pb5zrmventaz8mkfl?_a=BAMAPqfk0"],
   },
   icons: {
-    icon: "/images/favicon.ico",
-    apple: "/images/apple-touch-icon.png",
+    icon: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/edk0lpjus0anrenospj7?_a=BAMAPqfk0",
+    apple: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/fyuy9lmpsoot6pkxkgn0?_a=BAMAPqfk0",
   },
 };
 
