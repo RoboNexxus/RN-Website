@@ -199,7 +199,7 @@ export default function HeroModel() {
 
           <React.Suspense fallback={<Loader />}>
             <Bounds fit clip margin={1.3}>
-              <Model url="/model/model2-optimized.glb" />
+              <Model url="https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb" />
             </Bounds>
             <ContactShadows
               position={[0, -2.5, 0]}
@@ -216,4 +216,4 @@ export default function HeroModel() {
   );
 }
 
-useGLTF.preload("/model/model2-optimized.glb");
+useGLTF.preload("https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb");

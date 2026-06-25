@@ -125,7 +125,7 @@ export default function AboutModel() {
               `fit` + `clip` on mount is enough.
             */}
             <Bounds fit clip margin={1.3}>
-              <Model url="/model/abt-optimized.glb" />
+              <Model url="https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/abt-optimized_opl3kj.glb" />
             </Bounds>
             <ContactShadows
               position={[0, -2.5, 0]}
@@ -142,4 +142,4 @@ export default function AboutModel() {
   );
 }
 
-useGLTF.preload("/model/abt-optimized.glb");
+useGLTF.preload("https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/abt-optimized_opl3kj.glb");
