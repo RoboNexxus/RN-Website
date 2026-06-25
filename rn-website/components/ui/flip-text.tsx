@@ -40,7 +40,7 @@ interface FlipTextProps {
   separator?: string;
 }
 
-export function FlipText({
+function FlipText({
   className,
   children,
   duration = ANIMATION_CONFIG.duration.flipText / 1000,

@@ -9,21 +9,21 @@ import { useTheme } from '@/lib/use-theme';
 import { ANIMATION_CONFIG } from '@/lib/animation-config';
 import { useWillChange } from '@/lib/animation-utils';
 
-export interface DockItem {
+interface DockItem {
   title: string;
   icon: LucideIcon;
   onClick?: () => void;
   href?: string;
 }
 
-export interface GlassDockProps extends React.HTMLAttributes<HTMLDivElement> {
+interface GlassDockProps extends React.HTMLAttributes<HTMLDivElement> {
   
   items: DockItem[];
   
   dockClassName?: string;
 }
 
-export const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
+const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
   (
       {
           items,

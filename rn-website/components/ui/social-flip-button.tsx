@@ -12,7 +12,7 @@ FaEnvelope,
 FaDiscord,
 } from "react-icons/fa";
 
-export interface SocialItem {
+interface SocialItem {
 letter: string;
 icon: React.ReactNode;
 label: string;

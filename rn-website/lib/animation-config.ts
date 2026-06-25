@@ -5,7 +5,7 @@
 // TypeScript Interfaces
 // ============================================================================
 
-export interface AnimationDurations {
+interface AnimationDurations {
   instant: number;
   fast: number;
   normal: number;
@@ -15,32 +15,32 @@ export interface AnimationDurations {
   flipText: number;
 }
 
-export interface SpringConfig {
+interface SpringConfig {
   stiffness: number;
   damping: number;
   mass?: number;
 }
 
-export interface SpringPresets {
+interface SpringPresets {
   default: SpringConfig;
   responsive: SpringConfig;
   smooth: SpringConfig;
   bouncy: SpringConfig;
 }
 
-export interface EasingPresets {
+interface EasingPresets {
   default: string;
   smooth: string;
   sharp: string;
 }
 
-export interface StaggerDelays {
+interface StaggerDelays {
   tight: number;
   normal: number;
   loose: number;
 }
 
-export interface ModelPerformanceConfig {
+interface ModelPerformanceConfig {
   rotationSpeed: number;
   dampingFactor: number;
   targetFPS: {
@@ -175,4 +175,3 @@ export function getPerformanceConfig(quality: QualityLevel): PerformanceConfig {
 // ============================================================================
 
 // Export all configuration constants and utility functions
-export default ANIMATION_CONFIG;

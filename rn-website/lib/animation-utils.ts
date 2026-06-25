@@ -15,7 +15,7 @@ export interface AnimationPerformanceMetrics {
   frameDropCount?: number;
 }
 
-export interface WillChangeConfig {
+interface WillChangeConfig {
   properties: string[];
   enabled: boolean;
 }
@@ -192,4 +192,3 @@ export function useIsMobile(): boolean {
 // Exports
 // ============================================================================
 
-export type { QualityLevel, PerformanceConfig } from './animation-config';
