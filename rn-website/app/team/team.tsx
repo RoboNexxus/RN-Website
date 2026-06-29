@@ -8,10 +8,13 @@ import teamData from "@/data/team.json";
 import dynamic from "next/dynamic";
 
 const PixelImage = dynamic(
-  () => import("@/components/ui/pixel-image").then(mod => ({ default: mod.PixelImage })), 
-  { 
+  () =>
+    import("@/components/ui/pixel-image").then((mod) => ({
+      default: mod.PixelImage,
+    })),
+  {
     ssr: false,
-  }
+  },
 );
 
 type Member = (typeof teamData.members)[number];
@@ -20,71 +23,69 @@ function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
 
   return (
-    <div className="reveal-item flex flex-col w-full max-w-sm mx-auto hover:scale-[1.02] transition-transform duration-300">
-      {/* Dark Card Container matching site theme */}
-      <div className="bg-neutral-900 border-4 border-white/20 shadow-2xl rounded-lg overflow-hidden">
-        
+    <div className="reveal-item flex flex-col w-full hover:scale-[1.03] transition-transform duration-300">
+      <div className="bg-neutral-900 border-2 border-white/20 shadow-lg rounded-md overflow-hidden">
         {/* Image Section */}
-        <div className="border-b-2 border-white/20 bg-black p-4">
-          <div className="border-2 border-white/30 bg-neutral-950 p-2">
-            <div className="relative w-full aspect-[3/4] overflow-hidden bg-black">
+        <div className="border-b border-white/20 bg-black p-2">
+          <div className="border border-white/30 bg-neutral-950 p-1">
+            <div className="relative w-full aspect-square overflow-hidden bg-black">
               <PixelImage
                 src={imgSrc}
-                customGrid={{ rows: 8, cols: 6 }}
+                customGrid={{ rows: 6, cols: 6 }}
                 fill
-                pixelFadeInDuration={800}
-                maxAnimationDelay={900}
-                colorRevealDelay={1000}
+                pixelFadeInDuration={600}
+                maxAnimationDelay={700}
+                colorRevealDelay={800}
                 className="opacity-100"
               />
             </div>
           </div>
         </div>
 
-        {/* Bio Section - dark background with white text */}
-        <div className="bg-neutral-900 px-6 py-6 border-b-2 border-white/20">
-          <p className="text-xl font-bold text-white leading-tight">
+        {/* Bio Section */}
+        <div className="bg-neutral-900 px-3 py-3 border-b border-white/20">
+          <p className="text-sm font-bold text-white leading-tight truncate">
             {member.name}
           </p>
-          <p className="text-sm text-neutral-400 mt-1">
+          <p className="text-xs text-neutral-400 mt-0.5 truncate">
             {member.role}
           </p>
         </div>
 
-        {/* Footer Section with social links - black background */}
-        <div className="bg-black px-6 py-4 flex items-center justify-center">
-          <div className="flex gap-4">
+        {/* Footer with social links */}
+        <div className="bg-black px-3 py-2 flex items-center justify-center">
+          <div className="flex gap-3">
             {member.links.github && (
-              <a 
-                href={member.links.github} 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href={member.links.github}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={`${member.name} GitHub`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaGithub size={20} />
+                <FaGithub size={14} />
               </a>
             )}
             {member.links.linkedin && (
-              <a 
-                href={member.links.linkedin} 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href={member.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={`${member.name} LinkedIn`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaLinkedin size={20} />
+                <FaLinkedin size={14} />
               </a>
             )}
             {member.links.website && (
-              <a 
-                href={member.links.website} 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href={member.links.website}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={`${member.name} website`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaGlobe size={20} />
+                <FaGlobe size={14} />
               </a>
             )}
           </div>
@@ -127,8 +128,8 @@ export default function Team() {
         <div>
           <SectionDivider title="Heads" />
           <AnimeScrollReveal
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4"
-            staggerDelay={100}
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4"
+            staggerDelay={80}
             fromY={1.5}
           >
             {heads.map((m) => (
@@ -141,8 +142,8 @@ export default function Team() {
           <div>
             <SectionDivider title="Core" />
             <AnimeScrollReveal
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4"
-              staggerDelay={100}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-4"
+              staggerDelay={80}
               fromY={1.5}
             >
               {core.map((m) => (
@@ -159,8 +160,8 @@ export default function Team() {
           <h2 className="text-2xl font-bold">Members</h2>
         </AnimeScrollReveal>
         <AnimeScrollReveal
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4"
-          staggerDelay={80}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 px-4"
+          staggerDelay={50}
           fromY={1.5}
         >
           {members.map((m) => (

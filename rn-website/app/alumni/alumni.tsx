@@ -8,8 +8,11 @@ import alumniData from "@/data/alumni.json";
 import dynamic from "next/dynamic";
 
 const PixelImage = dynamic(
-  () => import("@/components/ui/pixel-image").then(mod => ({ default: mod.PixelImage })),
-  { ssr: false }
+  () =>
+    import("@/components/ui/pixel-image").then((mod) => ({
+      default: mod.PixelImage,
+    })),
+  { ssr: false },
 );
 
 type Alumni = (typeof alumniData.alumni)[number];
@@ -18,21 +21,19 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
   const imgSrc = resolveAssetPath(alumni.image);
 
   return (
-    <div className="reveal-item flex flex-col w-full max-w-sm mx-auto hover:scale-[1.02] transition-transform duration-300">
-      {/* Dark Card Container matching site theme */}
-      <div className="bg-neutral-900 border-4 border-white/20 shadow-2xl rounded-lg overflow-hidden">
-
+    <div className="reveal-item flex flex-col w-full hover:scale-[1.03] transition-transform duration-300">
+      <div className="bg-neutral-900 border-2 border-white/20 shadow-lg rounded-md overflow-hidden">
         {/* Image Section */}
-        <div className="border-b-2 border-white/20 bg-black p-4">
-          <div className="border-2 border-white/30 bg-neutral-950 p-2">
-            <div className="relative w-full aspect-[3/4] overflow-hidden bg-black">
+        <div className="border-b border-white/20 bg-black p-2">
+          <div className="border border-white/30 bg-neutral-950 p-1">
+            <div className="relative w-full aspect-square overflow-hidden bg-black">
               <PixelImage
                 src={imgSrc}
-                customGrid={{ rows: 8, cols: 6 }}
+                customGrid={{ rows: 6, cols: 6 }}
                 fill
-                pixelFadeInDuration={800}
-                maxAnimationDelay={900}
-                colorRevealDelay={1000}
+                pixelFadeInDuration={600}
+                maxAnimationDelay={700}
+                colorRevealDelay={800}
                 className="opacity-100"
               />
             </div>
@@ -40,23 +41,21 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
         </div>
 
         {/* Bio Section */}
-        <div className="bg-neutral-900 px-6 py-6 border-b-2 border-white/20">
-          <p className="text-xl font-bold text-white leading-tight">
+        <div className="bg-neutral-900 px-3 py-3 border-b border-white/20">
+          <p className="text-sm font-bold text-white leading-tight truncate">
             {alumni.name}
           </p>
-          <div className="flex items-center gap-3 mt-2">
-            <p className="text-sm text-neutral-400">
-              {alumni.role}
-            </p>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-500 tracking-wide">
-              Batch {alumni.batch}
+          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+            <p className="text-xs text-neutral-400 truncate">{alumni.role}</p>
+            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-500 tracking-wide shrink-0">
+              {alumni.batch}
             </span>
           </div>
         </div>
 
         {/* Footer with social links */}
-        <div className="bg-black px-6 py-4 flex items-center justify-center">
-          <div className="flex gap-4">
+        <div className="bg-black px-3 py-2 flex items-center justify-center">
+          <div className="flex gap-3">
             {alumni.links.github && (
               <a
                 href={alumni.links.github}
@@ -65,7 +64,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                 aria-label={`${alumni.name} GitHub`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaGithub size={20} />
+                <FaGithub size={14} />
               </a>
             )}
             {alumni.links.linkedin && (
@@ -76,7 +75,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                 aria-label={`${alumni.name} LinkedIn`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaLinkedin size={20} />
+                <FaLinkedin size={14} />
               </a>
             )}
             {alumni.links.website && (
@@ -87,7 +86,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                 aria-label={`${alumni.name} website`}
                 className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
               >
-                <FaGlobe size={20} />
+                <FaGlobe size={14} />
               </a>
             )}
           </div>
@@ -106,8 +105,8 @@ export default function Alumni() {
       />
 
       <AnimeScrollReveal
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl px-4"
-        staggerDelay={120}
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 w-full max-w-7xl px-4"
+        staggerDelay={60}
         fromY={1.5}
       >
         {alumniData.alumni.map((a) => (
