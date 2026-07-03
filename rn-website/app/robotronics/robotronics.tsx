@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export default function Robotronics() {
   useEffect(() => {
-    window.location.href = "https://robotronics-ten.vercel.app/";
+    window.location.href = "https://robotronics-ten.vercel.app/register.html";
   }, []);
 
   return (
