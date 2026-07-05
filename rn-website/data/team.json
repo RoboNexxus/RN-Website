@@ -1,18 +1,6 @@
 {
   "members": [
     {
-      "name": "Atharv Mandlavdiya",
-      "role": "Core Member",
-      "class": 10,
-      "image": "assets/images/AM.webp",
-      "links": {
-        "github": "https://github.com/AtharvM02222",
-        "linkedin": "https://www.linkedin.com/in/atharvmandlavdiya/",
-        "website": "https://atharvmandlavdiya.me"
-      }
-    },
-
-    {
       "name": "Daksh Yadav",
       "class": 12,
       "role": "Head",
@@ -40,6 +28,24 @@
       }
     },
     {
+      "name": "Atharv Mandlavdiya",
+      "role": "Core Member",
+      "class": 10,
+      "image": "assets/images/AM.webp",
+      "links": {
+        "github": "https://github.com/AtharvM02222",
+        "linkedin": "https://www.linkedin.com/in/atharvmandlavdiya/",
+        "website": "https://atharvmandlavdiya.me"
+      }
+    },
+    {
+      "name": "Naitik Sharma",
+      "role": "Member",
+      "class": 12,
+      "image": "assets/images/nk.webp",
+      "links": {}
+    },
+    {
       "name": "Shubhan Bhasin",
       "role": "Member",
       "class": 12,
@@ -49,10 +55,17 @@
       }
     },
     {
-      "name": "Naitik Sharma",
+      "name": "Parag Verma",
       "role": "Member",
-      "class": 12,
-      "image": "assets/images/nk.webp",
+      "class": 11,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Aryan Chhabra",
+      "role": "Member",
+      "class": 10,
+      "image": "assets/images/ac.webp",
       "links": {}
     },
     {
@@ -66,7 +79,23 @@
       }
     },
     {
+      "name": "Divyanshu Aggarwal",
+      "role": "Member",
+      "class": 10,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {
+        "github": "https://github.com/divyanshu483"
+      }
+    },
+    {
       "name": "Kavish Baghla",
+      "role": "Member",
+      "class": 10,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Priyanshu Priyadarshi",
       "role": "Member",
       "class": 10,
       "image": "assets/images/Robo_Nexus_Logo.webp",
@@ -83,25 +112,79 @@
       }
     },
     {
-      "name": "Aryan Chhabra",
-      "role": "Member",
-      "class": 10,
-      "image": "assets/images/ac.webp",
-      "links": {}
-    },
-    {
-      "name": "Divyanshu Aggarwal",
-      "role": "Member",
-      "class": 10,
-      "image": "assets/images/Robo_Nexus_Logo.webp",
-      "links": {
-        "github": "https://github.com/divyanshu483"
-      }
-    },
-    {
       "name": "Vibhor Pandey",
       "role": "Member",
       "class": 10,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Jayvardhan Jadhav",
+      "role": "Member",
+      "class": 9,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Manik Sharma",
+      "role": "Member",
+      "class": 9,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Pranshul Agarwal",
+      "role": "Member",
+      "class": 9,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Agrim Tyagi Sharma",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "arhaam ubaid sofi",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Gauransh Arora",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Ridit Malhotra",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Sarthak Kundu",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Viaan Poornit",
+      "role": "Member",
+      "class": 7,
+      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "links": {}
+    },
+    {
+      "name": "Amay Shankar",
+      "role": "Member",
+      "class": 6,
       "image": "assets/images/Robo_Nexus_Logo.webp",
       "links": {}
     }
