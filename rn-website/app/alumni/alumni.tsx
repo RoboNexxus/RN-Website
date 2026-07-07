@@ -5,90 +5,82 @@ import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
 import alumniData from "@/data/alumni.json";
-import dynamic from "next/dynamic";
-
-const PixelImage = dynamic(
-  () =>
-    import("@/components/ui/pixel-image").then((mod) => ({
-      default: mod.PixelImage,
-    })),
-  { ssr: false },
-);
+import Image from "next/image";
 
 type Alumni = (typeof alumniData.alumni)[number];
 
 function AlumniCard({ alumni }: { alumni: Alumni }) {
   const imgSrc = resolveAssetPath(alumni.image);
+  const hasLinks = Object.values(alumni.links).some(link => link);
 
   return (
-    <div className="reveal-item flex flex-col w-full hover:scale-[1.03] transition-transform duration-300">
-      <div className="bg-neutral-900 border-2 border-white/20 shadow-lg rounded-md overflow-hidden">
-        {/* Image Section */}
-        <div className="border-b border-white/20 bg-black p-2">
-          <div className="border border-white/30 bg-neutral-950 p-1">
-            <div className="relative w-full aspect-square overflow-hidden bg-black">
-              <PixelImage
-                src={imgSrc}
-                customGrid={{ rows: 6, cols: 6 }}
-                fill
-                pixelFadeInDuration={600}
-                maxAnimationDelay={700}
-                colorRevealDelay={800}
-                className="opacity-100"
-              />
+    <div className="reveal-item group flex flex-col w-full">
+      <div className="relative bg-gradient-to-br from-neutral-800/50 to-neutral-900/80 border border-white/10 shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-1">
+        {/* Image Section with Social Icons Overlay */}
+        <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
+          <Image
+            src={imgSrc}
+            alt={alumni.name}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+          />
+          
+          {/* Social Icons Overlay - Top Right */}
+          {hasLinks && (
+            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {alumni.links.linkedin && (
+                <a
+                  href={alumni.links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} LinkedIn`}
+                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaLinkedin size={16} />
+                </a>
+              )}
+              {alumni.links.github && (
+                <a
+                  href={alumni.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} GitHub`}
+                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaGithub size={16} />
+                </a>
+              )}
+              {alumni.links.website && (
+                <a
+                  href={alumni.links.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} website`}
+                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaGlobe size={16} />
+                </a>
+              )}
             </div>
-          </div>
+          )}
+
+          {/* Gradient Overlay on Hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
 
-        {/* Bio Section */}
-        <div className="bg-neutral-900 px-3 py-3 border-b border-white/20">
-          <p className="text-sm font-bold text-white leading-tight truncate">
+        {/* Info Section */}
+        <div className="bg-gradient-to-br from-neutral-800/80 to-neutral-900/90 backdrop-blur-sm px-4 py-4">
+          <h3 className="text-base font-bold text-white leading-tight truncate">
             {alumni.name}
-          </p>
-          <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-            <p className="text-xs text-neutral-400 truncate">{alumni.role}</p>
-            <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-500 tracking-wide shrink-0">
+          </h3>
+          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+            <p className="text-xs text-neutral-400 font-medium truncate">
+              {alumni.role}
+            </p>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide shrink-0 font-semibold">
               {alumni.batch}
             </span>
-          </div>
-        </div>
-
-        {/* Footer with social links */}
-        <div className="bg-black px-3 py-2 flex items-center justify-center">
-          <div className="flex gap-3">
-            {alumni.links.github && (
-              <a
-                href={alumni.links.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${alumni.name} GitHub`}
-                className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
-              >
-                <FaGithub size={14} />
-              </a>
-            )}
-            {alumni.links.linkedin && (
-              <a
-                href={alumni.links.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${alumni.name} LinkedIn`}
-                className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
-              >
-                <FaLinkedin size={14} />
-              </a>
-            )}
-            {alumni.links.website && (
-              <a
-                href={alumni.links.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${alumni.name} website`}
-                className="text-white hover:text-neutral-400 hover:scale-110 transition-transform"
-              >
-                <FaGlobe size={14} />
-              </a>
-            )}
           </div>
         </div>
       </div>
