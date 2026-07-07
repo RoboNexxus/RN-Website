@@ -14,8 +14,8 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
   const hasLinks = Object.values(alumni.links).some(link => link);
 
   return (
-    <div className="reveal-item group flex flex-col w-full">
-      <div className="relative bg-gradient-to-br from-neutral-800/50 to-neutral-900/80 border border-white/10 shadow-xl rounded-2xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-1">
+    <div className="reveal-item group flex flex-col items-center">
+      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 w-full max-w-[280px]">
         {/* Image Section with Social Icons Overlay */}
         <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
           <Image
@@ -24,7 +24,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
             fill
             unoptimized
             className="object-cover transition-transform duration-500 group-hover:scale-110"
-            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+            sizes="280px"
           />
           
           {/* Social Icons Overlay - Top Right */}
@@ -36,9 +36,9 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${alumni.name} LinkedIn`}
-                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
                 >
-                  <FaLinkedin size={16} />
+                  <FaLinkedin size={18} />
                 </a>
               )}
               {alumni.links.github && (
@@ -47,9 +47,9 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${alumni.name} GitHub`}
-                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
                 >
-                  <FaGithub size={16} />
+                  <FaGithub size={18} />
                 </a>
               )}
               {alumni.links.website && (
@@ -58,9 +58,9 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${alumni.name} website`}
-                  className="bg-black/70 backdrop-blur-sm p-2 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
                 >
-                  <FaGlobe size={16} />
+                  <FaGlobe size={18} />
                 </a>
               )}
             </div>
@@ -71,15 +71,15 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
         </div>
 
         {/* Info Section */}
-        <div className="bg-gradient-to-br from-neutral-800/80 to-neutral-900/90 backdrop-blur-sm px-4 py-4">
-          <h3 className="text-base font-bold text-white leading-tight truncate">
+        <div className="bg-gradient-to-br from-neutral-800/80 to-neutral-900/90 backdrop-blur-sm px-5 py-6 text-center">
+          <h3 className="text-lg font-bold text-white leading-tight">
             {alumni.name}
           </h3>
-          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-            <p className="text-xs text-neutral-400 font-medium truncate">
+          <div className="flex items-center justify-center gap-2 mt-2 flex-wrap">
+            <p className="text-sm text-neutral-400 font-medium">
               {alumni.role}
             </p>
-            <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide shrink-0 font-semibold">
+            <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide font-semibold">
               {alumni.batch}
             </span>
           </div>
@@ -98,7 +98,7 @@ export default function Alumni() {
       />
 
       <AnimeScrollReveal
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 w-full max-w-7xl px-4"
+        className="flex flex-wrap justify-center gap-8 w-full max-w-7xl px-4"
         staggerDelay={60}
         fromY={1.5}
       >
