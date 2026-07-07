@@ -129,8 +129,8 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
             </p>
           </div>
 
-          {/* 3D Logo Model */}
-          <div className="my-4 h-32 md:h-40 lg:h-48">
+          {/* 3D Logo Model - Bigger */}
+          <div className="my-4 h-48 md:h-56 lg:h-64">
             <EventLogoModel />
           </div>
 
