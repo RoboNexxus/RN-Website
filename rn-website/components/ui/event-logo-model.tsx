@@ -81,7 +81,7 @@ function Logo() {
 function Loader() {
   return (
     <Html center>
-      <div className="text-white text-sm tracking-widest uppercase opacity-50">
+      <div className="text-neutral-700 text-sm tracking-widest uppercase opacity-50">
         Loading...
       </div>
     </Html>
@@ -93,7 +93,7 @@ function Loader() {
 function ModelFallback() {
   return (
     <div className="w-full h-full flex items-center justify-center opacity-40">
-      <span className="text-white text-xs tracking-wider font-light">
+      <span className="text-neutral-700 text-xs tracking-wider font-light">
         3D model unavailable
       </span>
     </div>
@@ -123,7 +123,7 @@ export default function EventLogoModel() {
   if (!ready) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="text-white text-sm tracking-widest uppercase opacity-30">
+        <div className="text-neutral-700 text-sm tracking-widest uppercase opacity-30">
           Loading...
         </div>
       </div>
