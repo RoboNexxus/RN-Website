@@ -12,6 +12,10 @@ type Event = {
   title: string;
   date: string;
   endDate?: string; // Optional end date for multi-day events
+  description?: string;
+  theme?: string;
+  location?: string;
+  registrationLink?: string;
   image?: string;
 };
 
@@ -336,10 +340,190 @@ function LocationIcon() {
   );
 }
 
+// ─── Event Card (New Brutalist Design) ───────────────────────────────────────
+
+function EventCard({ event }: { event: Event }) {
+  const handleRegister = () => {
+    if (event.registrationLink) {
+      window.open(event.registrationLink, '_blank');
+    }
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full max-w-5xl mx-auto"
+    >
+      <div className="relative rounded-3xl overflow-hidden glass-border bg-neutral-950/80 backdrop-blur-md">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr_1fr_auto] min-h-[400px]">
+          
+          {/* Left Section - Event Title & Date */}
+          <div className="relative p-8 md:p-10 flex flex-col justify-between border-r border-white/10 bg-gradient-to-br from-white/5 to-transparent min-w-[280px]">
+            <div>
+              <div className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 mb-6 uppercase">
+                Upcoming Event
+              </div>
+              
+              <div className="relative mb-8">
+                {/* Date Badge with Circular Design */}
+                <div className="inline-block relative">
+                  <svg viewBox="0 0 400 320" className="w-full max-w-[320px]">
+                    {/* Circular background */}
+                    <ellipse cx="200" cy="160" rx="180" ry="140" fill="rgb(34 197 94)" opacity="0.15" />
+                    <ellipse cx="200" cy="160" rx="180" ry="140" fill="none" stroke="rgb(34 197 94)" strokeWidth="3" />
+                    
+                    {/* Text */}
+                    <text
+                      x="200"
+                      y="175"
+                      fontSize="100"
+                      fontWeight="900"
+                      fill="white"
+                      textAnchor="middle"
+                      fontFamily="system-ui, -apple-system, sans-serif"
+                      style={{ textTransform: 'uppercase' }}
+                    >
+                      {formatDateRange(event.date, event.endDate).split(' ')[0]}
+                    </text>
+                  </svg>
+                </div>
+              </div>
+
+              <h2 className="font-pixelify text-4xl md:text-5xl font-black leading-[0.9] mb-4 uppercase tracking-tight">
+                {event.title.split(' ')[0]}
+                <br />
+                {event.title.split(' ').slice(1).join(' ')}
+              </h2>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <p className="text-sm font-medium text-neutral-400">
+                {formatDateRange(event.date, event.endDate)}
+              </p>
+            </div>
+          </div>
+
+          {/* Middle Left - Description */}
+          <div className="p-8 md:p-10 flex flex-col justify-between border-r border-white/10 bg-gradient-to-br from-white/[0.02] to-transparent">
+            <div>
+              <div className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 mb-4 uppercase">
+                Description
+              </div>
+              <p className="text-base md:text-lg font-medium leading-relaxed text-neutral-300">
+                {event.description || "Join us for an exciting event filled with learning, innovation, and collaboration."}
+              </p>
+            </div>
+          </div>
+
+          {/* Middle Right - Theme */}
+          <div className="p-8 md:p-10 flex flex-col justify-between border-r border-white/10 bg-gradient-to-br from-white/[0.02] to-transparent">
+            <div>
+              <div className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 mb-4 uppercase">
+                Theme
+              </div>
+              <p className="text-base md:text-lg font-medium leading-relaxed text-neutral-300">
+                {event.theme || "Innovation and Technology"}
+              </p>
+            </div>
+
+            {event.location && (
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <div className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 mb-2 uppercase">
+                  Location
+                </div>
+                <p className="text-sm font-semibold text-white">
+                  {event.location}
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Right Section - Register CTA */}
+          <div className="p-8 md:p-10 flex flex-col justify-between items-center bg-gradient-to-br from-green-600/10 to-transparent min-w-[200px]">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-[10px] font-bold tracking-[0.2em] text-neutral-500 mb-6 uppercase">
+                  Register Now
+                </div>
+                
+                {/* Circular Arrow Icon */}
+                <div className="relative inline-block mb-6">
+                  <svg viewBox="0 0 120 120" className="w-24 h-24 md:w-28 md:h-28">
+                    <circle cx="60" cy="60" r="55" fill="none" stroke="rgb(34 197 94)" strokeWidth="3" opacity="0.3" />
+                    <path 
+                      d="M 30 60 Q 60 30, 90 60 T 90 90" 
+                      fill="none" 
+                      stroke="rgb(34 197 94)" 
+                      strokeWidth="4" 
+                      strokeLinecap="round"
+                    />
+                    <polygon points="88,82 98,90 90,98" fill="rgb(34 197 94)" />
+                  </svg>
+                </div>
+
+                <motion.button
+                  onClick={handleRegister}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 rounded-xl bg-green-600 hover:bg-green-500 text-white font-bold text-sm uppercase tracking-wider transition-colors shadow-lg shadow-green-600/20"
+                >
+                  Register
+                </motion.button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Decorative Corner Elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+          <svg viewBox="0 0 100 100" className="w-full h-full">
+            <circle cx="80" cy="20" r="40" fill="rgb(34 197 94)" />
+          </svg>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Upcoming Events Section ─────────────────────────────────────────────────
+
+function UpcomingEvents({ events }: { events: Event[] }) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  
+  const upcomingEvents = events
+    .filter((event) => {
+      const eventDate = event.endDate 
+        ? new Date(event.endDate + "T00:00:00") 
+        : new Date(event.date + "T00:00:00");
+      return eventDate >= today;
+    })
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  if (upcomingEvents.length === 0) {
+    return (
+      <div className="w-full max-w-5xl mx-auto rounded-2xl glass-border bg-white/5 p-12 text-center">
+        <p className="text-lg text-neutral-500">No upcoming events at the moment. Check back soon!</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full flex flex-col gap-8">
+      {upcomingEvents.map((event) => (
+        <EventCard key={event.id} event={event} />
+      ))}
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Events() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+  const [viewMode, setViewMode] = useState<'cards' | 'calendar'>('cards');
 
   return (
     <>
@@ -349,7 +533,36 @@ export default function Events() {
           subtitle="Every competition, workshop, and showcase — past and future."
         />
 
-        <CalendarView events={eventsData.events as Event[]} onSelect={setSelectedEvent} />
+        {/* View Toggle */}
+        <div className="flex gap-2 p-1 rounded-xl glass-border bg-white/5">
+          <button
+            onClick={() => setViewMode('cards')}
+            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all ${
+              viewMode === 'cards'
+                ? 'bg-white/10 text-white'
+                : 'text-neutral-500 hover:text-white'
+            }`}
+          >
+            Card View
+          </button>
+          <button
+            onClick={() => setViewMode('calendar')}
+            className={`px-6 py-2 rounded-lg text-sm font-semibold transition-all ${
+              viewMode === 'calendar'
+                ? 'bg-white/10 text-white'
+                : 'text-neutral-500 hover:text-white'
+            }`}
+          >
+            Calendar View
+          </button>
+        </div>
+
+        {/* Content */}
+        {viewMode === 'cards' ? (
+          <UpcomingEvents events={eventsData.events as Event[]} />
+        ) : (
+          <CalendarView events={eventsData.events as Event[]} onSelect={setSelectedEvent} />
+        )}
       </main>
 
       {selectedEvent && (
