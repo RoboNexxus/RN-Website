@@ -4,8 +4,8 @@
       "id": 1,
       "title": "Robotronics 2026",
       "date": "2026-08-15",
-      "description": "Robotronics is a premier tech event where the robotics competitions and events are organized by Robo Nexus, showcasing cutting-edge innovation in automation and robotics.",
-      "theme": "Innovation in Automation & Robotics",
+      "description": "We are back with Robotronics once more,robortics events bring organised by robo nexus.",
+      "theme": "Robotics",
       "location": "Amity International School, Sector 46 Gurugram",
       "registrationLink": "https://robotronics-ten.vercel.app/register.html"
     },
@@ -14,7 +14,7 @@
       "title": "Robo Nexus BootCamp",
       "date": "2026-06-08",
       "endDate": "2026-06-17",
-      "description": "Join us for an intensive 10-day robotics bootcamp where you'll learn everything from basic electronics to advanced automation and robotics.",
+      "description": "Join us for 10-day robotics bootcamp where you'll learn everything from basic electronics to advanced robotics.",
       "theme": "Robotics Bootcamp",
       "location": "Amity International School, Sector 46 Gurugram",
       "registrationLink": "#"

@@ -51,9 +51,9 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
       <div className="h-screen w-full grid grid-cols-1 md:grid-cols-[1fr_1.2fr_1.2fr_1fr]">
         
         {/* Left Section - Event Title & Date */}
-        <div className="relative p-8 md:p-12 flex flex-col justify-between border-r border-neutral-800 bg-neutral-100">
+        <div className="relative p-8 md:p-12 flex flex-col justify-between border-r border-white/10 bg-neutral-950">
           <div>
-            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-8 uppercase">
+            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-500 mb-8 uppercase">
               Upcoming Event
             </div>
             
@@ -62,7 +62,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
               <div className="relative inline-block mb-8">
                 <svg viewBox="0 0 400 300" className="w-full max-w-[350px]">
                   {/* Circular background */}
-                  <ellipse cx="200" cy="150" rx="190" ry="130" fill="rgb(34 197 94)" opacity="0.2" />
+                  <ellipse cx="200" cy="150" rx="190" ry="130" fill="rgb(34 197 94)" opacity="0.15" />
                   <ellipse cx="200" cy="150" rx="190" ry="130" fill="none" stroke="rgb(34 197 94)" strokeWidth="4" />
                   
                   {/* Text */}
@@ -71,7 +71,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
                     y="175"
                     fontSize="90"
                     fontWeight="900"
-                    fill="#1a1a1a"
+                    fill="white"
                     textAnchor="middle"
                     fontFamily="system-ui, -apple-system, sans-serif"
                   >
@@ -82,7 +82,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
                     y="205"
                     fontSize="32"
                     fontWeight="700"
-                    fill="#1a1a1a"
+                    fill="white"
                     textAnchor="middle"
                     fontFamily="system-ui, -apple-system, sans-serif"
                   >
@@ -92,46 +92,46 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
               </div>
             </div>
 
-            <h2 className="font-black text-5xl md:text-6xl lg:text-7xl leading-[0.85] mb-6 uppercase tracking-tighter text-neutral-900" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif' }}>
+            <h2 className="font-pixelify font-black text-5xl md:text-6xl lg:text-7xl leading-[0.85] mb-6 uppercase tracking-tighter text-white">
               {event.title}
             </h2>
           </div>
 
           <div className="mt-auto pt-8">
-            <div className="h-1 w-24 bg-neutral-900 mb-4" />
-            <p className="text-sm font-semibold text-neutral-700 uppercase tracking-wide">
+            <div className="h-1 w-24 bg-white mb-4" />
+            <p className="text-sm font-semibold text-neutral-400 uppercase tracking-wide">
               {formatDateForDisplay(event.date, event.endDate)}
             </p>
           </div>
         </div>
 
         {/* Middle Left - Description */}
-        <div className="p-8 md:p-12 flex flex-col justify-start border-r border-neutral-800 bg-neutral-50">
-          <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-6 uppercase">
+        <div className="p-8 md:p-12 flex flex-col justify-start border-r border-white/10 bg-black/50">
+          <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-500 mb-6 uppercase">
             Description
           </div>
-          <p className="text-lg md:text-xl font-semibold leading-relaxed text-neutral-900">
+          <p className="text-lg md:text-xl font-semibold leading-relaxed text-white">
             {event.description || "Join us for an exciting event filled with learning, innovation, and collaboration."}
           </p>
         </div>
 
         {/* Middle Right - Theme & Location */}
-        <div className="p-8 md:p-12 flex flex-col justify-between border-r border-neutral-800 bg-neutral-100">
+        <div className="p-8 md:p-12 flex flex-col justify-between border-r border-white/10 bg-neutral-950">
           <div>
-            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-6 uppercase">
+            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-500 mb-6 uppercase">
               Theme
             </div>
-            <p className="text-lg md:text-xl font-semibold leading-relaxed text-neutral-900">
+            <p className="text-lg md:text-xl font-semibold leading-relaxed text-white">
               {event.theme || "Innovation and Technology"}
             </p>
           </div>
 
           {event.location && (
             <div className="mt-12">
-              <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-4 uppercase">
+              <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-500 mb-4 uppercase">
                 Location
               </div>
-              <p className="text-base md:text-lg font-bold text-neutral-900">
+              <p className="text-base md:text-lg font-bold text-white">
                 {event.location}
               </p>
             </div>
@@ -139,16 +139,16 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
         </div>
 
         {/* Right Section - Register CTA */}
-        <div className="p-8 md:p-12 flex flex-col justify-between items-center bg-neutral-200 relative overflow-hidden">
+        <div className="p-8 md:p-12 flex flex-col justify-between items-center bg-black/70 relative overflow-hidden">
           {/* Decorative Circle */}
           <div className="absolute top-0 right-0 w-64 h-64 -mr-32 -mt-32">
             <svg viewBox="0 0 200 200" className="w-full h-full">
-              <circle cx="100" cy="100" r="80" fill="rgb(34 197 94)" opacity="0.15" />
+              <circle cx="100" cy="100" r="80" fill="rgb(34 197 94)" opacity="0.1" />
             </svg>
           </div>
 
           <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center">
-            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-8 uppercase">
+            <div className="text-[11px] font-bold tracking-[0.25em] text-neutral-500 mb-8 uppercase">
               Register Now
             </div>
             
@@ -178,7 +178,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
               onClick={handleRegister}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-10 py-4 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-black text-base uppercase tracking-wider transition-all shadow-xl"
+              className="px-10 py-4 rounded-2xl bg-green-600 hover:bg-green-700 text-white font-black text-base uppercase tracking-wider transition-all shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!event.registrationLink || event.registrationLink === "#"}
             >
               Register
@@ -188,7 +188,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
           {/* Bottom Decorative Circle */}
           <div className="absolute bottom-0 left-0 w-48 h-48 -ml-24 -mb-24">
             <svg viewBox="0 0 200 200" className="w-full h-full">
-              <circle cx="100" cy="100" r="60" fill="rgb(34 197 94)" opacity="0.1" />
+              <circle cx="100" cy="100" r="60" fill="rgb(34 197 94)" opacity="0.08" />
             </svg>
           </div>
         </div>
@@ -214,17 +214,17 @@ export default function Events() {
 
   if (upcomingEvents.length === 0) {
     return (
-      <main className="flex items-center justify-center min-h-screen">
+      <main className="flex items-center justify-center min-h-screen bg-black">
         <div className="text-center">
-          <h1 className="text-4xl font-black text-neutral-900 mb-4">No Upcoming Events</h1>
-          <p className="text-lg text-neutral-600">Check back soon for future events!</p>
+          <h1 className="text-4xl font-black text-white mb-4 font-pixelify">No Upcoming Events</h1>
+          <p className="text-lg text-neutral-400">Check back soon for future events!</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="w-full">
+    <main className="w-full bg-black">
       {upcomingEvents.map((event, index) => (
         <EventFullPage key={event.id} event={event} index={index} />
       ))}
