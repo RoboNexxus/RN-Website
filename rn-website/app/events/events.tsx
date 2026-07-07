@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import eventsData from "@/data/events.json";
+import { CornerSquiggles, CornerDots, CornerCrosses, CornerBurst } from "@/components/ui/page-doodles";
 
 const EventLogoModel = dynamic(() => import("@/components/ui/event-logo-model"), {
   ssr: false,
@@ -152,13 +153,14 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
 
         {/* Right Section - Register CTA with 3D Model */}
         <div className="p-4 md:p-6 lg:p-8 flex flex-col justify-between items-center relative overflow-hidden">
-          {/* Decorative doodle circles */}
-          <div className="absolute top-0 right-0 w-48 h-48 -mr-24 -mt-24 opacity-20">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <circle cx="100" cy="100" r="80" fill="none" stroke="rgb(34 197 94)" strokeWidth="4" />
-              <circle cx="100" cy="100" r="60" fill="none" stroke="rgb(34 197 94)" strokeWidth="3" />
-            </svg>
-          </div>
+          {/* Decorative doodles - Top Right */}
+          <CornerSquiggles className="absolute top-0 right-0 w-48 h-48 -mr-16 -mt-16 text-green-600 rotate-45" />
+          
+          {/* Bottom Left Doodles */}
+          <CornerDots className="absolute bottom-0 left-0 w-40 h-40 -ml-12 -mb-12 text-green-600" />
+          
+          {/* Additional decorative elements */}
+          <CornerBurst className="absolute top-1/4 left-0 w-32 h-32 -ml-8 text-green-600 opacity-30" />
 
           <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center w-full">
             <div className="text-[9px] md:text-[11px] font-bold tracking-[0.25em] text-neutral-600 mb-6 uppercase">
@@ -179,13 +181,6 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
             >
               Register
             </motion.button>
-          </div>
-
-          {/* Bottom decorative doodle */}
-          <div className="absolute bottom-0 left-0 w-40 h-40 -ml-20 -mb-20 opacity-15">
-            <svg viewBox="0 0 200 200" className="w-full h-full">
-              <circle cx="100" cy="100" r="60" fill="none" stroke="rgb(34 197 94)" strokeWidth="5" />
-            </svg>
           </div>
         </div>
       </div>
