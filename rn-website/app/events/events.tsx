@@ -59,53 +59,52 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
         {/* Left Section - Event Title & Date */}
         <div className="relative p-3 md:p-4 lg:p-6 flex flex-col justify-center border-r-2 border-white">
           <div className="flex flex-col items-start">
-            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-neutral-600 mb-3 md:mb-4 uppercase">
+            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-3 md:mb-4 uppercase">
               Upcoming Event
             </div>
             
             {/* Compact Date Badge */}
             <div className="mb-3 md:mb-4">
               <div className="relative inline-block">
-                <svg viewBox="0 0 200 140" className="w-full max-w-[140px] md:max-w-[160px] lg:max-w-[180px]">
-                  {/* Hand-drawn ellipse */}
-                  <ellipse 
-                    cx="100" 
-                    cy="70" 
-                    rx="90" 
-                    ry="60" 
-                    fill="none" 
-                    stroke="rgb(34 197 94)" 
-                    strokeWidth="6"
-                    strokeLinecap="round"
+                <h1 className="text-[15vw] md:text-[10vw] lg:text-[8vw] font-black leading-none tracking-tighter text-white">
+                  {event.endDate ? formatDateForDisplay(event.date, event.endDate).split(' ')[0] : new Date(event.date + "T00:00:00").getDate()}
+                </h1>
+                <p className="text-[4vw] md:text-[3vw] lg:text-[2vw] font-bold text-white uppercase tracking-wider text-center">
+                  {new Date(event.date + "T00:00:00").toLocaleDateString("en-IN", { month: "short" }).toUpperCase()}
+                </p>
+                <svg 
+                  className="absolute -inset-4 md:-inset-6 lg:-inset-8 w-[calc(100%+2rem)] md:w-[calc(100%+3rem)] lg:w-[calc(100%+4rem)] h-[calc(100%+2rem)] md:h-[calc(100%+3rem)] lg:h-[calc(100%+4rem)] text-green-600 -z-10" 
+                  viewBox="0 0 400 150" 
+                  preserveAspectRatio="none" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path 
+                    d="M 40,75 C 40,10 360,10 360,75 C 360,140 40,140 40,75 Z" 
+                    stroke="currentColor" 
+                    strokeWidth="8" 
+                    strokeLinecap="round" 
+                    className="opacity-90" 
                   />
-                  
-                  <text
-                    x="100"
-                    y="80"
-                    fontSize="48"
-                    fontWeight="900"
-                    fill="#1a1a1a"
-                    textAnchor="middle"
-                    fontFamily="system-ui, -apple-system, sans-serif"
-                  >
-                    {event.endDate ? formatDateForDisplay(event.date, event.endDate).split(' ')[0] : new Date(event.date + "T00:00:00").getDate()}
-                  </text>
-                  <text
-                    x="100"
-                    y="105"
-                    fontSize="18"
-                    fontWeight="700"
-                    fill="#1a1a1a"
-                    textAnchor="middle"
-                    fontFamily="system-ui, -apple-system, sans-serif"
-                  >
-                    {new Date(event.date + "T00:00:00").toLocaleDateString("en-IN", { month: "short" }).toUpperCase()}
-                  </text>
+                  <path 
+                    d="M 35,70 C 45,15 355,15 365,80 C 355,135 45,135 35,70 Z" 
+                    stroke="currentColor" 
+                    strokeWidth="4" 
+                    strokeLinecap="round" 
+                    className="opacity-60" 
+                  />
+                  <path 
+                    d="M 45,80 C 35,25 345,5 355,70 C 365,125 55,145 45,80 Z" 
+                    stroke="currentColor" 
+                    strokeWidth="2" 
+                    strokeLinecap="round" 
+                    className="opacity-40" 
+                  />
                 </svg>
               </div>
             </div>
 
-            <h2 className="font-black text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[0.85] uppercase tracking-tighter text-neutral-900 mb-2">
+            <h2 className="font-black text-2xl md:text-3xl lg:text-4xl xl:text-5xl leading-[0.85] uppercase tracking-tighter text-white mb-2">
               {event.title}
             </h2>
 
@@ -114,13 +113,13 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
               <path 
                 d="M 10,8 Q 75,5 150,9 T 290,7" 
                 fill="none" 
-                stroke="#1a1a1a" 
+                stroke="white" 
                 strokeWidth="4" 
                 strokeLinecap="round"
               />
             </svg>
 
-            <p className="text-[10px] md:text-xs font-semibold text-neutral-700 uppercase tracking-wide mt-2">
+            <p className="text-[10px] md:text-xs font-semibold text-white/80 uppercase tracking-wide mt-2">
               {formatDateForDisplay(event.date, event.endDate)}
             </p>
           </div>
@@ -128,10 +127,10 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
 
         {/* Middle Left - Description */}
         <div className="p-3 md:p-4 lg:p-6 flex flex-col justify-center border-r-2 border-white">
-          <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-neutral-600 mb-3 uppercase">
+          <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-3 uppercase">
             Description
           </div>
-          <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-neutral-900 line-clamp-6 md:line-clamp-8">
+          <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-white line-clamp-6 md:line-clamp-8">
             {event.description || "Join us for an exciting event filled with learning, innovation, and collaboration."}
           </p>
         </div>
@@ -139,20 +138,20 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
         {/* Middle Right - Theme & Location */}
         <div className="p-3 md:p-4 lg:p-6 flex flex-col justify-between border-r-2 border-white">
           <div>
-            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-neutral-600 mb-3 uppercase">
+            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-3 uppercase">
               Theme
             </div>
-            <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-neutral-900 line-clamp-3">
+            <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-white line-clamp-3">
               {event.theme || "Innovation and Technology"}
             </p>
           </div>
 
           {event.location && (
             <div className="mt-4">
-              <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-neutral-600 mb-2 uppercase">
+              <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-2 uppercase">
                 Location
               </div>
-              <p className="text-xs md:text-sm lg:text-base font-bold text-neutral-900 line-clamp-2">
+              <p className="text-xs md:text-sm lg:text-base font-bold text-white line-clamp-2">
                 {event.location}
               </p>
             </div>
@@ -166,7 +165,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
           <CornerDots className="absolute bottom-0 left-0 w-28 h-28 md:w-32 md:h-32 -ml-8 -mb-8 text-green-600" />
 
           <div className="relative z-10 flex flex-col items-center justify-center text-center w-full space-y-3 md:space-y-4">
-            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-neutral-600 uppercase">
+            <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">
               Register Now
             </div>
             
@@ -210,8 +209,8 @@ export default function Events() {
     return (
       <main className="flex items-center justify-center h-screen grid-bg overflow-hidden">
         <div className="text-center">
-          <h1 className="text-3xl md:text-4xl font-black text-neutral-900 mb-4 font-pixelify">No Upcoming Events</h1>
-          <p className="text-base md:text-lg text-neutral-600">Check back soon for future events!</p>
+          <h1 className="text-3xl md:text-4xl font-black text-white mb-4 font-pixelify">No Upcoming Events</h1>
+          <p className="text-base md:text-lg text-white/80">Check back soon for future events!</p>
         </div>
       </main>
     );
