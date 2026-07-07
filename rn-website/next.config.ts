@@ -5,6 +5,13 @@ const nextConfig: NextConfig = {
     // Minimum time (in seconds) Next.js caches an optimized image before re-validating.
     // 60 * 60 * 24 * 30 = 30 days — good for static assets that rarely change.
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '/drqqqhudz/**',
+      },
+    ],
   },
 
   async headers() {
