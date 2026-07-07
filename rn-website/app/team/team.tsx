@@ -23,20 +23,21 @@ function MemberCard({ member }: { member: Member }) {
             alt={member.name}
             fill
             unoptimized
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            className="object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
             sizes="(max-width: 640px) 70vw, 19vw"
           />
           
           {/* Social Icons Overlay - Top Right */}
           {hasLinks && (
-            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
               {member.links.linkedin && (
                 <a
                   href={member.links.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${member.name} LinkedIn`}
-                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/80 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110 pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <FaLinkedin size={18} />
                 </a>
@@ -47,7 +48,8 @@ function MemberCard({ member }: { member: Member }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${member.name} GitHub`}
-                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/80 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110 pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <FaGithub size={18} />
                 </a>
@@ -58,7 +60,8 @@ function MemberCard({ member }: { member: Member }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${member.name} website`}
-                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                  className="bg-black/80 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110 pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <FaGlobe size={18} />
                 </a>
@@ -67,7 +70,7 @@ function MemberCard({ member }: { member: Member }) {
           )}
 
           {/* Gradient Overlay on Hover */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
         </div>
 
         {/* Info Section */}
