@@ -102,10 +102,9 @@ function EventModal({ event, onClose }: { event: Event; onClose: () => void }) {
 
 function CalendarView({ events, onSelect }: { events: Event[]; onSelect: (e: Event) => void }) {
   const today = new Date();
-  const initialDate = events.length > 0 ? new Date(events[0].date + "T00:00:00") : today;
 
-  const [currentYear, setCurrentYear] = useState(initialDate.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(initialDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
 
   const eventMap = events.reduce<Record<string, Event[]>>((acc, e) => {
     // Add event to start date
