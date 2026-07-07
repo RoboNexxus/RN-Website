@@ -66,14 +66,14 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
             {/* Compact Date Badge */}
             <div className="mb-3 md:mb-4">
               <div className="relative inline-block">
-                <h1 className="text-[15vw] md:text-[10vw] lg:text-[8vw] font-black leading-none tracking-tighter text-white">
+                <h1 className="text-[18vw] md:text-[12vw] lg:text-[10vw] font-black leading-none tracking-tighter text-white">
                   {event.endDate ? formatDateForDisplay(event.date, event.endDate).split(' ')[0] : new Date(event.date + "T00:00:00").getDate()}
                 </h1>
-                <p className="text-[4vw] md:text-[3vw] lg:text-[2vw] font-bold text-white uppercase tracking-wider text-center">
+                <p className="text-[5vw] md:text-[3.5vw] lg:text-[2.5vw] font-black text-white uppercase tracking-wider text-center -mt-1">
                   {new Date(event.date + "T00:00:00").toLocaleDateString("en-IN", { month: "short" }).toUpperCase()}
                 </p>
                 <svg 
-                  className="absolute -inset-4 md:-inset-6 lg:-inset-8 w-[calc(100%+2rem)] md:w-[calc(100%+3rem)] lg:w-[calc(100%+4rem)] h-[calc(100%+2rem)] md:h-[calc(100%+3rem)] lg:h-[calc(100%+4rem)] text-green-600 -z-10" 
+                  className="absolute -inset-3 md:-inset-4 lg:-inset-6 w-[calc(100%+1.5rem)] md:w-[calc(100%+2rem)] lg:w-[calc(100%+3rem)] h-[calc(100%+1.5rem)] md:h-[calc(100%+2rem)] lg:h-[calc(100%+3rem)] text-green-600 -z-10" 
                   viewBox="0 0 400 150" 
                   preserveAspectRatio="none" 
                   fill="none" 
@@ -136,22 +136,22 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
         </div>
 
         {/* Middle Right - Theme & Location */}
-        <div className="p-3 md:p-4 lg:p-6 flex flex-col justify-between border-r-2 border-white">
+        <div className="p-3 md:p-4 lg:p-6 flex flex-col justify-center border-r-2 border-white">
           <div>
             <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-3 uppercase">
               Theme
             </div>
-            <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-white line-clamp-3">
+            <p className="text-xs md:text-sm lg:text-base font-semibold leading-relaxed text-white line-clamp-4">
               {event.theme || "Innovation and Technology"}
             </p>
           </div>
 
           {event.location && (
-            <div className="mt-4">
+            <div className="mt-3 md:mt-4">
               <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 mb-2 uppercase">
                 Location
               </div>
-              <p className="text-xs md:text-sm lg:text-base font-bold text-white line-clamp-2">
+              <p className="text-[10px] md:text-xs lg:text-sm font-bold text-white line-clamp-2">
                 {event.location}
               </p>
             </div>
@@ -160,17 +160,17 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
 
         {/* Right Section - Register CTA with 3D Model */}
         <div className="p-3 md:p-4 lg:p-6 flex flex-col justify-center items-center relative overflow-hidden">
-          {/* Decorative doodles */}
-          <CornerSquiggles className="absolute top-0 right-0 w-32 h-32 md:w-40 md:h-40 -mr-12 -mt-12 text-green-600 rotate-45" />
-          <CornerDots className="absolute bottom-0 left-0 w-28 h-28 md:w-32 md:h-32 -ml-8 -mb-8 text-green-600" />
+          {/* Decorative doodles - Smaller and better positioned */}
+          <CornerSquiggles className="absolute top-0 right-0 w-24 h-24 md:w-28 md:h-28 -mr-8 -mt-8 text-green-600 rotate-45 opacity-50" />
+          <CornerDots className="absolute bottom-2 left-2 w-20 h-20 md:w-24 md:h-24 text-green-600 opacity-40" />
 
-          <div className="relative z-10 flex flex-col items-center justify-center text-center w-full space-y-3 md:space-y-4">
+          <div className="relative z-10 flex flex-col items-center justify-center text-center w-full space-y-2 md:space-y-3">
             <div className="text-[9px] md:text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">
               Register Now
             </div>
             
-            {/* 3D Logo Model - Compact */}
-            <div className="w-full h-32 md:h-40 lg:h-48">
+            {/* 3D Logo Model - Smaller */}
+            <div className="w-full h-24 md:h-32 lg:h-40">
               <EventLogoModel />
             </div>
 
@@ -178,7 +178,7 @@ function EventFullPage({ event, index }: { event: Event; index: number }) {
               onClick={handleRegister}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 md:px-8 lg:px-10 py-2.5 md:py-3 lg:py-3.5 rounded-xl md:rounded-2xl bg-green-600 hover:bg-green-700 text-white font-black text-xs md:text-sm lg:text-base uppercase tracking-wider transition-all shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 md:px-6 lg:px-8 py-2 md:py-2.5 lg:py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-black text-[10px] md:text-xs lg:text-sm uppercase tracking-wider transition-all shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!event.registrationLink || event.registrationLink === "#"}
             >
               Register
