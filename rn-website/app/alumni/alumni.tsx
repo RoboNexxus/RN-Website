@@ -14,66 +14,77 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
   const hasLinks = Object.values(alumni.links).some(link => link);
 
   return (
-    <div className="sm:w-[19vw] sm:h-[29vw] w-[70vw] h-[105vw] flex flex-col items-center mt-[4vh] bg-[#191919] sm:rounded-[1vw] rounded-[4vw] group relative hover:scale-102 transition-all duration-300">
-      <Image
-        src={imgSrc}
-        alt={alumni.name}
-        className="sm:w-[19vw] w-[70vw] aspect-square object-cover sm:p-[2vw] p-[4vw] sm:rounded-[2.6vw] rounded-[7vw]"
-        sizes="(max-width: 640px) 70vw, 19vw"
-        width={0}
-        height={0}
-      />
-      <h2 className="text-[#fff] sm:text-[1.5vw] text-[6vw] font-bold">
-        {alumni.name}
-      </h2>
-      <div className="flex items-center gap-2 mt-1">
-        <h4 className="sm:text-[#8c8c8c] sm:text-[1.1vw] text-[4.5vw] sm:group-hover:text-[#16e16e] text-[#fff] transition-all duration-300">
-          {alumni.role}
-        </h4>
-        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide font-semibold sm:text-[0.8vw]">
-          {alumni.batch}
-        </span>
-      </div>
-      
-      {hasLinks && (
-        <div
-          className="flex flex-row justify-center items-center bg-[#393939] rounded-[4vw] gap-[4vw] mt-[5vw] p-[4vw] px-[7vw] sm:opacity-0 sm:group-hover:opacity-100 sm:transition-opacity sm:duration-300 sm:rounded-[1vw] sm:gap-[1.4vw] sm:mt-[1.6vw] sm:p-[1vw] sm:px-[2.4vw]"
-        >
-          {alumni.links.linkedin && (
-            <a
-              href={alumni.links.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${alumni.name} LinkedIn`}
-              className="text-[#fff] hover:text-[#16e16e] transition-all duration-300"
-            >
-              <FaLinkedin className="sm:text-[1.5vw] text-[6vw]" />
-            </a>
+    <div className="reveal-item group sm:w-[19vw] w-[70vw]">
+      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 w-full h-full">
+        {/* Image Section with Social Icons Overlay */}
+        <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
+          <Image
+            src={imgSrc}
+            alt={alumni.name}
+            fill
+            unoptimized
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+            sizes="(max-width: 640px) 70vw, 19vw"
+          />
+          
+          {/* Social Icons Overlay - Top Right */}
+          {hasLinks && (
+            <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              {alumni.links.linkedin && (
+                <a
+                  href={alumni.links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} LinkedIn`}
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaLinkedin size={18} />
+                </a>
+              )}
+              {alumni.links.github && (
+                <a
+                  href={alumni.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} GitHub`}
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaGithub size={18} />
+                </a>
+              )}
+              {alumni.links.website && (
+                <a
+                  href={alumni.links.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} website`}
+                  className="bg-black/70 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110"
+                >
+                  <FaGlobe size={18} />
+                </a>
+              )}
+            </div>
           )}
-          {alumni.links.github && (
-            <a
-              href={alumni.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${alumni.name} GitHub`}
-              className="text-[#fff] hover:text-[#16e16e] transition-all duration-300"
-            >
-              <FaGithub className="sm:text-[1.5vw] text-[6vw]" />
-            </a>
-          )}
-          {alumni.links.website && (
-            <a
-              href={alumni.links.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`${alumni.name} website`}
-              className="text-[#fff] hover:text-[#16e16e] transition-all duration-300"
-            >
-              <FaGlobe className="sm:text-[1.5vw] text-[6vw]" />
-            </a>
-          )}
+
+          {/* Gradient Overlay on Hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
-      )}
+
+        {/* Info Section */}
+        <div className="bg-gradient-to-br from-neutral-800/80 to-neutral-900/90 backdrop-blur-sm px-5 py-6 text-center">
+          <h3 className="text-lg font-bold text-white leading-tight">
+            {alumni.name}
+          </h3>
+          <div className="flex items-center justify-center gap-2 mt-2 flex-wrap">
+            <p className="text-sm text-neutral-400 font-medium">
+              {alumni.role}
+            </p>
+            <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide font-semibold">
+              {alumni.batch}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
