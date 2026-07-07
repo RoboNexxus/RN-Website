@@ -4,12 +4,13 @@ import HeroModel from "@/components/ui/hero-model";
 import GlassDock from "@/components/ui/glass-dock";
 import FlipText from "@/components/ui/flip-text";
 import { Home as HomeIcon, Mail, MessageCircle } from "lucide-react";
-import { FaGithub, FaInstagram } from "react-icons/fa";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
   const dockItems = [
     { title: "Home", icon: HomeIcon, href: "#" },
     { title: "GitHub", icon: FaGithub, href: "https://github.com/RoboNexxus" },
+    { title: "LinkedIn", icon: FaLinkedin, href: "https://www.linkedin.com/company/robo-nexus/" },
     { title: "Instagram", icon: FaInstagram, href: "https://www.instagram.com/robonexus.ais46/" },
     { title: "Mail", icon: Mail, href: "mailto:robonexus.ais46@gmail.com" },
     { title: "Contact", icon: MessageCircle, href: "/contact" },
