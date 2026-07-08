@@ -53,10 +53,10 @@ export default function Events() {
 
       {/* Brochure Button - Left Side */}
       {event.brochureLink && event.brochureLink !== "#" && (
-        <div className="absolute left-12 md:left-20 top-1/2 -translate-y-1/2 z-20">
+        <div className="absolute left-[20%] md:left-[25%] lg:left-[30%] top-1/2 -translate-y-1/2 z-20">
           <AnimatedButton
             onClick={() => window.open(event.brochureLink, "_blank")}
-            className="text-white dark:text-white"
+            className="!text-white dark:!text-white"
           >
             <FaFileAlt className="w-5 h-5" />
           </AnimatedButton>
@@ -65,10 +65,10 @@ export default function Events() {
 
       {/* Discord Button - Right Side */}
       {event.discordLink && event.discordLink !== "#" && (
-        <div className="absolute right-12 md:right-20 top-1/2 -translate-y-1/2 z-20">
+        <div className="absolute right-[20%] md:right-[25%] lg:right-[30%] top-1/2 -translate-y-1/2 z-20">
           <AnimatedButton
             onClick={() => window.open(event.discordLink, "_blank")}
-            className="text-white dark:text-white"
+            className="!text-white dark:!text-white"
           >
             <FaDiscord className="w-5 h-5" />
           </AnimatedButton>
@@ -110,7 +110,7 @@ export default function Events() {
           {event.registrationLink && event.registrationLink !== "#" && (
             <AnimatedButton
               onClick={() => window.open(event.registrationLink, "_blank")}
-              className="text-white dark:text-white px-8 md:px-10 py-3 md:py-4 text-base md:text-lg"
+              className="!text-white dark:!text-white px-8 md:px-10 py-3 md:py-4 text-base md:text-lg"
             >
               Register Now
             </AnimatedButton>
