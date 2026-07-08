@@ -2,7 +2,8 @@
 
 import dynamic from "next/dynamic";
 import eventsData from "@/data/events.json";
-import { FileText, MessageSquare } from "lucide-react";
+import AnimatedButton from "@/components/ui/animated-button";
+import { FaDiscord, FaFileAlt } from "react-icons/fa";
 
 const RockModel = dynamic(() => import("@/components/ui/rock-model"), {
   ssr: false,
@@ -50,18 +51,40 @@ export default function Events() {
         </div>
       </div>
 
+      {/* Brochure Button - Left Side */}
+      {event.brochureLink && event.brochureLink !== "#" && (
+        <div className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20">
+          <AnimatedButton
+            onClick={() => window.open(event.brochureLink, "_blank")}
+            className="bg-white dark:bg-white text-black border-white/20 hover:bg-white/90"
+          >
+            <FaFileAlt className="w-5 h-5 md:w-6 md:h-6" />
+          </AnimatedButton>
+        </div>
+      )}
+
+      {/* Discord Button - Right Side */}
+      {event.discordLink && event.discordLink !== "#" && (
+        <div className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20">
+          <AnimatedButton
+            onClick={() => window.open(event.discordLink, "_blank")}
+            className="bg-white dark:bg-white text-black border-white/20 hover:bg-white/90"
+          >
+            <FaDiscord className="w-5 h-5 md:w-6 md:h-6" />
+          </AnimatedButton>
+        </div>
+      )}
+
       {/* Content Container */}
       <div className="z-10 flex flex-col items-center justify-center w-full max-w-6xl gap-4 md:gap-6">
         
         {/* Event Title & Date on Top */}
         <div className="text-center">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-pixelify text-white uppercase tracking-tight mb-2">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-pixelify text-white uppercase tracking-tight mb-3">
             {event.title}
           </h1>
-          <div className="flex items-center justify-center gap-3 text-neutral-400 text-sm md:text-base">
-            <span className="uppercase tracking-wider">{event.theme}</span>
-            <span className="w-1 h-1 bg-green-500 rounded-full" />
-            <span>{formatDate(event.date)}</span>
+          <div className="text-neutral-400 text-base md:text-lg">
+            {formatDate(event.date)}
           </div>
         </div>
 
@@ -70,8 +93,8 @@ export default function Events() {
           <RockModel />
         </div>
 
-        {/* Event Details & Buttons */}
-        <div className="text-center max-w-2xl space-y-4 md:space-y-6">
+        {/* Event Details & Register Button */}
+        <div className="text-center max-w-2xl space-y-4 md:space-y-5">
           {/* Location */}
           {event.location && (
             <div className="flex items-center justify-center gap-2 text-neutral-400 text-sm md:text-base">
@@ -83,40 +106,15 @@ export default function Events() {
             </div>
           )}
 
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-4">
-            {/* Register Button */}
-            {event.registrationLink && event.registrationLink !== "#" && (
-              <button
-                onClick={() => window.open(event.registrationLink, "_blank")}
-                className="px-6 md:px-8 py-3 md:py-4 bg-green-500 hover:bg-green-600 text-black font-bold text-sm md:text-base rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl hover:shadow-green-500/50"
-              >
-                Register Now
-              </button>
-            )}
-
-            {/* Brochure Button */}
-            {event.brochureLink && event.brochureLink !== "#" && (
-              <button
-                onClick={() => window.open(event.brochureLink, "_blank")}
-                className="px-6 md:px-8 py-3 md:py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-sm md:text-base rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-              >
-                <FileText className="w-4 h-4 md:w-5 md:h-5" />
-                Brochure
-              </button>
-            )}
-
-            {/* Discord Button */}
-            {event.discordLink && event.discordLink !== "#" && (
-              <button
-                onClick={() => window.open(event.discordLink, "_blank")}
-                className="px-6 md:px-8 py-3 md:py-4 bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold text-sm md:text-base rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
-              >
-                <MessageSquare className="w-4 h-4 md:w-5 md:h-5" />
-                Discord
-              </button>
-            )}
-          </div>
+          {/* Register Button */}
+          {event.registrationLink && event.registrationLink !== "#" && (
+            <AnimatedButton
+              onClick={() => window.open(event.registrationLink, "_blank")}
+              className="bg-white dark:bg-white text-black border-white/20 hover:bg-white/90 px-8 md:px-10 py-3 md:py-4 text-base md:text-lg font-semibold"
+            >
+              Register Now
+            </AnimatedButton>
+          )}
         </div>
       </div>
     </main>
