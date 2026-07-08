@@ -75,7 +75,7 @@ export default function Events() {
             </AnimeScrollReveal>
 
             {/* Event Details */}
-            <AnimeScrollReveal delay={200}>
+            <AnimeScrollReveal>
               <div className="space-y-6">
                 <div>
                   <div className="inline-block px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full mb-4">
