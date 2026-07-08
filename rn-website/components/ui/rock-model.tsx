@@ -9,7 +9,6 @@ import {
   Html,
   Center,
   Bounds,
-  PerspectiveCamera,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { ANIMATION_CONFIG } from "@/lib/animation-config";
@@ -221,13 +220,6 @@ export default function RockModel() {
           </React.Suspense>
         </Canvas>
       </ModelErrorBoundary>
-
-      {/* Floating particles effect overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-green-400 rounded-full animate-ping opacity-20" />
-        <div className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-green-500 rounded-full animate-pulse opacity-30" />
-        <div className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-green-300 rounded-full animate-ping opacity-25" style={{ animationDelay: "1s" }} />
-      </div>
     </div>
   );
 }
