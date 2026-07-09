@@ -9,7 +9,7 @@ export default function Robotronics() {
 
   return (
     <main className="flex items-center justify-center min-h-screen">
-      <p className="text-white">Redirecting to Robotronics...</p>
+      <p className="text-white">Redirecting to Robo Nexus'26...</p>
     </main>
   );
 }
