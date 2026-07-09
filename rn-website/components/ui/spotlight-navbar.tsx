@@ -32,7 +32,7 @@ const defaultNavItems: NavItem[] = [
     { label: "Projects", href: "/projects" },
     { label: "Events", href: "/events" },
     { label: "Contact", href: "/contact" },
-    { label: "Robotronics", href: "/robotronics" },
+    { label: "Robo Nexus'26", href: "/robotronics" },
 ];
 
 /** Small animated dropdown panel */
