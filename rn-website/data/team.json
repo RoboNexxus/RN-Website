@@ -11,7 +11,7 @@
     {
       "name": "Nipun Dhawan",
       "role": "Head",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "assets/images/nipun_dhawan.png",
       "links": {
         "linkedin": "https://www.linkedin.com/in/nipun-dhawan-03072009nd/"
       }
@@ -53,7 +53,7 @@
     {
       "name": "Parag Verma",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "assets/images/parag_verma.jpg",
       "links": {
         "github": "https://github.com/paragverma15"
       }
@@ -67,7 +67,7 @@
     {
       "name": "Devanshu Roy",
       "role": "Member",
-      "image": "assets/images/DY.webp",
+      "image": "assets/images/devanshu_roy.png",
       "links": {
         "github": "https://github.com/DevanshuRoy",
         "website": "https://devanshuroy.me/"
@@ -90,7 +90,7 @@
     {
       "name": "Priyanshu Priyadarshi",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "assets/images/priyanshu_priyadarshi.jpg",
       "links": {}
     },
     {
@@ -111,20 +111,27 @@
     {
       "name": "Jayvardhan Jadhav",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
-      "links": {}
+      "image": "assets/images/jayvardhan_jadhav.jpg",
+      "links": {
+        "instagram": "https://www.instagram.com/the.vader2026"
+      }
     },
     {
       "name": "Manik Sharma",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
-      "links": {}
+      "image": "assets/images/manik_sharma.jpg",
+      "links": {
+        "website": "https://links.maniksharma.xyz",
+        "linkedin": "https://www.linkedin.com/in/manik-sharma-30b4a9419/"
+      }
     },
     {
       "name": "Pranshul Agarwal",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
-      "links": {}
+      "image": "assets/images/pranshul_agarwal.jpg",
+      "links": {
+        "github": "https://github.com/pranshulagarwal250712-droid"
+      }
     },
     {
       "name": "Agrim Tyagi Sharma",
@@ -153,13 +160,13 @@
     {
       "name": "Sarthak Kundu",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "assets/images/sarthak_kundu.jpg",
       "links": {}
     },
     {
       "name": "Viaan Poornit",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "assets/images/viaan_poornit.jpg",
       "links": {}
     },
     {

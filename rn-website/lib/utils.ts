@@ -28,7 +28,17 @@ const cloudinaryMap: Record<string, string> = {
   "robonexus.png": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/nvbk67fewjqrf9ethsrp?_a=BAMAPqfk0",
   "yadavE.webp": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/tj2wfsaskczyfjluc9zi?_a=BAMAPqfk0",
   "yadavE0.webp": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/t75xo8duhqagacyvvfaw?_a=BAMAPqfk0",
-  "yadavE07.webp": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/bs4es2tdhvg6ouham1ns?_a=BAMAPqfk0"
+  "yadavE07.webp": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/bs4es2tdhvg6ouham1ns?_a=BAMAPqfk0",
+  // inductees 2026
+  "manik_sharma.jpg":          "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/manik_sharma",
+  "pranshul_agarwal.jpg":      "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/pranshul_agarwal",
+  "sarthak_kundu.jpg":         "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/sarthak_kundu",
+  "priyanshu_priyadarshi.jpg": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/priyanshu_priyadarshi",
+  "nipun_dhawan.png":          "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/nipun_dhawan",
+  "devanshu_roy.png":          "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/devanshu_roy",
+  "viaan_poornit.jpg":         "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/viaan_poornit",
+  "jayvardhan_jadhav.jpg":     "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/jayvardhan_jadhav",
+  "parag_verma.jpg":           "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/team/parag_verma",
 };
 
 export function resolveAssetPath(path: string): string {
