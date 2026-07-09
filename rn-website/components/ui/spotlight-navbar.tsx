@@ -32,7 +32,6 @@ const defaultNavItems: NavItem[] = [
     { label: "Projects", href: "/projects" },
     { label: "Events", href: "/events" },
     { label: "Contact", href: "/contact" },
-    { label: "Robo Nexus'26", href: "/robotronics" },
 ];
 
 /** Small animated dropdown panel */
@@ -169,8 +168,7 @@ function MobileMenu({
                                     {/* Label — always navigates to the page */}
                                     <button
                                         className={cn(
-                                            "flex-1 text-left px-4 py-3 text-sm hover:text-white transition-colors duration-150",
-                                            item.label === "Robotronics" ? "font-bold" : "font-medium"
+                                            "flex-1 text-left px-4 py-3 text-sm font-medium hover:text-white transition-colors duration-150",
                                         )}
                                         onClick={() => onNavigate(item.href)}
                                     >
@@ -378,9 +376,8 @@ export function SpotlightNavbar({
                                         handleItemClick(item, idx);
                                     }}
                                     className={cn(
-                                        "px-4 py-2 text-sm transition-colors duration-200 rounded-full",
+                                        "px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full",
                                         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:focus-visible:ring-white/30",
-                                        item.label === "Robotronics" ? "font-bold" : "font-medium",
                                         activeIndex === idx
                                             ? "text-black dark:text-white"
                                             : "text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"
