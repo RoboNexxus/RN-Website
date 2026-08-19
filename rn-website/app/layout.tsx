@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
-import BackToTop from "@/components/back-to-top";
-import { ToastProvider } from "@/components/ui/toast";
-import { Meteors } from "@/components/ui/meteors";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +23,7 @@ export const metadata: Metadata = {
   keywords: ["robotics", "Robo Nexus", "Amity", "Gurugram", "automation", "STEM"],
   openGraph: {
     title: "Robo Nexus",
-    description:
-      "The official robotics club of Amity International School, Sector-46, Gurugram.",
+    description: "The official robotics club of Amity International School, Sector-46, Gurugram.",
     url: "https://robonexus.in",
     siteName: "Robo Nexus",
     locale: "en_IN",
@@ -45,8 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Robo Nexus",
-    description:
-      "The official robotics club of Amity International School, Sector-46, Gurugram.",
+    description: "The official robotics club of Amity International School, Sector-46, Gurugram.",
     images: ["https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/hh4pb5zrmventaz8mkfl?_a=BAMAPqfk0"],
   },
   icons: {
@@ -55,23 +49,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-black grid-bg text-white">
-        <ToastProvider>
-          <Meteors />
-          <SpotlightNavbar />
-          {children}
-          <BackToTop />
-        </ToastProvider>
+      <body className="min-h-full bg-black text-white">
+        {children}
       </body>
     </html>
   );

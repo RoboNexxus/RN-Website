@@ -1,13 +1,8 @@
 {
   "events": [
     {
-      "title": Robotronics",
-      "date": "",
-      "description": "",
-      "location": "Amity International School, Sector 46 Gurugram",
-      "registrationLink": "https://robonexus26.vercel.app",
-      "brochureLink": "https://robonexus46.vercel.app/brochure.pdf",
-      "discordLink": "https://discord.gg/PSnanAxagX"
+      "videoUrl": "https://res.cloudinary.com/drqqqhudz/video/upload/robo_nexus/events/robotronics26_video.mov",
+      "thumbnailUrl": "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/robo_nexus/events/robotronics26_thumbnail"
     }
   ]
 }
