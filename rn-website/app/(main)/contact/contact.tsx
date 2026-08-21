@@ -226,8 +226,7 @@ export default function Contact() {
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
       <AnimePageHero
-        title="Get in Touch"
-        subtitle="Have a question, an idea, or just want to say hi? We'd love to hear from you."
+        title="Contact"
       />
 
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
