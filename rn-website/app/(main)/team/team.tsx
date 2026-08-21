@@ -2,7 +2,6 @@
 
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import AnimePageHero from "@/components/ui/anime-page-hero";
-import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
 import teamData from "@/data/team.json";
 import Image from "next/image";
@@ -11,10 +10,10 @@ type Member = (typeof teamData.members)[number];
 
 function MemberCard({ member }: { member: Member }) {
   const imgSrc = resolveAssetPath(member.image);
-  const hasLinks = Object.values(member.links).some(link => link);
+  const hasLinks = Object.values(member.links).some((link) => link);
 
   return (
-    <div className="reveal-item group sm:w-[19vw] w-[70vw]">
+    <div className="group sm:w-[19vw] w-[70vw]">
       <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 w-full h-full">
         {/* Image Section with Social Icons Overlay */}
         <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
@@ -23,10 +22,10 @@ function MemberCard({ member }: { member: Member }) {
             alt={member.name}
             fill
             unoptimized
-            className="object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
+            className="object-cover pointer-events-none"
             sizes="(max-width: 640px) 70vw, 19vw"
           />
-          
+
           {/* Social Icons Overlay - Top Right */}
           {hasLinks && (
             <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
@@ -42,6 +41,7 @@ function MemberCard({ member }: { member: Member }) {
                   <FaLinkedin size={18} />
                 </a>
               )}
+
               {member.links.github && (
                 <a
                   href={member.links.github}
@@ -54,6 +54,7 @@ function MemberCard({ member }: { member: Member }) {
                   <FaGithub size={18} />
                 </a>
               )}
+
               {member.links.website && (
                 <a
                   href={member.links.website}
@@ -106,59 +107,46 @@ export default function Team() {
 
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <AnimePageHero
-        title="Team"
-      />
+      <AnimePageHero title="Team" />
 
       {/* ── Leadership ── */}
       <section className="w-full max-w-7xl flex flex-col gap-10">
-        <AnimeScrollReveal className="text-center">
+        <div className="text-center">
           <h2 className="text-2xl font-bold">Leadership</h2>
-        </AnimeScrollReveal>
+        </div>
 
         <div>
           <SectionDivider title="Heads" />
-          <AnimeScrollReveal
-            className="flex flex-wrap justify-center gap-4 px-4"
-            staggerDelay={80}
-            fromY={1.5}
-          >
+          <div className="flex flex-wrap justify-center gap-4 px-4">
             {heads.map((m) => (
               <MemberCard key={m.name} member={m} />
             ))}
-          </AnimeScrollReveal>
+          </div>
         </div>
 
         {core.length > 0 && (
           <div>
             <SectionDivider title="Core" />
-            <AnimeScrollReveal
-              className="flex flex-wrap justify-center gap-4 px-4"
-              staggerDelay={80}
-              fromY={1.5}
-            >
+            <div className="flex flex-wrap justify-center gap-4 px-4">
               {core.map((m) => (
                 <MemberCard key={m.name} member={m} />
               ))}
-            </AnimeScrollReveal>
+            </div>
           </div>
         )}
       </section>
 
       {/* ── Members ── */}
       <section className="w-full max-w-7xl">
-        <AnimeScrollReveal className="text-center mb-10">
+        <div className="text-center mb-10">
           <h2 className="text-2xl font-bold">Members</h2>
-        </AnimeScrollReveal>
-        <AnimeScrollReveal
-          className="flex flex-wrap justify-center gap-4 px-4"
-          staggerDelay={50}
-          fromY={1.5}
-        >
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 px-4">
           {members.map((m) => (
             <MemberCard key={m.name} member={m} />
           ))}
-        </AnimeScrollReveal>
+        </div>
       </section>
     </main>
   );
