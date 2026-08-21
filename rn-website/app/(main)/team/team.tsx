@@ -107,8 +107,7 @@ export default function Team() {
   return (
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <AnimePageHero
-        title="Meet the Team"
-        subtitle="The people building, innovating, and keeping the lights on at Robo Nexus."
+        title="Team"
       />
 
       {/* ── Leadership ── */}
