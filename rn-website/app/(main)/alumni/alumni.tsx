@@ -2,7 +2,6 @@
 
 import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
 import AnimePageHero from "@/components/ui/anime-page-hero";
-import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import { resolveAssetPath } from "@/lib/utils";
 import alumniData from "@/data/alumni.json";
 import Image from "next/image";
@@ -11,11 +10,11 @@ type Alumni = (typeof alumniData.alumni)[number];
 
 function AlumniCard({ alumni }: { alumni: Alumni }) {
   const imgSrc = resolveAssetPath(alumni.image);
-  const hasLinks = Object.values(alumni.links).some(link => link);
+  const hasLinks = Object.values(alumni.links).some((link) => link);
 
   return (
-    <div className="reveal-item group sm:w-[19vw] w-[70vw]">
-      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 w-full h-full">
+    <div className="group sm:w-[19vw] w-[70vw]">
+      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 w-full h-full">
         {/* Image Section with Social Icons Overlay */}
         <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
           <Image
@@ -23,10 +22,10 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
             alt={alumni.name}
             fill
             unoptimized
-            className="object-cover transition-transform duration-500 group-hover:scale-110 pointer-events-none"
+            className="object-cover pointer-events-none"
             sizes="(max-width: 640px) 70vw, 19vw"
           />
-          
+
           {/* Social Icons Overlay - Top Right */}
           {hasLinks && (
             <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
@@ -42,6 +41,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   <FaLinkedin size={18} />
                 </a>
               )}
+
               {alumni.links.github && (
                 <a
                   href={alumni.links.github}
@@ -54,6 +54,7 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   <FaGithub size={18} />
                 </a>
               )}
+
               {alumni.links.website && (
                 <a
                   href={alumni.links.website}
@@ -78,10 +79,12 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
           <h3 className="text-lg font-bold text-white leading-tight">
             {alumni.name}
           </h3>
+
           <div className="flex items-center justify-center gap-2 mt-2 flex-wrap">
             <p className="text-sm text-neutral-400 font-medium">
               {alumni.role}
             </p>
+
             <span className="text-[10px] px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-400 tracking-wide font-semibold">
               {alumni.batch}
             </span>
@@ -100,15 +103,11 @@ export default function Alumni() {
         subtitle="The people who built the foundation. Robo Nexus wouldn't exist without them."
       />
 
-      <AnimeScrollReveal
-        className="flex flex-wrap justify-center gap-4 w-full max-w-7xl px-4"
-        staggerDelay={60}
-        fromY={1.5}
-      >
+      <div className="flex flex-wrap justify-center gap-4 w-full max-w-7xl px-4">
         {alumniData.alumni.map((a) => (
           <AlumniCard key={a.name} alumni={a} />
         ))}
-      </AnimeScrollReveal>
+      </div>
     </main>
   );
 }
