@@ -14,7 +14,7 @@ function MemberCard({ member }: { member: Member }) {
 
   return (
     <div className="group sm:w-[19vw] w-[70vw]">
-      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 hover:-translate-y-2 w-full h-full">
+      <div className="relative bg-gradient-to-br from-neutral-800/40 to-neutral-900/60 border border-white/10 shadow-xl rounded-xl overflow-hidden hover:shadow-2xl hover:border-white/20 transition-all duration-500 w-full h-full">
         {/* Image Section with Social Icons Overlay */}
         <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-neutral-900 to-neutral-950">
           <Image
@@ -79,6 +79,7 @@ function MemberCard({ member }: { member: Member }) {
           <h3 className="text-lg font-bold text-white leading-tight">
             {member.name}
           </h3>
+
           <p className="text-sm text-neutral-400 mt-2 font-medium">
             {member.role}
           </p>
@@ -92,9 +93,11 @@ function SectionDivider({ title }: { title: string }) {
   return (
     <div className="w-full flex items-center gap-4 mb-8">
       <div className="flex-1 h-px bg-white/10" />
+
       <p className="text-sm font-semibold text-neutral-300 uppercase tracking-widest shrink-0">
         {title}
       </p>
+
       <div className="flex-1 h-px bg-white/10" />
     </div>
   );
@@ -117,6 +120,7 @@ export default function Team() {
 
         <div>
           <SectionDivider title="Heads" />
+
           <div className="flex flex-wrap justify-center gap-4 px-4">
             {heads.map((m) => (
               <MemberCard key={m.name} member={m} />
@@ -127,6 +131,7 @@ export default function Team() {
         {core.length > 0 && (
           <div>
             <SectionDivider title="Core" />
+
             <div className="flex flex-wrap justify-center gap-4 px-4">
               {core.map((m) => (
                 <MemberCard key={m.name} member={m} />
