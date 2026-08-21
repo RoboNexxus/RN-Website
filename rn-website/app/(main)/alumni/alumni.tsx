@@ -100,7 +100,6 @@ export default function Alumni() {
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <AnimePageHero
         title="Alumni"
-        subtitle="The people who built the foundation. Robo Nexus wouldn't exist without them."
       />
 
       <div className="flex flex-wrap justify-center gap-4 w-full max-w-7xl px-4">
