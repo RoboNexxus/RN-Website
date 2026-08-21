@@ -33,16 +33,6 @@ function ProjectCard({ project }: { project: Project }) {
           className="absolute inset-0"
         />
       </div>
-      <div className="p-5 flex flex-col gap-2">
-        <h3 className="font-semibold text-base leading-snug">{project.title}</h3>
-        <p className="text-xs text-neutral-500">
-          {project.creator}
-          {project.team ? ` · ${project.team}` : ""} · {project.year}
-        </p>
-        <p className="text-sm text-neutral-400 leading-relaxed mt-1 line-clamp-3">
-          {project.description}
-        </p>
-      </div>
     </div>
   );
 }
