@@ -46,7 +46,6 @@ export default function Projects() {
     <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
       <AnimePageHero
         title="Projects"
-        subtitle="Everything we've built — from combat bots to autonomous drones."
       />
 
       <div className="w-full max-w-4xl flex flex-col gap-5">
