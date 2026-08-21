@@ -1,55 +1,37 @@
 "use client";
 
-import AnimePageHero from "@/components/ui/anime-page-hero";
 import AnimeScrollReveal from "@/components/ui/anime-scroll-reveal";
 import AboutModel from "@/components/ui/about-model";
 
 export default function About() {
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <AnimePageHero title="About Us" />
-
-      {/* Two-column layout for Model and Origin */}
-      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl gap-12 mt-8">
-        
-        {/* Left Side: 3D Model */}
-        <div className="w-full md:w-1/2 flex justify-start">
-          <AnimeScrollReveal className="w-full" fromY={1.5}>
-            <AboutModel />
+    <main className="flex flex-col items-center flex-1 px-4 md:px-8 py-10 md:py-16">
+      <section className="w-full max-w-7xl min-h-[calc(100dvh-8rem)] flex items-center">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
+          <AnimeScrollReveal
+            className="lg:col-span-6 lg:col-start-1 lg:row-start-1 z-10"
+            fromY={1.5}
+          >
+            <div className="text-left">
+              <p className="text-[clamp(2rem,6vw,4.75rem)] font-black leading-[0.95] tracking-tight text-neutral-200">
+                We’re not here just to take part.
+              </p>
+              <p className="text-[clamp(2rem,6vw,4.75rem)] font-black leading-[0.95] tracking-tight text-white/90 mt-3 md:mt-4">
+                We’re here to take over.
+              </p>
+              <p className="text-[clamp(2.6rem,8vw,6.5rem)] font-black leading-[0.9] tracking-tight text-white mt-4 md:mt-5">
+                We’re here to win.
+              </p>
+            </div>
           </AnimeScrollReveal>
+
+          <div className="lg:col-span-8 lg:col-start-5 lg:row-start-1">
+            <AnimeScrollReveal className="w-full" fromY={1.5}>
+              <AboutModel />
+            </AnimeScrollReveal>
+          </div>
         </div>
-
-        {/* Right Side: Text */}
-        <div className="w-full md:w-1/2 flex flex-col justify-center">
-          <AnimeScrollReveal className="max-w-xl text-left" fromY={1.5}>
-            <p className="text-neutral-300 leading-relaxed text-lg">
-              Established in 2024,{" "}
-              <span className="text-white font-semibold">Robo Nexus</span> is the
-              official robotics club of{" "}
-              <span className="text-white font-semibold">
-                Amity International School, Sector-46, Gurugram
-              </span>
-              . We are a passionate community of students dedicated to exploring the
-              fascinating world of robotics, automation, and emerging technologies.
-            </p>
-          </AnimeScrollReveal>
-        </div>
-
-      </div>
-
-      {/* Divider */}
-      <div className="w-full max-w-2xl h-px bg-white/10" />
-
-      {/* Mission */}
-      <AnimeScrollReveal className="max-w-2xl text-center" fromY={1.5}>
-        <h2 className="text-xl font-semibold mb-4 text-white">Our Mission</h2>
-        <p className="text-neutral-400 leading-relaxed text-base">
-          Our mission is to inspire innovation, creativity, and hands-on
-          learning. We believe in learning by doing — building robots, coding
-          solutions, and pushing the boundaries of what's possible with
-          technology.
-        </p>
-      </AnimeScrollReveal>
+      </section>
     </main>
   );
 }
