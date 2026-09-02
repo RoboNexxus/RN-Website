@@ -2,16 +2,49 @@
 @import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap');
 @import "tailwindcss";
 
+/* ============================================================
+   CUSTOM EASING TOKENS — Emil Kowalski / animations.dev
+   ============================================================ */
+:root {
+  /* Strong ease-out for entries (starts fast, feels responsive) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* Strong ease-in-out for on-screen movement */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  /* iOS-like drawer / curtain curve (from Ionic Framework) */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Elastic-feeling expo for letter animations */
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* Duration scale */
+  --dur-fast:   150ms;
+  --dur-normal: 240ms;
+  --dur-slow:   500ms;
+  --dur-cinematic: 900ms;
+
+  /* Grain overlay opacity */
+  --grain-opacity: 0.035;
+}
+
+/* ============================================================
+   SMOOTH SCROLL
+   ============================================================ */
+html {
+  scroll-behavior: smooth;
+  /* Lenis / native smooth scroll class hook */
+}
+
+/* Default cursor kept — no custom cursor override */
+
+/* ============================================================
+   BASE BODY
+   ============================================================ */
 @layer utilities {
   .font-pixelify {
     font-family: 'Pixelify Sans', sans-serif;
   }
-  
 
   .grid-bg {
-  background-color: #0d0d0d;
-
+    background-color: transparent;
   }
 }
 
@@ -19,66 +52,191 @@
   body {
     font-family: 'Doto', sans-serif;
     font-weight: 900;
+    background-color: #0d0d0d;
+    background-image: url('/hero-bg.png');
+    background-repeat: repeat;
+    background-size: 900px auto;
+    background-attachment: fixed;
+    color: #e8e8e8;
+    overflow-x: hidden;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     GRAIN TEXTURE OVERLAY
+     An SVG feTurbulence filter renders film grain.
+     position: fixed so it covers the whole viewport always.
+  ────────────────────────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: -200%;           /* bigger than viewport to avoid edges */
+    width: 400%;
+    height: 400%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: var(--grain-opacity);
+    pointer-events: none;
+    z-index: 9999;
+    animation: grain-drift 8s steps(10, end) infinite;
+    will-change: transform;
+  }
+
+  @keyframes grain-drift {
+    0%   { transform: translate(0,    0); }
+    10%  { transform: translate(-5%,  -10%); }
+    20%  { transform: translate(-15%, 5%); }
+    30%  { transform: translate(7%,  -25%); }
+    40%  { transform: translate(-5%,  25%); }
+    50%  { transform: translate(-15%, 10%); }
+    60%  { transform: translate(15%,  0%); }
+    70%  { transform: translate(0%,   15%); }
+    80%  { transform: translate(3%,  -35%); }
+    90%  { transform: translate(-10%, 10%); }
+    100% { transform: translate(0,    0); }
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     AMBIENT GLOW — subtle radial glow behind hero text
+  ────────────────────────────────────────────────────────── */
+  .ambient-glow {
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 50%, rgba(2, 202, 220, 0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 30% 70%, rgba(71, 160, 184, 0.04) 0%, transparent 70%);
+    pointer-events: none;
   }
 
   .spotlight-nav {
     font-family: var(--font-geist-sans), sans-serif !important;
   }
-  
+
+  /* ──────────────────────────────────────────────────────────
+     METEOR ANIMATION
+  ────────────────────────────────────────────────────────── */
   @theme inline {
-  --animate-meteor: meteor 5s linear infinite;
+    --animate-meteor: meteor 5s linear infinite;
 
-  @keyframes meteor {
-    0% {
-      transform: rotate(var(--angle)) translateX(0) translateZ(0);
-      opacity: 1;
-    }
-    70% {
-      opacity: 1;
-    }
-    100% {
-      transform: rotate(var(--angle)) translateX(-500px) translateZ(0);
-      opacity: 0;
+    @keyframes meteor {
+      0% {
+        transform: rotate(var(--angle)) translateX(0) translateZ(0);
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        transform: rotate(var(--angle)) translateX(-500px) translateZ(0);
+        opacity: 0;
+      }
     }
   }
-}
 
-
-      
+  /* ──────────────────────────────────────────────────────────
+     GLASS SYSTEM
+  ────────────────────────────────────────────────────────── */
   .glass-border {
-    border: 1px solid rgba(0, 0, 0, 0.15);
-  }
-
-  .dark .glass-border {
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .spotlight-nav-bg {
-    background-color: rgb(250, 250, 250);
-  }
-
-  .dark .spotlight-nav-bg {
-    background-color: rgb(10, 10, 10);
+    background-color: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
 
   .spotlight-nav-shadow {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  }
-
-  .dark .spotlight-nav-shadow {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
   }
 
-    /* Glass Component Borders */
-  .glass-border {
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  /* ──────────────────────────────────────────────────────────
+     SPLIT TEXT LETTER REVEAL — used in home hero
+     Each char starts occluded via clip-path, reveals upward.
+  ────────────────────────────────────────────────────────── */
+  .letter-wrap {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
   }
 
-  .dark .glass-border {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  .letter-inner {
+    display: inline-block;
+    will-change: transform;
   }
 
-  /* FlipText Component Animations */
+  /* ──────────────────────────────────────────────────────────
+     MARQUEE — horizontal infinite scroll ticker
+  ────────────────────────────────────────────────────────── */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     MAGNETIC CURSOR
+  ────────────────────────────────────────────────────────── */
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 6px; height: 6px;
+    background: #ffffff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: width 200ms var(--ease-out), height 200ms var(--ease-out),
+                background 200ms var(--ease-out), opacity 200ms var(--ease-out);
+    will-change: transform;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: width 300ms var(--ease-out), height 300ms var(--ease-out),
+                border-color 300ms var(--ease-out), opacity 300ms var(--ease-out);
+    will-change: transform;
+  }
+
+  /* Cursor state: hovering interactive element */
+  .cursor-dot.is-hovering {
+    width: 10px; height: 10px;
+    background: #02cadc;
+  }
+
+  .cursor-ring.is-hovering {
+    width: 52px; height: 52px;
+    border-color: rgba(2, 202, 220, 0.6);
+  }
+
+  /* Cursor state: pressing */
+  .cursor-dot.is-pressing {
+    width: 8px; height: 8px;
+    background: #02cadc;
+  }
+
+  .cursor-ring.is-pressing {
+    width: 28px; height: 28px;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     PAGE TRANSITION CURTAIN
+  ────────────────────────────────────────────────────────── */
+  .page-curtain {
+    position: fixed;
+    inset: 0;
+    background: #0d0d0d;
+    z-index: 99990;
+    transform-origin: bottom;
+    pointer-events: none;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     FLIP TEXT (existing, preserved)
+  ────────────────────────────────────────────────────────── */
   .flip-char {
     color: inherit;
     -webkit-text-fill-color: transparent;
@@ -105,37 +263,79 @@
     animation: fade var(--flip-duration, 2.2s) var(--flip-delay, 0s) var(--flip-iteration, infinite) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  /* Front Face (Initial) */
   .flip-char::after {
     transform: translate(-50%, -50%) translateZ(0.6em);
   }
 
-  /* Bottom Face (Rotates in) */
   .flip-char::before {
     transform: translate(-50%, -50%) rotateX(-90deg) translateZ(0.6em);
     opacity: 0;
   }
 
   @keyframes flip {
-    0%, 85% {
-      transform: rotateX(360deg) translateZ(0);
-    }
+    0%, 85% { transform: rotateX(360deg) translateZ(0); }
   }
 
   @keyframes fade {
-    0%, 85% {
-      opacity: var(--opacity, 1);
-    }
+    0%, 85% { opacity: var(--opacity, 1); }
   }
 
+  /* ──────────────────────────────────────────────────────────
+     SCROLL REVEAL word highlight (about page)
+  ────────────────────────────────────────────────────────── */
+  .word-highlight {
+    color: rgba(255,255,255, 0.15);
+    transition: color 0.1s ease;
+  }
+
+  .word-highlight.lit {
+    color: rgba(255,255,255, 1);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     TILT CARD
+  ────────────────────────────────────────────────────────── */
+  .tilt-card {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: box-shadow 300ms var(--ease-out);
+  }
+
+  .tilt-card:hover {
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08);
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     HORIZONTAL SCROLL PANEL
+  ────────────────────────────────────────────────────────── */
+  .h-scroll-container {
+    display: flex;
+    flex-wrap: nowrap;
+    will-change: transform;
+  }
+
+  .h-scroll-panel {
+    flex-shrink: 0;
+  }
 }
 
+/* ============================================================
+   REDUCED MOTION — gentler, not zero
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
   .animate-meteor {
     animation-duration: 10s !important;
   }
-  
+
   .flip-char, .flip-char::before, .flip-char::after {
     animation-duration: calc(var(--flip-duration, 2.2s) * 2) !important;
+  }
+
+  .marquee-track {
+    animation: none !important;
   }
 }
