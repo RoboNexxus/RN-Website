@@ -41,7 +41,6 @@ function MemberCard({ member }: { member: Member }) {
                   <FaLinkedin size={18} />
                 </a>
               )}
-
               {member.links.github && (
                 <a
                   href={member.links.github}
@@ -54,7 +53,6 @@ function MemberCard({ member }: { member: Member }) {
                   <FaGithub size={18} />
                 </a>
               )}
-
               {member.links.website && (
                 <a
                   href={member.links.website}
@@ -79,7 +77,6 @@ function MemberCard({ member }: { member: Member }) {
           <h3 className="text-lg font-bold text-white leading-tight">
             {member.name}
           </h3>
-
           <p className="text-sm text-neutral-400 mt-2 font-medium">
             {member.role}
           </p>
@@ -93,19 +90,17 @@ function SectionDivider({ title }: { title: string }) {
   return (
     <div className="w-full flex items-center gap-4 mb-8">
       <div className="flex-1 h-px bg-white/10" />
-
       <p className="text-sm font-semibold text-neutral-300 uppercase tracking-widest shrink-0">
         {title}
       </p>
-
       <div className="flex-1 h-px bg-white/10" />
     </div>
   );
 }
 
 export default function Team() {
-  const heads = teamData.members.filter((m) => m.role === "Head");
-  const core = teamData.members.filter((m) => m.role === "Core Member");
+  const heads   = teamData.members.filter((m) => m.role === "Head");
+  const core    = teamData.members.filter((m) => m.role === "Core Member");
   const members = teamData.members.filter((m) => m.role === "Member");
 
   return (
@@ -120,7 +115,6 @@ export default function Team() {
 
         <div>
           <SectionDivider title="Heads" />
-
           <div className="flex flex-wrap justify-center gap-4 px-4">
             {heads.map((m) => (
               <MemberCard key={m.name} member={m} />
@@ -131,7 +125,6 @@ export default function Team() {
         {core.length > 0 && (
           <div>
             <SectionDivider title="Core" />
-
             <div className="flex flex-wrap justify-center gap-4 px-4">
               {core.map((m) => (
                 <MemberCard key={m.name} member={m} />
@@ -146,7 +139,6 @@ export default function Team() {
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold">Members</h2>
         </div>
-
         <div className="flex flex-wrap justify-center gap-4 px-4">
           {members.map((m) => (
             <MemberCard key={m.name} member={m} />

@@ -21,15 +21,15 @@ function Field({
 } & React.InputHTMLAttributes<HTMLInputElement> &
   React.TextareaHTMLAttributes<HTMLTextAreaElement>) {
   const base = cn(
-    "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3",
-    "text-sm text-white placeholder:text-neutral-600",
-    "focus:outline-none focus:border-white/30 focus:bg-white/8",
+    "w-full bg-black/60 border border-white/15 rounded-xl px-4 py-3",
+    "text-base text-white placeholder:text-white/40 font-sans font-semibold",
+    "focus:outline-none focus:border-white/40 focus:bg-black/70",
     "transition-colors duration-150"
   );
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-xs font-medium text-neutral-400 uppercase tracking-wider">
+      <label htmlFor={id} className="text-xs font-medium text-white uppercase tracking-wider">
         {label}
       </label>
       {textarea ? (
@@ -179,18 +179,18 @@ function InfoPanel() {
 
       {/* Teacher in-charge */}
       <div className="info-item" style={{ opacity: 0 }}>
-        <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2">
+        <p className="text-xs font-medium text-neutral-300 uppercase tracking-wider mb-2">
           Teacher In-Charge
         </p>
-        <div className="rounded-xl glass-border bg-white/5 px-5 py-4">
-          <p className="font-semibold text-white">Suvarna Aggarwal</p>
-          <p className="text-xs text-neutral-500 mt-0.5">Faculty Mentor, Robo Nexus</p>
+        <div className="rounded-xl glass-border bg-black/60 px-5 py-4">
+          <p className="font-semibold text-white font-sans">Suvarna Aggarwal</p>
+          <p className="text-xs text-neutral-300 mt-0.5 font-sans font-normal">Faculty Mentor, Robo Nexus</p>
         </div>
       </div>
 
       {/* Location map */}
       <div className="info-item" style={{ opacity: 0 }}>
-        <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2">
+        <p className="text-xs font-medium text-neutral-300 uppercase tracking-wider mb-2">
           Location
         </p>
         <div className="rounded-xl overflow-hidden glass-border">
@@ -205,14 +205,14 @@ function InfoPanel() {
             title="Amity International School Sector 46 Gurugram"
           />
         </div>
-        <p className="text-xs text-neutral-600 mt-2">
+        <p className="text-xs text-neutral-300 mt-2 font-sans font-normal">
           Amity International School, Sector 46, Gurugram, Haryana 122003
         </p>
       </div>
 
       {/* Socials */}
       <div className="info-item" style={{ opacity: 0 }}>
-        <p className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2">
+        <p className="text-xs font-medium text-neutral-300 uppercase tracking-wider mb-2">
           Find us online
         </p>
         <SocialFlipButton />
@@ -224,7 +224,7 @@ function InfoPanel() {
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Contact() {
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
+    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14 relative">
       <AnimePageHero
         title="Contact"
       />
@@ -232,13 +232,13 @@ export default function Contact() {
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
         {/* Left — form */}
         <section>
-          <h2 className="text-base font-semibold text-neutral-300 mb-6">Send a message</h2>
+          <h2 className="text-base font-semibold text-white mb-6">Send a message</h2>
           <ContactForm />
         </section>
 
         {/* Right — info */}
         <section>
-          <h2 className="text-base font-semibold text-neutral-300 mb-6">About us</h2>
+          <h2 className="text-base font-semibold text-white mb-6">About us</h2>
           <InfoPanel />
         </section>
       </div>
