@@ -211,7 +211,7 @@ export default function RockModel() {
             </Bounds>
             <ContactShadows
               position={[0, -2.5, 0]}
-              opacity={0.7}
+              opacity={0.15}
               scale={12}
               blur={2.5}
               far={5}

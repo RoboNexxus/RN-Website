@@ -203,7 +203,7 @@ export default function HeroModel() {
             </Bounds>
             <ContactShadows
               position={[0, -2.5, 0]}
-              opacity={0.5}
+              opacity={0.15}
               scale={15}
               blur={2}
               far={4}
