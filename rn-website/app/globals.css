@@ -42,10 +42,6 @@ html {
   .font-pixelify {
     font-family: 'Pixelify Sans', sans-serif;
   }
-
-  .grid-bg {
-    background-color: transparent;
-  }
 }
 
 @layer base {
@@ -97,13 +93,6 @@ html {
   /* ──────────────────────────────────────────────────────────
      AMBIENT GLOW — subtle radial glow behind hero text
   ────────────────────────────────────────────────────────── */
-  .ambient-glow {
-    background:
-      radial-gradient(ellipse 60% 40% at 50% 50%, rgba(2, 202, 220, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 30% 70%, rgba(71, 160, 184, 0.04) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
   .spotlight-nav {
     font-family: var(--font-geist-sans), sans-serif !important;
   }
@@ -144,21 +133,6 @@ html {
 
   .spotlight-nav-shadow {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5);
-  }
-
-  /* ──────────────────────────────────────────────────────────
-     SPLIT TEXT LETTER REVEAL — used in home hero
-     Each char starts occluded via clip-path, reveals upward.
-  ────────────────────────────────────────────────────────── */
-  .letter-wrap {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-  }
-
-  .letter-inner {
-    display: inline-block;
-    will-change: transform;
   }
 
   /* ──────────────────────────────────────────────────────────
@@ -281,18 +255,6 @@ html {
   }
 
   /* ──────────────────────────────────────────────────────────
-     SCROLL REVEAL word highlight (about page)
-  ────────────────────────────────────────────────────────── */
-  .word-highlight {
-    color: rgba(255,255,255, 0.15);
-    transition: color 0.1s ease;
-  }
-
-  .word-highlight.lit {
-    color: rgba(255,255,255, 1);
-  }
-
-  /* ──────────────────────────────────────────────────────────
      TILT CARD
   ────────────────────────────────────────────────────────── */
   .tilt-card {
@@ -305,18 +267,6 @@ html {
     box-shadow: 0 30px 60px -12px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08);
   }
 
-  /* ──────────────────────────────────────────────────────────
-     HORIZONTAL SCROLL PANEL
-  ────────────────────────────────────────────────────────── */
-  .h-scroll-container {
-    display: flex;
-    flex-wrap: nowrap;
-    will-change: transform;
-  }
-
-  .h-scroll-panel {
-    flex-shrink: 0;
-  }
 }
 
 /* ============================================================
