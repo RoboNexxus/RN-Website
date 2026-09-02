@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   useGLTF,
   Environment,
@@ -9,6 +9,7 @@ import {
   Html,
   Center,
   Bounds,
+  OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { ANIMATION_CONFIG } from "@/lib/animation-config";
@@ -56,23 +57,43 @@ function supportsWebGL(): boolean {
   }
 }
 
-// ─── 3D Model Component ───────────────────────────────────────────────────────
+// ─── Mouse-reactive Model ─────────────────────────────────────────────────────
 
-function Model({ url }: { url: string }) {
+function Model({
+  url,
+  mouse,
+}: {
+  url: string;
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+}) {
   const { scene } = useGLTF(url);
   const ref = useRef<THREE.Group>(null);
+  const targetRotX = useRef(0);
+  const targetRotY = useRef(0);
+  const autoY = useRef(0);
 
   useFrame((_, delta) => {
-    if (ref.current) {
-      const safeDelta = Math.min(delta, 0.05);
-      ref.current.rotation.y += safeDelta * ANIMATION_CONFIG.model.rotationSpeed;
-    }
+    if (!ref.current) return;
+    const safeDelta = Math.min(delta, 0.05);
+
+    // Slow auto-rotate on Y
+    autoY.current += safeDelta * ANIMATION_CONFIG.model.rotationSpeed;
+
+    // Mouse tilt — subtle pitch & yaw on top of auto-rotation
+    targetRotX.current = mouse.current.y * 0.35;
+    targetRotY.current = autoY.current + mouse.current.x * 0.45;
+
+    // Smooth lerp toward target
+    ref.current.rotation.x +=
+      (targetRotX.current - ref.current.rotation.x) * 0.06;
+    ref.current.rotation.y +=
+      (targetRotY.current - ref.current.rotation.y) * 0.06;
   });
 
   return (
     <group ref={ref} dispose={null}>
       <Center>
-        <primitive object={scene} rotation={[0.4, 0, 0]} />
+        <primitive object={scene} rotation={[0.2, 0, 0]} />
       </Center>
     </group>
   );
@@ -88,12 +109,11 @@ function Loader() {
   );
 }
 
-// ─── Fallback UI (shown when WebGL unavailable) ───────────────────────────────
+// ─── Fallback UI ──────────────────────────────────────────────────────────────
 
 function ModelFallback() {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-3 opacity-40 select-none">
-      {/* Simple robot SVG as visual placeholder */}
       <svg
         width="80"
         height="80"
@@ -114,20 +134,87 @@ function ModelFallback() {
         <line x1="30" y1="60" x2="28" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         <line x1="50" y1="60" x2="52" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       </svg>
-      <span className="text-white text-xs tracking-wider font-light" style={{ fontFamily: "var(--font-geist-sans), sans-serif" }}>
+      <span className="text-white text-xs tracking-wider font-light">
         3D model unavailable
       </span>
     </div>
   );
 }
 
+// ─── Scene (lights + model) ───────────────────────────────────────────────────
+
+function Scene({
+  mouse,
+}: {
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+}) {
+  return (
+    <>
+      {/* Base ambient — enough to see the model clearly */}
+      <ambientLight intensity={1.2} />
+
+      {/* Key light — warm white from top-front */}
+      <directionalLight
+        position={[4, 6, 5]}
+        intensity={2.5}
+        color="#ffffff"
+        castShadow={false}
+      />
+
+      {/* Fill light — soft from the left */}
+      <directionalLight
+        position={[-5, 2, 3]}
+        intensity={1.2}
+        color="#cce8ff"
+      />
+
+      {/* Rim / back light — cyan accent to keep the "tech" feel */}
+      <pointLight
+        position={[0, 4, -6]}
+        color="#02cadc"
+        intensity={12}
+        distance={18}
+      />
+
+      {/* Under-glow */}
+      <pointLight
+        position={[0, -4, 2]}
+        color="#47a0b8"
+        intensity={6}
+        distance={12}
+      />
+
+      {/* Use a brighter environment */}
+      <Environment preset="city" />
+
+      <React.Suspense fallback={<Loader />}>
+        <Bounds fit clip margin={1.2}>
+          <Model
+            url="https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb"
+            mouse={mouse}
+          />
+        </Bounds>
+        <ContactShadows
+          position={[0, -2.5, 0]}
+          opacity={0.18}
+          scale={15}
+          blur={2.5}
+          far={4}
+          color="#000000"
+        />
+      </React.Suspense>
+    </>
+  );
+}
+
 // ─── Main Export ──────────────────────────────────────────────────────────────
 
 export default function HeroModel() {
-  // Detect WebGL support and mobile *after* mount to avoid SSR mismatch
   const [ready, setReady] = useState(false);
   const [canRender, setCanRender] = useState(false);
   const [dpr, setDpr] = useState<[number, number]>([1, 1]);
+  const mouse = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -142,7 +229,19 @@ export default function HeroModel() {
     setReady(true);
   }, []);
 
-  // Don't render anything until we've checked on the client
+  // Track mouse position relative to the container center, normalized -1 → 1
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    mouse.current.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    mouse.current.y = -((e.clientY - rect.top) / rect.height - 0.5) * 2;
+  };
+
+  const handleMouseLeave = () => {
+    mouse.current.x = 0;
+    mouse.current.y = 0;
+  };
+
   if (!ready) {
     return (
       <div className="w-full h-full flex items-center justify-center">
@@ -158,62 +257,40 @@ export default function HeroModel() {
   }
 
   return (
-    <div className="w-full h-full relative cursor-grab active:cursor-grabbing">
+    <div
+      ref={containerRef}
+      className="w-full h-full relative cursor-grab active:cursor-grabbing"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <ModelErrorBoundary fallback={<ModelFallback />}>
         <Canvas
           camera={{ position: [0, 0, 10], fov: 50 }}
           dpr={dpr}
           frameloop="always"
           gl={{
-            // Prefer WebGL2 but fall back gracefully
-            powerPreference: "default",
+            powerPreference: "high-performance",
             antialias: true,
             alpha: true,
-            // Prevent context-loss issues on mobile
             preserveDrawingBuffer: false,
           }}
         >
-          {/* Lighting */}
-          <ambientLight intensity={0.25} />
-          <spotLight
-            position={[6, 8, 6]}
-            angle={0.25}
-            penumbra={1}
-            intensity={0.6}
-            castShadow={false}
-          />
-          <pointLight
-            position={[-4, -2, -4]}
-            color="#47a0b8"
-            intensity={8}
-            distance={12}
-          />
-          <pointLight
-            position={[0, 3, -5]}
-            color="#02cadc"
-            intensity={6}
-            distance={10}
-          />
+          <Scene mouse={mouse} />
 
-          <Environment preset="night" />
-
-          <React.Suspense fallback={<Loader />}>
-            <Bounds fit clip margin={1.3}>
-              <Model url="https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb" />
-            </Bounds>
-            <ContactShadows
-              position={[0, -2.5, 0]}
-              opacity={0.15}
-              scale={15}
-              blur={2}
-              far={4}
-              color="#000000"
-            />
-          </React.Suspense>
+          {/* OrbitControls — drag to spin, disable zoom */}
+          <OrbitControls
+            enableZoom={false}
+            enablePan={false}
+            rotateSpeed={0.5}
+            dampingFactor={0.08}
+            enableDamping
+          />
         </Canvas>
       </ModelErrorBoundary>
     </div>
   );
 }
 
-useGLTF.preload("https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb");
+useGLTF.preload(
+  "https://res.cloudinary.com/drqqqhudz/image/upload/v1782364353/model2-optimized_vs55gn.glb"
+);
