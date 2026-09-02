@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import HeroModel from "@/components/ui/hero-model";
 import GlassDock from "@/components/ui/glass-dock";
-import FlipText from "@/components/ui/flip-text";
 import { Home as HomeIcon, Mail, MessageCircle } from "lucide-react";
 import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
