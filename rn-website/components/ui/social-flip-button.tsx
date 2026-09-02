@@ -9,7 +9,7 @@ FaGithub,
 FaInstagram,
 FaLinkedin,
 FaEnvelope,
-FaDiscord,
+FaYoutube,
 } from "react-icons/fa";
 
 interface SocialItem {
@@ -29,13 +29,13 @@ backClassName?: string;
 }
 
 const defaultItems: SocialItem[] = [
-  { letter: "C", icon: <FaGithub />, label: "Github", href: "https://github.com/RoboNexxus" },
-  { letter: "O", icon: <FaGithub />, label: "Github", href: "https://github.com/RoboNexxus" },
-  { letter: "N", icon: <FaLinkedin />, label: "LinkedIn", href: "https://www.linkedin.com/company/robo-nexus/" },
-  { letter: "T", icon: <FaLinkedin />, label: "LinkedIn", href: "https://www.linkedin.com/company/robo-nexus/" },
-  { letter: "A", icon: <FaInstagram />, label: "Instagram", href: "https://www.instagram.com/robonexus.ais46/" },
-  { letter: "C", icon: <FaInstagram />, label: "Instagram", href: "https://www.instagram.com/robonexus.ais46/" },
-  { letter: "T", icon: <FaEnvelope />, label: "Email", href: "mailto:robonexus.ais46@gmail.com" },
+  { letter: "C", icon: <FaGithub />,    label: "Github",   href: "https://github.com/RoboNexxus" },
+  { letter: "O", icon: <FaLinkedin />,  label: "LinkedIn", href: "https://www.linkedin.com/company/robo-nexus/" },
+  { letter: "N", icon: <FaYoutube />,   label: "YouTube",  href: "https://www.youtube.com/@robo_nexus0" },
+  { letter: "T", icon: <FaEnvelope />,  label: "Mail",     href: "mailto:robonexus.ais46@gmail.com" },
+  { letter: "A", icon: <FaInstagram />, label: "Instagram",href: "https://www.instagram.com/robonexus.ais46/" },
+  { letter: "C", icon: <FaLinkedin />,  label: "LinkedIn", href: "https://www.linkedin.com/company/robo-nexus/" },
+  { letter: "T", icon: <FaGithub />,    label: "Github",   href: "https://github.com/RoboNexxus" },
 ];
 
 const SocialFlipNode = ({
