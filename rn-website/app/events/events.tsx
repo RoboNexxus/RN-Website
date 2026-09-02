@@ -1,48 +1,51 @@
 "use client";
 
-import { useRef, useState } from "react";
-import eventsData from "@/data/events.json";
-
-const { videoUrl, thumbnailUrl } = eventsData.events[0];
+import AnimePageHero from "@/components/ui/anime-page-hero";
 
 export default function Events() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(false);
-
-  const play = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.play();
-    video.requestFullscreen?.();
-    setPlaying(true);
-  };
-
   return (
-    <div className="relative w-screen h-screen bg-black overflow-hidden">
-      <video
-        ref={videoRef}
-        src={videoUrl}
-        poster={thumbnailUrl}
-        controls={playing}
-        playsInline
-        preload="none"
-        className="w-full h-full object-cover"
-        onEnded={() => setPlaying(false)}
-      />
+    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
+      <AnimePageHero title="Events" />
 
-      {!playing && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-          <button
-            onClick={play}
-            aria-label="Play"
-            className="w-20 h-20 rounded-full bg-white/20 border-2 border-white/60 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 hover:scale-110 transition-all duration-200"
-          >
-            <svg className="w-8 h-8 text-white ml-1" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
+      {/* Featured Event — ROBOTRONICS'26 */}
+      <div className="w-full max-w-6xl flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-neutral-400 font-sans font-normal uppercase tracking-widest">Featured</span>
+          <div className="flex-1 h-px bg-white/10" />
         </div>
-      )}
-    </div>
+
+        {/* Big video card */}
+        <div className="w-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 shadow-2xl">
+          {/* 16:9 responsive wrapper */}
+          <div className="relative w-full" style={{ paddingBottom: "42.78%" /* 616/1440 */ }}>
+            <iframe
+              src="https://www.youtube.com/embed/KLl61f3jmo0"
+              title="ROBOTRONICS'26 | Closing Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full"
+            />
+          </div>
+
+          {/* Card footer */}
+          <div className="px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-t border-white/10">
+            <div>
+              <h2 className="text-lg font-semibold text-white font-sans">ROBOTRONICS&apos;26</h2>
+              <p className="text-sm text-neutral-400 font-sans font-normal mt-0.5">Closing Video</p>
+            </div>
+            <a
+              href="https://www.youtube.com/watch?v=KLl61f3jmo0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-neutral-400 hover:text-white font-sans font-normal transition-colors duration-150 whitespace-nowrap"
+            >
+              Watch on YouTube ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
