@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
+import BackToTop from "@/components/back-to-top";
+import { ToastProvider } from "@/components/ui/toast";
+import { Meteors } from "@/components/ui/meteors";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,8 +59,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full bg-black text-white">
-        {children}
+      <body className="min-h-full text-white">
+        {/* Dims the body background image */}
+        <div className="fixed inset-0 bg-[#0d0d0d]/85 pointer-events-none" style={{ zIndex: 0 }} />
+        {/* All page content sits above the overlay */}
+        <div className="min-h-full flex flex-col relative" style={{ zIndex: 1 }}>
+          <ToastProvider>
+            <Meteors />
+            <SpotlightNavbar />
+            {children}
+            <BackToTop />
+          </ToastProvider>
+        </div>
       </body>
     </html>
   );
