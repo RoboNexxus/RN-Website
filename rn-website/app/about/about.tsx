@@ -72,7 +72,16 @@ export default function About() {
       });
     });
 
-    return () => ctx.revert();
+    const onIntroComplete = () => {
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("rn:intro-complete", onIntroComplete);
+    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    return () => {
+      window.removeEventListener("rn:intro-complete", onIntroComplete);
+      ctx.revert();
+    };
   }, []);
 
   return (

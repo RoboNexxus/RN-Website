@@ -32,6 +32,9 @@ export function IntroOverlay() {
     const overlay = overlayRef.current;
     const content = document.getElementById("rn-content");
     if (!overlay || !content) return;
+    const emitIntroComplete = () => {
+      window.dispatchEvent(new Event("rn:intro-complete"));
+    };
 
     // ── Detect reduced-motion preference ──────────────────────────────────
     const reducedMotion =
@@ -45,6 +48,7 @@ export function IntroOverlay() {
       content.style.filter = "";
       content.style.opacity = "1";
       markIntroPlayed();
+      emitIntroComplete();
       return;
     }
 
@@ -56,6 +60,7 @@ export function IntroOverlay() {
       content.style.opacity = "1";
       content.style.transform = "";
       content.style.filter = "";
+      emitIntroComplete();
       return;
     }
 
@@ -100,6 +105,7 @@ export function IntroOverlay() {
       overlay.style.display = "none";
       content.style.willChange = "auto";
       content.style.transition = "";
+      emitIntroComplete();
     };
 
     // Stagger the phases
