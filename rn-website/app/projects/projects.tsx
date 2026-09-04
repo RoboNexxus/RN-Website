@@ -174,9 +174,7 @@ export default function Projects() {
         <AnimePageHero title="Projects" />
       </div>
 
-      <div data-enter="section">
-        <HorizontalScroll projects={projectsData.tutorials} />
-      </div>
+      <HorizontalScroll projects={projectsData.tutorials} />
 
       <div style={{ height: "6vh" }} aria-hidden="true" />
     </main>
