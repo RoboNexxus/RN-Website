@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-preview.png",
-        width: 1512,
-        height: 810,
+        url: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1788543011/rn-website/og-preview.png",
+        width: 2880,
+        height: 1570,
         alt: "Robo Nexus",
       },
     ],
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Robo Nexus",
     description: "robonexus",
-    images: ["/og-preview.png"],
+    images: ["https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1788543011/rn-website/og-preview.png"],
   },
   icons: {
     icon: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/edk0lpjus0anrenospj7?_a=BAMAPqfk0",
