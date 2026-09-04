@@ -45,24 +45,24 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // Internal navigation: quick depth-entry
+    // Internal navigation: quick fade-in only.
+    // NOTE: Do NOT use transform/scale here — it creates a new CSS containing
+    // block which breaks position:sticky and GSAP ScrollTrigger pins used on
+    // the About and Projects pages.
     const E_IN = "cubic-bezier(.16,1,.3,1)";
 
-    // Start position: very slightly zoomed in, barely visible
     el.style.transition = "none";
-    el.style.opacity = "0.3";
-    el.style.transform = "scale(1.025)";
-    el.style.willChange = "transform, opacity";
+    el.style.opacity = "0";
+    el.style.willChange = "opacity";
 
     const t = setTimeout(() => {
-      el.style.transition = `opacity 280ms ${E_IN}, transform 320ms ${E_IN}`;
+      el.style.transition = `opacity 280ms ${E_IN}`;
       el.style.opacity = "1";
-      el.style.transform = "scale(1)";
 
       const cleanup = setTimeout(() => {
         el.style.willChange = "auto";
         el.style.transition = "";
-      }, 400);
+      }, 350);
 
       return () => clearTimeout(cleanup);
     }, 16);

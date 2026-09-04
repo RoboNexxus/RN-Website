@@ -1,14 +1,20 @@
 "use client";
 
 import AnimePageHero from "@/components/ui/anime-page-hero";
+import { usePageEnter } from "@/lib/use-page-enter";
 
 export default function Events() {
+  const { containerRef } = usePageEnter();
+
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
-      <AnimePageHero title="Events" />
+    <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 px-4 py-20 gap-14">
+      {/* page-title role: slight upward correction on the hero heading wrapper */}
+      <div data-enter="page-title">
+        <AnimePageHero title="Events" />
+      </div>
 
       {/* Featured Event — ROBOTRONICS'26 */}
-      <div className="w-full max-w-6xl flex flex-col gap-4">
+      <div data-enter="section" className="w-full max-w-6xl flex flex-col gap-4">
         <div className="flex items-center gap-3">
           <span className="text-xs text-neutral-400 font-sans font-normal uppercase tracking-widest">Featured</span>
           <div className="flex-1 h-px bg-white/10" />

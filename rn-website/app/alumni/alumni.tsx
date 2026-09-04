@@ -5,6 +5,7 @@ import AnimePageHero from "@/components/ui/anime-page-hero";
 import { resolveAssetPath } from "@/lib/utils";
 import alumniData from "@/data/alumni.json";
 import Image from "next/image";
+import { usePageEnter } from "@/lib/use-page-enter";
 
 type Alumni = (typeof alumniData.alumni)[number];
 
@@ -96,15 +97,19 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
 }
 
 export default function Alumni() {
+  const { containerRef } = usePageEnter();
+
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <AnimePageHero
-        title="Alumni"
-      />
+    <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
+      <div data-enter="page-title">
+        <AnimePageHero title="Alumni" />
+      </div>
 
       <div className="flex flex-wrap justify-center gap-4 w-full max-w-7xl px-4">
         {alumniData.alumni.map((a) => (
-          <AlumniCard key={a.name} alumni={a} />
+          <div key={a.name} data-enter="card">
+            <AlumniCard alumni={a} />
+          </div>
         ))}
       </div>
     </main>

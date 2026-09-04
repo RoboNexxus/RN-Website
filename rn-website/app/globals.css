@@ -26,11 +26,28 @@
 }
 
 /* ============================================================
+   INTRO SYSTEM — initial states
+   #rn-content starts hidden; JS in IntroOverlay reveals it
+   via the camera-pull animation. This prevents flash.
+   ============================================================ */
+#rn-content {
+  /* JS will override these inline — this is just a safe default
+     for the very first paint before the overlay JS runs.
+     opacity:1 here so SSR/noscript users still see the page. */
+  opacity: 1;
+}
+
+/* Elements tagged for entrance choreography start invisible.
+   JS in use-page-enter.ts will override these with transitions. */
+[data-enter] {
+  opacity: 0;
+}
+
+/* ============================================================
    SMOOTH SCROLL
    ============================================================ */
 html {
   scroll-behavior: smooth;
-  /* Lenis / native smooth scroll class hook */
 }
 
 /* Default cursor kept — no custom cursor override */
@@ -287,5 +304,19 @@ html {
 
   .marquee-track {
     animation: none !important;
+  }
+
+  /* Instantly reveal all entrance-tagged elements — no transitions */
+  [data-enter] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+
+  #rn-content {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }

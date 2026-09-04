@@ -7,6 +7,7 @@ import AnimePageHero from "@/components/ui/anime-page-hero";
 import { PixelImage } from "@/components/ui/pixel-image";
 import { resolveAssetPath } from "@/lib/utils";
 import projectsData from "@/data/tutorials.json";
+import { usePageEnter } from "@/lib/use-page-enter";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -165,13 +166,17 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
 }
 
 export default function Projects() {
+  const { containerRef } = usePageEnter();
+
   return (
-    <main className="flex flex-col items-center flex-1 w-full">
-      <div className="px-4 py-20 w-full flex flex-col items-center">
+    <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 w-full">
+      <div data-enter="page-title" className="px-4 py-20 w-full flex flex-col items-center">
         <AnimePageHero title="Projects" />
       </div>
 
-      <HorizontalScroll projects={projectsData.tutorials} />
+      <div data-enter="section">
+        <HorizontalScroll projects={projectsData.tutorials} />
+      </div>
 
       <div style={{ height: "6vh" }} aria-hidden="true" />
     </main>

@@ -7,6 +7,7 @@ import SocialFlipButton from "@/components/ui/social-flip-button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { useToast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
+import { usePageEnter } from "@/lib/use-page-enter";
 
 // ── Input / Textarea field ────────────────────────────────────────────────────
 function Field({
@@ -223,21 +224,23 @@ function InfoPanel() {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Contact() {
+  const { containerRef } = usePageEnter();
+
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-14 relative">
-      <AnimePageHero
-        title="Contact"
-      />
+    <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 px-4 py-20 gap-14 relative">
+      <div data-enter="page-title">
+        <AnimePageHero title="Contact" />
+      </div>
 
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-        {/* Left — form */}
-        <section>
+        {/* Left — form enters from left */}
+        <section data-enter="content-l">
           <h2 className="text-base font-semibold text-white mb-6">Send a message</h2>
           <ContactForm />
         </section>
 
-        {/* Right — info */}
-        <section>
+        {/* Right — info panel enters from right */}
+        <section data-enter="content-r">
           <h2 className="text-base font-semibold text-white mb-6">About us</h2>
           <InfoPanel />
         </section>

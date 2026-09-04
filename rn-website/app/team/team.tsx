@@ -5,6 +5,7 @@ import AnimePageHero from "@/components/ui/anime-page-hero";
 import { resolveAssetPath } from "@/lib/utils";
 import teamData from "@/data/team.json";
 import Image from "next/image";
+import { usePageEnter } from "@/lib/use-page-enter";
 
 type Member = (typeof teamData.members)[number];
 
@@ -102,13 +103,16 @@ export default function Team() {
   const heads   = teamData.members.filter((m) => m.role === "Head");
   const core    = teamData.members.filter((m) => m.role === "Core Member");
   const members = teamData.members.filter((m) => m.role === "Member");
+  const { containerRef } = usePageEnter();
 
   return (
-    <main className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
-      <AnimePageHero title="Team" />
+    <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 px-4 py-20 gap-16">
+      <div data-enter="page-title">
+        <AnimePageHero title="Team" />
+      </div>
 
       {/* ── Leadership ── */}
-      <section className="w-full max-w-7xl flex flex-col gap-10">
+      <section data-enter="content-l" className="w-full max-w-7xl flex flex-col gap-10">
         <div className="text-center">
           <h2 className="text-2xl font-bold">Leadership</h2>
         </div>
@@ -116,8 +120,10 @@ export default function Team() {
         <div>
           <SectionDivider title="Heads" />
           <div className="flex flex-wrap justify-center gap-4 px-4">
-            {heads.map((m) => (
-              <MemberCard key={m.name} member={m} />
+            {heads.map((m, i) => (
+              <div key={m.name} data-enter="card">
+                <MemberCard member={m} />
+              </div>
             ))}
           </div>
         </div>
@@ -127,7 +133,9 @@ export default function Team() {
             <SectionDivider title="Core" />
             <div className="flex flex-wrap justify-center gap-4 px-4">
               {core.map((m) => (
-                <MemberCard key={m.name} member={m} />
+                <div key={m.name} data-enter="card">
+                  <MemberCard member={m} />
+                </div>
               ))}
             </div>
           </div>
@@ -135,13 +143,15 @@ export default function Team() {
       </section>
 
       {/* ── Members ── */}
-      <section className="w-full max-w-7xl">
+      <section data-enter="secondary" className="w-full max-w-7xl">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold">Members</h2>
         </div>
         <div className="flex flex-wrap justify-center gap-4 px-4">
           {members.map((m) => (
-            <MemberCard key={m.name} member={m} />
+            <div key={m.name} data-enter="card">
+              <MemberCard member={m} />
+            </div>
           ))}
         </div>
       </section>
