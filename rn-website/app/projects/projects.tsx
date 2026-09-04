@@ -92,9 +92,16 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
     });
     ro.observe(track);
 
+    const onIntroComplete = () => {
+      build();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("rn:intro-complete", onIntroComplete);
+
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      window.removeEventListener("rn:intro-complete", onIntroComplete);
       st?.kill();
     };
   }, []);
