@@ -4,6 +4,8 @@ import { SpotlightNavbar } from "@/components/ui/spotlight-navbar";
 import BackToTop from "@/components/back-to-top";
 import { ToastProvider } from "@/components/ui/toast";
 import { Meteors } from "@/components/ui/meteors";
+import { IntroOverlay } from "@/components/ui/intro-overlay";
+import { PageTransition } from "@/components/ui/page-transition";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,35 +19,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://robonexus.in"),
+  metadataBase: new URL("https://robonexus46.vercel.app"),
   title: {
     default: "Robo Nexus",
     template: "%s | Robo Nexus",
   },
-  description:
-    "Robo Nexus — the official robotics club of Amity International School, Sector-46, Gurugram. Exploring robotics, automation, and emerging technologies.",
+  description: "robonexus",
   keywords: ["robotics", "Robo Nexus", "Amity", "Gurugram", "automation", "STEM"],
   openGraph: {
     title: "Robo Nexus",
-    description: "The official robotics club of Amity International School, Sector-46, Gurugram.",
-    url: "https://robonexus.in",
+    description: "robonexus",
+    url: "https://robonexus46.vercel.app",
     siteName: "Robo Nexus",
     locale: "en_IN",
     type: "website",
     images: [
       {
-        url: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/hh4pb5zrmventaz8mkfl?_a=BAMAPqfk0",
-        width: 512,
-        height: 512,
-        alt: "Robo Nexus Logo",
+        url: "/og-preview.png",
+        width: 1512,
+        height: 810,
+        alt: "Robo Nexus",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Robo Nexus",
-    description: "The official robotics club of Amity International School, Sector-46, Gurugram.",
-    images: ["https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/hh4pb5zrmventaz8mkfl?_a=BAMAPqfk0"],
+    description: "robonexus",
+    images: ["/og-preview.png"],
   },
   icons: {
     icon: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/edk0lpjus0anrenospj7?_a=BAMAPqfk0",
@@ -60,14 +61,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
     >
       <body className="min-h-full text-white">
+        {/* Cinematic intro: black screen + camera pull-back. Renders above everything. */}
+        <IntroOverlay />
+
         {/* Dims the body background image */}
         <div className="fixed inset-0 bg-[#0d0d0d]/85 pointer-events-none" style={{ zIndex: 0 }} />
-        {/* All page content sits above the overlay */}
-        <div className="min-h-full flex flex-col relative" style={{ zIndex: 1 }}>
+
+        {/* All page content — id used by IntroOverlay to drive the camera pull-back */}
+        <div id="rn-content" className="min-h-full flex flex-col relative" style={{ zIndex: 1 }}>
           <ToastProvider>
             <Meteors />
             <SpotlightNavbar />
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
             <BackToTop />
           </ToastProvider>
         </div>
