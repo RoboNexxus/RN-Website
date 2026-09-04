@@ -346,7 +346,7 @@ export function SpotlightNavbar({
     return (
         <>
             {/* ── Desktop Navbar ── */}
-            <div data-enter="nav" className={cn("relative hidden md:flex justify-center pt-4", className)}>
+            <div className={cn("relative hidden md:flex justify-center pt-4", className)}>
                 <nav
                     ref={navRef}
                     className={cn(
@@ -435,7 +435,6 @@ export function SpotlightNavbar({
 
             {/* ── Mobile Topbar ── */}
             <div
-                data-enter="nav"
                 className={cn(
                     "md:hidden fixed top-0 left-0 right-0 z-50",
                     "flex items-center justify-between px-4 h-14",
