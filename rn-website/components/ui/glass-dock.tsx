@@ -147,6 +147,11 @@ const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
               key={el.title}
               onMouseEnter={() => handleMouseEnter(index)}
               onClick={handleClick}
+              onTouchStart={() => handleMouseEnter(index)}
+              onTouchEnd={() => {
+                // small delay so the highlight is visible before clearing
+                setTimeout(() => { setHoveredIndex(null); setDirection(0); }, 300);
+              }}
               className="relative w-10 h-10 flex items-center justify-center cursor-pointer"
               role="button"
               tabIndex={0}

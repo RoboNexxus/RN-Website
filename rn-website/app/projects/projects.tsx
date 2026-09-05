@@ -45,7 +45,13 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
   const pinRef   = useRef<HTMLDivElement>(null);  // sticky viewport panel
   const trackRef = useRef<HTMLDivElement>(null);  // sliding track
 
+  // Detect touch/mobile — use native scroll on touch, GSAP on desktop
+  const isMobile = typeof window !== "undefined" && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+
   useEffect(() => {
+    // On mobile we let native horizontal scroll handle it — no GSAP needed
+    if (isMobile) return;
+
     const wrap  = wrapRef.current;
     const pin   = pinRef.current;
     const track = trackRef.current;
@@ -56,16 +62,12 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
     function build() {
       if (!wrap || !pin || !track) return;
 
-      // Kill previous instance before rebuilding
       st?.kill();
 
       const distance = track.scrollWidth - window.innerWidth;
       if (distance <= 0) return;
 
-      // Set the spacer height = scroll distance so the page is tall enough
       wrap.style.height = `${window.innerHeight + distance}px`;
-
-      // Reset track position
       gsap.set(track, { x: 0 });
 
       st = ScrollTrigger.create({
@@ -80,47 +82,75 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
         },
       });
 
-      // Extra frame to stabilise after building
       requestAnimationFrame(() => ScrollTrigger.refresh());
     }
 
-    // Rebuild on resize
     const ro = new ResizeObserver(() => {
       build();
       ScrollTrigger.refresh();
     });
     ro.observe(track);
 
-    const onIntroComplete = () => {
-      // Full rebuild after intro so dimensions reflect the final revealed layout
-      build();
-    };
+    const onIntroComplete = () => { build(); };
     window.addEventListener("rn:intro-complete", onIntroComplete);
 
-    // If intro has already played (reload / subsequent visit), build now.
-    // Otherwise wait for the rn:intro-complete event to fire at ~800 ms.
-    if (hasIntroPlayed()) {
-      build();
-    }
+    if (hasIntroPlayed()) { build(); }
 
     return () => {
       ro.disconnect();
       window.removeEventListener("rn:intro-complete", onIntroComplete);
       st?.kill();
     };
-  }, []);
+  }, [isMobile]);
 
+  // ── Mobile: native horizontal scroll ──────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div className="w-full">
+        <div
+          style={{
+            overflowX: "auto",
+            overflowY: "hidden",
+            WebkitOverflowScrolling: "touch" as React.CSSProperties["WebkitOverflowScrolling"],
+            scrollSnapType: "x mandatory",
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: "5vw",
+            paddingRight: "5vw",
+            paddingTop: "24px",
+            paddingBottom: "32px",
+            gap: "clamp(16px, 3vw, 40px)",
+            /* hide scrollbar but keep functionality */
+            scrollbarWidth: "none",
+          }}
+          className="[&::-webkit-scrollbar]:hidden"
+        >
+          {projects.map((p, i) => (
+            <div
+              key={p.id}
+              style={{
+                flexShrink: 0,
+                width: "clamp(260px, 80vw, 400px)",
+                scrollSnapAlign: "start",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                <span style={{ fontSize: 11, color: "#444", fontFamily: "monospace", letterSpacing: "0.1em" }}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.07)" }} />
+              </div>
+              <ProjectCard project={p} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Desktop: GSAP ScrollTrigger horizontal scroll ──────────────────────────
   return (
-    /*
-      wrap — acts as the scroll spacer. Height is set in JS to
-      window.innerHeight + trackScrollWidth - viewportWidth.
-      position:relative so the sticky pin anchors to it.
-    */
     <div ref={wrapRef} style={{ position: "relative", width: "100%" }}>
-      {/*
-        pin — sticky panel. Stays at top:0 while user scrolls
-        through the spacer above.
-      */}
       <div
         ref={pinRef}
         style={{
@@ -128,18 +158,13 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
           top: 0,
           height: "100vh",
           width: "100%",
-          overflow: "hidden",   // clips track outside viewport
+          overflow: "hidden",
         }}
       >
-        <p className="absolute top-6 right-8 text-xs text-neutral-600 tracking-widest uppercase z-10 hidden md:block select-none pointer-events-none">
+        <p className="absolute top-6 right-8 text-xs text-neutral-600 tracking-widest uppercase z-10 select-none pointer-events-none">
           scroll to explore →
         </p>
 
-        {/*
-          track — the element that slides left.
-          Must NOT be inside overflow:hidden before GSAP measures it,
-          but here we measure scrollWidth before clipping, so it's fine.
-        */}
         <div
           ref={trackRef}
           style={{
@@ -168,7 +193,6 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
               <ProjectCard project={p} />
             </div>
           ))}
-          {/* trailing gap so last card clears the right edge */}
           <div style={{ flexShrink: 0, width: "5vw" }} />
         </div>
       </div>

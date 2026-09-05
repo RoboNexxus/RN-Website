@@ -123,8 +123,8 @@ export default function About() {
                     key={li}
                     className={`font-black ${
                       li === LINES.length - 1
-                        ? "text-[clamp(2.6rem,8vw,6.5rem)] mt-4 md:mt-5"
-                        : "text-[clamp(2rem,6vw,4.75rem)] mt-2"
+                        ? "text-[clamp(2rem,7vw,6.5rem)] mt-4 md:mt-5"
+                        : "text-[clamp(1.5rem,5.5vw,4.75rem)] mt-2"
                     }`}
                   >
                     {line.split(" ").map((word, wi) => (

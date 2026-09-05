@@ -69,9 +69,41 @@ html {
     background-image: url('/hero-bg.png');
     background-repeat: repeat;
     background-size: 900px auto;
-    background-attachment: fixed;
+    /* fixed attachment causes a white-flash glitch on iOS Safari during
+       momentum scroll. We use a pseudo-element trick instead: the bg image
+       lives on a position:fixed ::before that covers the whole viewport,
+       giving the same "wallpaper" effect without the iOS bug. */
+    background-attachment: scroll;
     color: #e8e8e8;
     overflow-x: hidden;
+  }
+
+  /* ──────────────────────────────────────────────────────────
+     FIXED BACKGROUND — replaces background-attachment:fixed
+     which breaks on iOS Safari. The image sits on a
+     position:fixed pseudo-element behind everything else.
+     On mobile the pseudo-element still exists but scrolls
+     with the page naturally (no jank).
+  ────────────────────────────────────────────────────────── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('/hero-bg.png');
+    background-repeat: repeat;
+    background-size: 900px auto;
+    pointer-events: none;
+    z-index: -1;
+    /* On iOS Safari, position:fixed inside a scroll container can still
+       glitch, so we demote to position:absolute via a media query. */
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    /* iOS Safari only */
+    body::after {
+      position: absolute;
+      min-height: 100%;
+    }
   }
 
   /* ──────────────────────────────────────────────────────────
