@@ -311,7 +311,10 @@ export function SpotlightNavbar({
         if (activeItem) {
             const navRect = nav.getBoundingClientRect();
             const itemRect = activeItem.getBoundingClientRect();
-            const targetX = itemRect.left - navRect.left + itemRect.width / 2;
+            const rawX = itemRect.left - navRect.left + itemRect.width / 2;
+            // Clamp so the gradient centre never sits closer than 30px to
+            // either edge — prevents the light from bleeding out of the pill.
+            const targetX = Math.max(30, Math.min(navRect.width - 30, rawX));
 
             if (ambienceX.current === 0) {
                 ambienceX.current = targetX;
@@ -416,7 +419,7 @@ export function SpotlightNavbar({
                     <div
                         className="pointer-events-none absolute bottom-0 left-0 w-full h-[2px] z-[2]"
                         style={{
-                            background: `radial-gradient(60px circle at var(--ambience-x) 0%, var(--ambience-color, rgba(0,0,0,1)) 0%, transparent 100%)`,
+                            background: `radial-gradient(40px circle at var(--ambience-x) 0%, var(--ambience-color, rgba(0,0,0,1)) 0%, transparent 100%)`,
                         }}
                     />
                 </nav>
