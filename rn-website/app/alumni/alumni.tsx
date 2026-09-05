@@ -1,6 +1,6 @@
 "use client";
 
-import { FaGithub, FaLinkedin, FaGlobe } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaGlobe, FaYoutube } from "react-icons/fa";
 import AnimePageHero from "@/components/ui/anime-page-hero";
 import { resolveAssetPath } from "@/lib/utils";
 import alumniData from "@/data/alumni.json";
@@ -66,6 +66,19 @@ function AlumniCard({ alumni }: { alumni: Alumni }) {
                   onClick={(e) => e.stopPropagation()}
                 >
                   <FaGlobe size={18} />
+                </a>
+              )}
+
+              {(alumni.links as { youtube?: string }).youtube && (
+                <a
+                  href={(alumni.links as { youtube?: string }).youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${alumni.name} YouTube`}
+                  className="bg-black/80 backdrop-blur-sm p-2.5 rounded-lg hover:bg-white hover:text-black transition-all duration-200 hover:scale-110 pointer-events-auto"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <FaYoutube size={18} />
                 </a>
               )}
             </div>
