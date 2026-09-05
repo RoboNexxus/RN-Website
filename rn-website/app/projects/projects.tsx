@@ -82,7 +82,8 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
         },
       });
 
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      // Double rAF so the browser has fully laid out before GSAP measures
+      requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
     }
 
     const ro = new ResizeObserver(() => {
@@ -94,8 +95,17 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
     const onIntroComplete = () => { build(); };
     window.addEventListener("rn:intro-complete", onIntroComplete);
 
-    if (hasIntroPlayed()) { build(); }
+    if (hasIntroPlayed()) {
+      const t = setTimeout(() => build(), 100);
+      return () => {
+        clearTimeout(t);
+        ro.disconnect();
+        window.removeEventListener("rn:intro-complete", onIntroComplete);
+        st?.kill();
+      };
+    }
 
+    // First visit — wait for rn:intro-complete
     return () => {
       ro.disconnect();
       window.removeEventListener("rn:intro-complete", onIntroComplete);

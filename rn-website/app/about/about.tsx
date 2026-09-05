@@ -79,22 +79,29 @@ export default function About() {
         });
       });
 
-      // Give the browser an extra frame after building to stabilise layout
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      // Double rAF: first frame lets React finish painting, second lets
+      // the browser do a full layout/compositing pass before GSAP measures.
+      requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
     }
 
     const onIntroComplete = () => {
-      // Rebuild (not just refresh) so pin spacers are calculated against the
-      // final, fully-revealed layout rather than the scaled/blurred intro state.
+      // Always rebuild on intro-complete — covers both first visit and
+      // navigating back to this page after the intro has already played.
       buildScrollTrigger();
     };
     window.addEventListener("rn:intro-complete", onIntroComplete);
 
-    // If the intro has already played (reload / direct nav after first visit),
-    // build immediately — no overlay to wait for.
+    // For reload / hard-nav where intro is skipped: wait two frames +
+    // a small timeout to ensure the navbar and all layout have settled.
     if (hasIntroPlayed()) {
-      buildScrollTrigger();
+      const t = setTimeout(() => buildScrollTrigger(), 100);
+      return () => {
+        clearTimeout(t);
+        window.removeEventListener("rn:intro-complete", onIntroComplete);
+        ctx?.revert();
+      };
     }
+
     // Otherwise do nothing here; onIntroComplete will fire at ~800 ms and build.
 
     return () => {
