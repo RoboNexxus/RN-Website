@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutModel from "@/components/ui/about-model";
 import { usePageEnter } from "@/lib/use-page-enter";
+import { hasIntroPlayed } from "@/lib/intro-state";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,48 +40,66 @@ export default function About() {
     const modelWrap = inner.querySelector<HTMLElement>(".about-model-wrap");
     if (modelWrap) gsap.set(modelWrap, { autoAlpha: 0, y: 40 });
 
-    const ctx = gsap.context(() => {
-      const total = words.length;
+    let ctx: ReturnType<typeof gsap.context> | null = null;
 
-      ScrollTrigger.create({
-        trigger: outer,
-        start: "top top",
-        end: "+=200%",
-        pin: inner,
-        scrub: 0.8,
-        onUpdate(self) {
-          const p = self.progress;
+    function buildScrollTrigger() {
+      // Kill previous context if rebuilding
+      ctx?.revert();
 
-          words.forEach((word, i) => {
-            const wordStart = i / total;
-            const wordEnd   = (i + 1.4) / total;
-            const wordP     = gsap.utils.clamp(
-              0, 1,
-              (p - wordStart) / (wordEnd - wordStart)
-            );
-            gsap.set(word, { opacity: gsap.utils.interpolate(0.1, 1, wordP) });
-          });
+      ctx = gsap.context(() => {
+        const total = words.length;
 
-          if (modelWrap) {
-            const mP = gsap.utils.clamp(0, 1, (p - 0.05) / 0.2);
-            gsap.set(modelWrap, {
-              autoAlpha: mP,
-              y: gsap.utils.interpolate(40, 0, mP),
+        ScrollTrigger.create({
+          trigger: outer,
+          start: "top top",
+          end: "+=200%",
+          pin: inner,
+          scrub: 0.8,
+          onUpdate(self) {
+            const p = self.progress;
+
+            words.forEach((word, i) => {
+              const wordStart = i / total;
+              const wordEnd   = (i + 1.4) / total;
+              const wordP     = gsap.utils.clamp(
+                0, 1,
+                (p - wordStart) / (wordEnd - wordStart)
+              );
+              gsap.set(word, { opacity: gsap.utils.interpolate(0.1, 1, wordP) });
             });
-          }
-        },
+
+            if (modelWrap) {
+              const mP = gsap.utils.clamp(0, 1, (p - 0.05) / 0.2);
+              gsap.set(modelWrap, {
+                autoAlpha: mP,
+                y: gsap.utils.interpolate(40, 0, mP),
+              });
+            }
+          },
+        });
       });
-    });
+
+      // Give the browser an extra frame after building to stabilise layout
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
 
     const onIntroComplete = () => {
-      ScrollTrigger.refresh();
+      // Rebuild (not just refresh) so pin spacers are calculated against the
+      // final, fully-revealed layout rather than the scaled/blurred intro state.
+      buildScrollTrigger();
     };
     window.addEventListener("rn:intro-complete", onIntroComplete);
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    // If the intro has already played (reload / direct nav after first visit),
+    // build immediately — no overlay to wait for.
+    if (hasIntroPlayed()) {
+      buildScrollTrigger();
+    }
+    // Otherwise do nothing here; onIntroComplete will fire at ~800 ms and build.
 
     return () => {
       window.removeEventListener("rn:intro-complete", onIntroComplete);
-      ctx.revert();
+      ctx?.revert();
     };
   }, []);
 

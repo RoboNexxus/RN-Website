@@ -8,6 +8,7 @@ import { PixelImage } from "@/components/ui/pixel-image";
 import { resolveAssetPath } from "@/lib/utils";
 import projectsData from "@/data/tutorials.json";
 import { usePageEnter } from "@/lib/use-page-enter";
+import { hasIntroPlayed } from "@/lib/intro-state";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,12 +79,10 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
           gsap.set(track, { x: -self.progress * distance });
         },
       });
-    }
 
-    // Build after a frame so the DOM has painted and scrollWidth is real
-    const raf = requestAnimationFrame(() => {
-      build();
-    });
+      // Extra frame to stabilise after building
+      requestAnimationFrame(() => ScrollTrigger.refresh());
+    }
 
     // Rebuild on resize
     const ro = new ResizeObserver(() => {
@@ -93,13 +92,18 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
     ro.observe(track);
 
     const onIntroComplete = () => {
+      // Full rebuild after intro so dimensions reflect the final revealed layout
       build();
-      ScrollTrigger.refresh();
     };
     window.addEventListener("rn:intro-complete", onIntroComplete);
 
+    // If intro has already played (reload / subsequent visit), build now.
+    // Otherwise wait for the rn:intro-complete event to fire at ~800 ms.
+    if (hasIntroPlayed()) {
+      build();
+    }
+
     return () => {
-      cancelAnimationFrame(raf);
       ro.disconnect();
       window.removeEventListener("rn:intro-complete", onIntroComplete);
       st?.kill();
