@@ -74,9 +74,7 @@ function HorizontalScroll({ projects }: { projects: Project[] }) {
         trigger: wrap,
         start: "top top",
         end: () => `+=${distance}`,
-        pin: pin,
         scrub: 1,
-        anticipatePin: 1,
         onUpdate(self) {
           gsap.set(track, { x: -self.progress * distance });
         },

@@ -40,73 +40,63 @@ export default function About() {
     const modelWrap = inner.querySelector<HTMLElement>(".about-model-wrap");
     if (modelWrap) gsap.set(modelWrap, { autoAlpha: 0, y: 40 });
 
-    let ctx: ReturnType<typeof gsap.context> | null = null;
+    let st: ScrollTrigger | null = null;
 
     function buildScrollTrigger() {
-      // Kill previous context if rebuilding
-      ctx?.revert();
+      st?.kill();
 
-      ctx = gsap.context(() => {
-        const total = words.length;
+      const total = words.length;
 
-        ScrollTrigger.create({
-          trigger: outer,
-          start: "top top",
-          end: "+=200%",
-          pin: inner,
-          scrub: 0.8,
-          onUpdate(self) {
-            const p = self.progress;
+      // CSS sticky (position:sticky on innerRef) handles the pin.
+      // GSAP only drives the scrub — no DOM manipulation, no pin spacers,
+      // immune to transform ancestors like the intro camera-pull on #rn-content.
+      st = ScrollTrigger.create({
+        trigger: outer,
+        start: "top top",
+        end: "+=200%",
+        scrub: 0.8,
+        onUpdate(self) {
+          const p = self.progress;
 
-            words.forEach((word, i) => {
-              const wordStart = i / total;
-              const wordEnd   = (i + 1.4) / total;
-              const wordP     = gsap.utils.clamp(
-                0, 1,
-                (p - wordStart) / (wordEnd - wordStart)
-              );
-              gsap.set(word, { opacity: gsap.utils.interpolate(0.1, 1, wordP) });
+          words.forEach((word, i) => {
+            const wordStart = i / total;
+            const wordEnd   = (i + 1.4) / total;
+            const wordP     = gsap.utils.clamp(
+              0, 1,
+              (p - wordStart) / (wordEnd - wordStart)
+            );
+            gsap.set(word, { opacity: gsap.utils.interpolate(0.1, 1, wordP) });
+          });
+
+          if (modelWrap) {
+            const mP = gsap.utils.clamp(0, 1, (p - 0.05) / 0.2);
+            gsap.set(modelWrap, {
+              autoAlpha: mP,
+              y: gsap.utils.interpolate(40, 0, mP),
             });
-
-            if (modelWrap) {
-              const mP = gsap.utils.clamp(0, 1, (p - 0.05) / 0.2);
-              gsap.set(modelWrap, {
-                autoAlpha: mP,
-                y: gsap.utils.interpolate(40, 0, mP),
-              });
-            }
-          },
-        });
+          }
+        },
       });
 
-      // Double rAF: first frame lets React finish painting, second lets
-      // the browser do a full layout/compositing pass before GSAP measures.
+      // Double rAF so browser fully lays out before GSAP measures scroll bounds.
       requestAnimationFrame(() => requestAnimationFrame(() => ScrollTrigger.refresh()));
     }
 
-    const onIntroComplete = () => {
-      // Always rebuild on intro-complete — covers both first visit and
-      // navigating back to this page after the intro has already played.
-      buildScrollTrigger();
-    };
+    const onIntroComplete = () => { buildScrollTrigger(); };
     window.addEventListener("rn:intro-complete", onIntroComplete);
 
-    // For reload / hard-nav where intro is skipped: wait two frames +
-    // a small timeout to ensure the navbar and all layout have settled.
     if (hasIntroPlayed()) {
       const t = setTimeout(() => buildScrollTrigger(), 100);
       return () => {
         clearTimeout(t);
         window.removeEventListener("rn:intro-complete", onIntroComplete);
-        ctx?.revert();
+        st?.kill();
       };
     }
 
-    // Otherwise do nothing here; onIntroComplete will fire at ~800 ms and build.
-
     return () => {
       window.removeEventListener("rn:intro-complete", onIntroComplete);
-      ctx?.revert();
+      st?.kill();
     };
   }, []);
 
@@ -118,7 +108,7 @@ export default function About() {
         <div
           ref={innerRef}
           className="flex items-center w-full"
-          style={{ height: "100vh" }}
+          style={{ height: "100vh", position: "sticky", top: 0 }}
         >
           <div className="w-full max-w-7xl mx-auto px-4 md:px-8 grid grid-cols-1 lg:grid-cols-12 items-center gap-8 lg:gap-4">
 
