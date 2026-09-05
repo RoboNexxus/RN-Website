@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
   useGLTF,
@@ -72,6 +72,8 @@ function Loader() {
 
 export default function AboutModel() {
   const isMobile = useIsMobile();
+  const [frameloop, setFrameloop] = useState<"always" | "never">("always");
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Stabilize DPR so it never changes after mount and never causes a re-render
   const dpr = useMemo<[number, number]>(() => {
@@ -81,8 +83,23 @@ export default function AboutModel() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMobile]);
 
+  // Pause rendering when scrolled out of view
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFrameloop(entry.isIntersecting ? "always" : "never");
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="w-full h-[50vh] md:h-[70vh] relative cursor-grab active:cursor-grabbing">
+    <div ref={wrapperRef} className="w-full h-[50vh] md:h-[70vh] relative cursor-grab active:cursor-grabbing">
       <ModelErrorBoundary
         fallback={
           <div className="w-full h-full flex items-center justify-center opacity-50">
@@ -93,7 +110,7 @@ export default function AboutModel() {
         <Canvas
           camera={{ position: [0, 0, 10], fov: 50 }}
           dpr={dpr}
-          frameloop="always"
+          frameloop={frameloop}
         >
           <ambientLight intensity={0.25} />
           <spotLight

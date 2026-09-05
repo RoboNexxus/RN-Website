@@ -126,6 +126,8 @@ export default function HeroModel() {
   const [ready, setReady] = useState(false);
   const [canRender, setCanRender] = useState(false);
   const [dpr, setDpr] = useState<[number, number]>([1, 1]);
+  const [frameloop, setFrameloop] = useState<"always" | "never">("always");
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
@@ -138,6 +140,21 @@ export default function HeroModel() {
     }
 
     setReady(true);
+  }, []);
+
+  // Pause rendering when the canvas is scrolled out of view
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFrameloop(entry.isIntersecting ? "always" : "never");
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   if (!ready) {
@@ -155,12 +172,12 @@ export default function HeroModel() {
   }
 
   return (
-    <div className="w-full h-full relative">
+    <div ref={wrapperRef} className="w-full h-full relative">
       <ModelErrorBoundary fallback={<ModelFallback />}>
         <Canvas
           camera={{ position: [0, 0, 10], fov: 50 }}
           dpr={dpr}
-          frameloop="always"
+          frameloop={frameloop}
           gl={{
             powerPreference: "high-performance",
             antialias: true,
