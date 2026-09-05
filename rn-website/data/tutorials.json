@@ -11,6 +11,16 @@
       "isWide": true
     },
     {
+      "id": 105,
+      "title": "AY Drone Fleet",
+      "image": "/src/assets/images/ay.jpg",
+      "description": "The full AY Enterprise FPV drone collection laid out alongside a RadioMaster TX12 controller. Every frame in this lineup was hand-built and tuned by Aryaman Yadav & Akshar Yadav.",
+      "year": "2025",
+      "creator": "Aryaman Yadav & Akshar Yadav",
+      "team": "AY Enterprise",
+      "isVertical": true
+    },
+    {
       "id": 103,
       "title": "Twin Combat Interceptors",
       "image": "/src/assets/images/yadavE0.webp",
