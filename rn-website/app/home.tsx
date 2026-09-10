@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import HeroModel from "@/components/ui/hero-model";
 import GlassDock from "@/components/ui/glass-dock";
@@ -8,9 +9,15 @@ import { Home as HomeIcon, Mail, MessageCircle } from "lucide-react";
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { usePageEnter } from "@/lib/use-page-enter";
 
+const subscribe = () => () => {};
+
 export default function Home() {
   const modelRef = useRef<HTMLDivElement>(null);
   const { containerRef } = usePageEnter();
+  const isClient = useSyncExternalStore(subscribe, () => true, () => false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
 
   const dockItems = [
     { title: "Home",      icon: HomeIcon,    href: "#" },
@@ -49,6 +56,28 @@ export default function Home() {
     );
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const queueTooltipPosition = (x: number, y: number) => {
+    pointerRef.current = { x, y };
+    if (rafRef.current !== null) return;
+
+    rafRef.current = requestAnimationFrame(() => {
+      const tip = tooltipRef.current;
+      if (!tip) {
+        rafRef.current = null;
+        return;
+      }
+      tip.style.left = `${pointerRef.current.x}px`;
+      tip.style.top = `${pointerRef.current.y}px`;
+      rafRef.current = null;
+    });
+  };
+
   return (
     // containerRef wires this main into usePageEnter for data-enter elements
     <main
@@ -72,15 +101,44 @@ export default function Home() {
       <div
         ref={modelRef}
         data-enter="hero-3d"
-        className="z-10 w-full max-w-[800px] flex-1 max-h-[60vh] md:max-h-[75vh] flex items-center justify-center mt-[-5vh]"
+        className="relative z-10 w-full max-w-[800px] flex-1 max-h-[60vh] md:max-h-[75vh] flex items-center justify-center mt-[-5vh]"
         style={{ opacity: 0 }}
       >
+        <div
+          className="absolute left-1/2 top-1/2 z-20 h-[38%] w-[30%] -translate-x-1/2 -translate-y-1/2 md:h-[44%] md:w-[28%]"
+          onMouseEnter={(e) => {
+            const tip = tooltipRef.current;
+            if (!tip) return;
+            tip.style.opacity = "1";
+            queueTooltipPosition(e.clientX, e.clientY);
+          }}
+          onMouseMove={(e) => {
+            queueTooltipPosition(e.clientX, e.clientY);
+          }}
+          onMouseLeave={() => {
+            const tip = tooltipRef.current;
+            if (tip) tip.style.opacity = "0";
+          }}
+        />
         <HeroModel />
       </div>
+      {isClient &&
+        createPortal(
+          <div
+            ref={tooltipRef}
+            className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-0 transition-opacity duration-150 ease-out"
+            style={{ transform: "translate(-50%, calc(-100% - 12px))" }}
+          >
+            <div className="rounded-md border border-neutral-700 bg-black px-2 py-0.5 text-[10px] font-medium tracking-normal whitespace-nowrap text-white shadow-md dark:border-neutral-300 dark:bg-white dark:text-black">
+              Aryaman Yadav & Akshar Yadav
+            </div>
+          </div>,
+          document.body
+        )}
 
       {/* Dock — rises from below with a deliberate delay */}
       <div data-enter="dock" className="z-20 absolute bottom-6 md:bottom-10">
-        <GlassDock items={dockItems as any} />
+        <GlassDock items={dockItems} />
       </div>
     </main>
   );

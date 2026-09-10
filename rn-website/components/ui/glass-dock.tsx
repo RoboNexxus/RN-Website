@@ -1,17 +1,21 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { LucideIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { useTheme } from '@/lib/use-theme';
 import { ANIMATION_CONFIG } from '@/lib/animation-config';
 import { useWillChange } from '@/lib/animation-utils';
 
+type DockIcon = React.ComponentType<{
+  size?: number;
+  strokeWidth?: number;
+  className?: string;
+}>;
+
 interface DockItem {
   title: string;
-  icon: LucideIcon;
+  icon: DockIcon;
   onClick?: () => void;
   href?: string;
 }
@@ -35,7 +39,6 @@ const GlassDock = React.forwardRef<HTMLDivElement, GlassDockProps>(
   ) => {
       const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
       const [direction, setDirection] = useState(0);
-      const isDark = useTheme();
       const router = useRouter();
       const dockContainerRef = useRef<HTMLDivElement>(null);
       useWillChange(dockContainerRef, ['transform', 'opacity']);

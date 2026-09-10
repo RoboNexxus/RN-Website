@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AboutModel from "@/components/ui/about-model";
@@ -8,6 +9,7 @@ import { usePageEnter } from "@/lib/use-page-enter";
 import { hasIntroPlayed } from "@/lib/intro-state";
 
 gsap.registerPlugin(ScrollTrigger);
+const subscribe = () => () => {};
 
 const LINES = [
   "We're not here",
@@ -21,6 +23,10 @@ const LINES = [
 export default function About() {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
+  const isClient = useSyncExternalStore(subscribe, () => true, () => false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
   const { containerRef } = usePageEnter();
 
   useEffect(() => {
@@ -100,6 +106,28 @@ export default function About() {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const queueTooltipPosition = (x: number, y: number) => {
+    pointerRef.current = { x, y };
+    if (rafRef.current !== null) return;
+
+    rafRef.current = requestAnimationFrame(() => {
+      const tip = tooltipRef.current;
+      if (!tip) {
+        rafRef.current = null;
+        return;
+      }
+      tip.style.left = `${pointerRef.current.x}px`;
+      tip.style.top = `${pointerRef.current.y}px`;
+      rafRef.current = null;
+    });
+  };
+
   return (
     <main ref={containerRef as React.RefObject<HTMLElement>} className="flex flex-col items-center flex-1 w-full">
       {/* outer: 300vh gives the scroll budget */}
@@ -141,9 +169,25 @@ export default function About() {
             {/* 3D model — enters from the right */}
             <div data-enter="content-r" className="lg:col-span-8 lg:col-start-5 lg:row-start-1">
               <div
-                className="about-model-wrap w-full"
+                className="about-model-wrap relative w-full"
                 style={{ willChange: "transform, opacity" }}
               >
+                <div
+                  className="absolute left-1/2 top-1/2 z-20 h-[40%] w-[32%] -translate-x-1/2 -translate-y-1/2 md:h-[46%] md:w-[30%]"
+                  onMouseEnter={(e) => {
+                    const tip = tooltipRef.current;
+                    if (!tip) return;
+                    tip.style.opacity = "1";
+                    queueTooltipPosition(e.clientX, e.clientY);
+                  }}
+                  onMouseMove={(e) => {
+                    queueTooltipPosition(e.clientX, e.clientY);
+                  }}
+                  onMouseLeave={() => {
+                    const tip = tooltipRef.current;
+                    if (tip) tip.style.opacity = "0";
+                  }}
+                />
                 <AboutModel />
               </div>
             </div>
@@ -151,6 +195,19 @@ export default function About() {
           </div>
         </div>
       </div>
+      {isClient &&
+        createPortal(
+          <div
+            ref={tooltipRef}
+            className="pointer-events-none fixed left-0 top-0 z-[9999] opacity-0 transition-opacity duration-150 ease-out"
+            style={{ transform: "translate(-50%, calc(-100% - 12px))" }}
+          >
+            <div className="rounded-md border border-neutral-700 bg-black px-2 py-0.5 text-[10px] font-medium tracking-normal whitespace-nowrap text-white shadow-md dark:border-neutral-300 dark:bg-white dark:text-black">
+              Aryaman Yadav & Akshar Yadav
+            </div>
+          </div>,
+          document.body
+        )}
     </main>
   );
 }
