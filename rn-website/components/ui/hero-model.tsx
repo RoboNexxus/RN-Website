@@ -12,6 +12,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { ANIMATION_CONFIG } from "@/lib/animation-config";
+import { useIsLowEndDevice } from "@/lib/animation-utils";
 
 // ─── Error Boundary ──────────────────────────────────────────────────────────
 
@@ -123,6 +124,7 @@ function ModelFallback() {
 // ─── Main Export ──────────────────────────────────────────────────────────────
 
 export default function HeroModel() {
+  const isLowEnd = useIsLowEndDevice();
   const [ready, setReady] = useState(false);
   const [canRender, setCanRender] = useState(false);
   const [dpr, setDpr] = useState<[number, number]>([1, 1]);
@@ -130,6 +132,13 @@ export default function HeroModel() {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // On low-end devices we skip WebGL entirely — just show the fallback
+    if (isLowEnd) {
+      setReady(true);
+      setCanRender(false);
+      return;
+    }
+
     const isMobile = window.innerWidth < 768;
     const webglOk = supportsWebGL();
 
@@ -140,7 +149,7 @@ export default function HeroModel() {
     }
 
     setReady(true);
-  }, []);
+  }, [isLowEnd]);
 
   // Pause rendering when the canvas is scrolled out of view
   useEffect(() => {

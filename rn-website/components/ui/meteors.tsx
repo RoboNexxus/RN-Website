@@ -3,15 +3,20 @@
 import React, { useEffect, useState } from "react"
 
 import { cn } from "@/lib/utils"
+import { useIsLowEndDevice } from "@/lib/animation-utils"
 
 interface MeteorsProps {
   className?: string
 }
 
 export const Meteors = ({ className }: MeteorsProps) => {
+  const isLowEnd = useIsLowEndDevice()
   const [meteorStyles, setMeteorStyles] = useState<Array<React.CSSProperties>>([])
 
   useEffect(() => {
+    // Skip spawning meteors on low-end devices to save CPU/GPU
+    if (isLowEnd) return
+
     const number = 77
     const minDelay = 0.2
     const maxDelay = 2.2
@@ -30,7 +35,10 @@ export const Meteors = ({ className }: MeteorsProps) => {
       willChange: "transform, opacity",
     }))
     setMeteorStyles(styles)
-  }, [])
+  }, [isLowEnd])
+
+  // Nothing rendered on low-end devices
+  if (isLowEnd) return null
 
   return (
     <>

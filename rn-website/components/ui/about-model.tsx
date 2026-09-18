@@ -12,7 +12,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { ANIMATION_CONFIG } from "@/lib/animation-config";
-import { useIsMobile } from "@/lib/animation-utils";
+import { useIsMobile, useIsLowEndDevice } from "@/lib/animation-utils";
 
 class ModelErrorBoundary extends React.Component<
   { children: React.ReactNode; fallback: React.ReactNode },
@@ -72,6 +72,7 @@ function Loader() {
 
 export default function AboutModel() {
   const isMobile = useIsMobile();
+  const isLowEnd = useIsLowEndDevice();
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
   const wrapperRef = useRef<HTMLDivElement>(null);
 
@@ -97,6 +98,34 @@ export default function AboutModel() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  // Skip 3D canvas entirely on low-end devices
+  if (isLowEnd) {
+    return (
+      <div className="w-full h-[50vh] md:h-[70vh] flex items-center justify-center opacity-40 select-none">
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 80 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-cyan-400"
+        >
+          <rect x="20" y="28" width="40" height="32" rx="6" stroke="currentColor" strokeWidth="2" />
+          <rect x="30" y="18" width="20" height="12" rx="4" stroke="currentColor" strokeWidth="2" />
+          <line x1="40" y1="18" x2="40" y2="14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="40" cy="12" r="2" fill="currentColor" />
+          <circle cx="31" cy="42" r="4" fill="currentColor" opacity="0.6" />
+          <circle cx="49" cy="42" r="4" fill="currentColor" opacity="0.6" />
+          <rect x="28" y="52" width="24" height="4" rx="2" stroke="currentColor" strokeWidth="1.5" />
+          <line x1="20" y1="38" x2="10" y2="44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <line x1="60" y1="38" x2="70" y2="44" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <line x1="30" y1="60" x2="28" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <line x1="50" y1="60" x2="52" y2="72" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <div ref={wrapperRef} className="w-full h-[50vh] md:h-[70vh] relative cursor-grab active:cursor-grabbing">
