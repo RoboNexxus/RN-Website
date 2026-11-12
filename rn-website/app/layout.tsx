@@ -49,8 +49,8 @@ export const metadata: Metadata = {
     images: ["https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1788543011/rn-website/og-preview.png"],
   },
   icons: {
-    icon: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/edk0lpjus0anrenospj7?_a=BAMAPqfk0",
-    apple: "https://res.cloudinary.com/drqqqhudz/image/upload/f_auto,q_auto/v1/rn-website/fyuy9lmpsoot6pkxkgn0?_a=BAMAPqfk0",
+    icon: "/rn.png",
+    apple: "/rn.png",
   },
 };
 

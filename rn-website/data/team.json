@@ -3,7 +3,7 @@
     {
       "name": "Daksh Yadav",
       "role": "Head",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {
         "linkedin": "https://www.linkedin.com/in/dakshyadav369/"
       }
@@ -45,7 +45,7 @@
     {
       "name": "Shubhan Bhasin",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {
         "linkedin": "https://www.linkedin.com/in/shubhan-bhasin-740a81391/"
       }
@@ -76,7 +76,7 @@
     {
       "name": "Divyanshu Aggarwal",
       "role": "Core Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {
         "github": "https://github.com/divyanshu483"
       }
@@ -84,7 +84,7 @@
     {
       "name": "Kavish Baghla",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
@@ -105,7 +105,7 @@
     {
       "name": "Vibhor Pandey",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
@@ -136,25 +136,25 @@
     {
       "name": "Agrim Tyagi Sharma",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
       "name": "arhaam ubaid sofi",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
       "name": "Gauransh Arora",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
       "name": "Ridit Malhotra",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     },
     {
@@ -172,7 +172,7 @@
     {
       "name": "Amay Shankar",
       "role": "Member",
-      "image": "assets/images/Robo_Nexus_Logo.webp",
+      "image": "/rn.png",
       "links": {}
     }
   ]

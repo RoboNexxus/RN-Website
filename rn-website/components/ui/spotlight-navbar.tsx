@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { animate } from "framer-motion";
 import { animate as animeAnimate } from "animejs";
 import { cn } from "@/lib/utils";
@@ -447,14 +449,18 @@ export function SpotlightNavbar({
                 style={{ borderLeft: "none", borderRight: "none", borderTop: "none", borderRadius: 0 }}
             >
                 {/* Logo / brand */}
-                <a
+                <Link
                     href="/"
-                    onClick={(e) => { e.preventDefault(); router.push("/"); }}
-                    className="text-white font-bold text-base tracking-widest uppercase"
-                    style={{ fontFamily: "var(--font-geist-sans), sans-serif", letterSpacing: "0.15em" }}
+                    className="flex items-center"
                 >
-                    Robo Nexus
-                </a>
+                    <Image
+                        src="/rn.png"
+                        alt="Robo Nexus"
+                        width={27}
+                        height={36}
+                        className="h-9 w-auto object-contain"
+                    />
+                </Link>
 
                 {/* Hamburger button */}
                 <button
